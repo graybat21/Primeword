@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<typeAlias alias="words" type="words.wordsVO"/>
+	
+	<resultMap id="wordsRes" class="words">
+		<result property="no" column="no"/>
+		<result property="lev" column="lev"/>
+		<result property="section" column="section"/>
+		<result property="part" column="part"/>
+		<result property="word" column="word"/>
+		<result property="meaning" column="meaning"/>
+	</resultMap>
+
+	<select id="selectAll" resultMap="wordsRes">
+		SELECT * FROM WORDS
+		ORDER BY no asc
+	</select>
+	<select id="selectOne" resultMap="wordsRes" parameterClass="int">
+		SELECT * FROM WORDS
+		where no = #no#
+	</select>
+	<select id="selectPart" resultMap="wordsRes" parameterClass="words">
+		SELECT * FROM WORDS
+		where lev = #lev# and section = #section# and part = #part#
+	</select>
+	
+	
+</sqlMap>
