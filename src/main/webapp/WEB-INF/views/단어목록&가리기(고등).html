@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="css/nanumbarungothic.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/jquery-1.11.1.min.js"></script>
+<script>
+$(function() {
+	$(".first_img").attr("src",$(".first_img").attr("src").replace("_off","_on"));
+	$(".left_menu li img").mouseover(function() {
+		$(this).attr("src",$(this).attr("src").replace("_off","_on"));
+	});
+	$(".left_menu li img").mouseout(function() {
+		$(this).attr("src",$(this).attr("src").replace("_on","_off"));
+	});
+})
+</script>
+</head>
+<body>
+<div id="wrap">
+	<div id="top"></div>
+	<div id="header">
+		<div class="header_content">
+			<div class="logo"><img src="images/logo.png" alt=""></div>
+			<div class="nav_area">
+				<div class="top_nav"><a href="#">회원가입</a><span>|</span><a href="#">로그인</a></div>
+				<div class="bottom_nav"><a href="#">레벨TEST</a><span>|</span><a href="#">단어암기</a><span>|</span><a href="#">나의학습</a><span>|</span><a href="#">관리자PAGE</a></div>
+			</div>
+		</div>
+	</div>
+	<div id="main_bg4">
+	    <div class="content_area">
+	    	<div class="sidebar">
+	    		<div class="title">단어암기</div>
+	    		<div class="line"></div>
+	    		<div class="left_menu">
+	    			<ul>
+	    				<li><a href="#"><img src="images/left_high_sub1_off.png" alt="" class="first_img"></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub2_off.png" alt=""></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub3_off.png" alt=""></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub4_off.png" alt=""></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub5_off.png" alt=""></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub6_off.png" alt=""></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub7_off.png" alt=""></a></li>
+	    				<li><a href="#"><img src="images/left_high_sub8_off.png" alt=""></a></li>
+	    			</ul>
+	    		</div>
+	    	</div>
+	    	<div class="main_content">
+	    		<table>
+	    		    <colgroup>
+	    		    	<col width="100">
+	    		    	<col>
+	    		    	<col width="318">
+	    		    	<col width="76">
+	    		    </colgroup>
+	    			<tr>
+	    				<th class="first">번 호</th>
+	    				<th>단 어</th>
+	    				<th>뜻</th>
+	    				<th class="last"></th>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">1</td>
+	    				<td><input type="text" name="" value="mad" class="input_01"></td>
+	    				<td><input type="text" name="" value="미친, 성난" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_on.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">2</td>
+	    				<td><input type="text" name="" value="board" class="input_01"></td>
+	    				<td><input type="text" name="" value="판자; (비행기 등에) 타다" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">3</td>
+	    				<td><input type="text" name="" value="camera" class="input_01"></td>
+	    				<td><input type="text" name="" value="사진기" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">4</td>
+	    				<td><input type="text" name="" value="favor" class="input_01"></td>
+	    				<td><input type="text" name="" value="호의, 부탁" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">5</td>
+	    				<td><input type="text" name="" value="correct" class="input_01"></td>
+	    				<td><input type="text" name="" value="옳은, 답이 맞는" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">6</td>
+	    				<td><input type="text" name="" value="match" class="input_01"></td>
+	    				<td><input type="text" name="" value="시합; 상냥; 어울리다" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">7</td>
+	    				<td><input type="text" name="" value="response" class="input_01"></td>
+	    				<td><input type="text" name="" value="반응, 대답" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">8</td>
+	    				<td><input type="text" name="" value="attention" class="input_01"></td>
+	    				<td><input type="text" name="" value="주목, 주의" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">9</td>
+	    				<td><input type="text" name="" value="energy" class="input_01"></td>
+	    				<td><input type="text" name="" value="힘, 활력" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    			<tr>
+	    				<td class="first">10</td>
+	    				<td><input type="text" name="" value="smell" class="input_01"></td>
+	    				<td><input type="text" name="" value="냄새, 냄새가 나다" class="input_02"></td>
+	    				<td class="last"><img src="images/speaker_off.png" alt=""></td>
+	    			</tr>
+	    		</table>
+	    		<div class="btn_area">
+	    		    <div class="graph"><div class="graph_bg"><div class="graph_ratio" style="width:35%">35%</div></div></div>
+	    			<div class="btn"><a href="#"><img src="images/start_btn_02.png" alt=""></a> <a href="#"><img src="images/done_btn.png" alt=""></a></div>
+	    		</div>
+	    		<div class="shade"></div>
+	    	</div>
+	    </div>		
+	</div>
+</div>
+</body>
+</html>
