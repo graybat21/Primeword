@@ -9,11 +9,9 @@
 	<package name="words" extends="struts-default">
 
 		<action name="main" class="words.wordsListAction">
-			<result>start.jsp</result>
-		</action>
+			<resuljljk
 
-	</package>
-
+	</packhjke>
 
 
 
