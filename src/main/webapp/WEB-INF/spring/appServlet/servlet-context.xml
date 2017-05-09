@@ -21,20 +21,23 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
-	<beans:bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-		<beans:property name="contentType" value="text/html; charset=UTF-8" />
+	<beans:bean id="tilesViewResolver"
+		class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" />
+	<beans:bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/tiles.xml</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	<!-- tiles3 -->
+	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass"
+			value="org.springframework.web.servlet.view.tiles3.TilesView" />
 	</beans:bean>
 
-	<context:component-scan base-package="com.prime.Primeword" />
-	<!-- <bean class="com.ustyle.mail.MailController">
-	    <property name="userService" ref="userService" />
-	    <property name="mailService" ref="mailService" />
-	</bean> -->
-
-
+	<context:component-scan base-package="com.prime" />
 
 
 </beans:beans>

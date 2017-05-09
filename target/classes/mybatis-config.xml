@@ -5,7 +5,8 @@
 <configuration>
 
 	<typeAliases>
-		<!--package name="org.zerock.domain"/-->
+		<package name="com.prime.user"/>
+		<package name="com.prime.study"/>
 	</typeAliases>
 
 </configuration>
