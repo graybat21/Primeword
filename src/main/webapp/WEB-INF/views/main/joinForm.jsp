@@ -1,5 +1,6 @@
 <%@page pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -32,7 +33,14 @@
 						</div>
 						<div class="bottom">
 							<div class="text">학년</div>
-							<div class="input"><input type="text" name="grade" value="1"></div>
+							<div class="input">
+							<select name="grade">
+								<c:forEach begin="1" end="12" var="item">
+									<option value="${item }">${item }학년</option>
+								</c:forEach>
+							</select>
+							<!-- <input type="text" name="grade" value="1"> -->
+							</div>
 						</div>
 					</div>
 					<div class="right">

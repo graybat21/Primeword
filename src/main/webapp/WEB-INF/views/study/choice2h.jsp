@@ -34,7 +34,15 @@
 				<div class="second"><a href="#">천재(이창봉)</a></div> -->
 		    </div>
 		    <div class="step_middle">
-		    	<div class="first"><a href="#">YBM(신정현)</a></div>
+		    	<c:forEach var="item" items="${textbookList11 }" varStatus="status">
+		    		<c:if test="${status.count eq 1 }">
+		    		<div class="first"><a href="11/${item}">${item}</a></div>
+		    		</c:if>
+		    		<c:if test="${status.count gt 1 }">
+		    		<div class="second"><a href="11/${item}">${item}</a></div>
+		    		</c:if>
+		    	</c:forEach>
+		    	<!-- <div class="first"><a href="#">YBM(신정현)</a></div>
 				<div class="second"><a href="#">금성(김경한)</a></div>
 				<div class="second"><a href="#">능률(이찬승)</a></div>
 				<div class="second"><a href="#">미래엔(양형권)</a></div>
@@ -46,17 +54,25 @@
 				<div class="second"><a href="#">능률(이찬승)</a></div>
 				<div class="second"><a href="#">동아(김성곤)</a></div>
 				<div class="second"><a href="#">천재(김진완)</a></div>
-				<div class="second"><a href="#">천재(이창봉)</a></div>
+				<div class="second"><a href="#">천재(이창봉)</a></div> -->
 		    </div>
 		    <div class="step_right">
-		    	<div class="first"><a href="#">YBM(박준언)</a></div>
+		    	<c:forEach var="item" items="${textbookList12 }" varStatus="status">
+		    		<c:if test="${status.count eq 1 }">
+		    		<div class="first"><a href="12/${item}">${item}</a></div>
+		    		</c:if>
+		    		<c:if test="${status.count gt 1 }">
+		    		<div class="second"><a href="12/${item}">${item}</a></div>
+		    		</c:if>
+		    	</c:forEach>
+		    	<!-- <div class="first"><a href="#">YBM(박준언)</a></div>
 				<div class="second"><a href="#">금성(이의갑)</a></div>
 				<div class="second"><a href="#">능률(이찬승)</a></div>
 				<div class="second"><a href="#">천재(김진완)</a></div>
 				<div class="four"><a href="#">YBM(신정현)</a></div>
 				<div class="second"><a href="#">금성(이의갑)</a></div>
 				<div class="second"><a href="#">능률(이찬승)</a></div>				
-				<div class="second"><a href="#">천재(김진완)</a></div>
+				<div class="second"><a href="#">천재(김진완)</a></div> -->
 		    </div>		
 		</div>
 	</div>

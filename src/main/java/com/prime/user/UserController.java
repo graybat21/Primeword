@@ -71,8 +71,8 @@ public class UserController {
 
 		logger.info(user.toString());
 		service.insert(user);
-		session.setAttribute("USER", user);
-		mav.addObject(user);
+//		session.setAttribute("USER", user);
+//		mav.addObject(user);
 		return mav;
 	}
 	

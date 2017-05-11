@@ -45,6 +45,7 @@
 #main_bg .join_wrap .login_content .input_area .left .text {float:left;width:124px;height:56px;line-height:56px;font-size:20px;color:#464847;text-align:left;padding-left:6px;box-sizing:border-box;}
 #main_bg .join_wrap .login_content .input_area .left .input {float:left;width:338px;height:56px;}
 #main_bg .join_wrap .login_content .input_area input {width:338px;height:56px;border:1px solid #e4e4e4;border-radius:5px;background:#dcdcdc;text-align:left;padding-left:20px;font-size:20px;color:#303030;box-sizing:border-box;}
+#main_bg .join_wrap .login_content .input_area select {width:338px;height:56px;border:1px solid #e4e4e4;border-radius:5px;background:#dcdcdc;text-align:left;padding-left:20px;font-size:20px;color:#303030;box-sizing:border-box;}
 
 /* 아이디중복확인 */
 #main_bg .join_wrap .login_content .input_area .right .join-form-idcheck input {width:150px;height:55px;border:1px solid #e4e4e4;border-radius:5px;background:#0080ff;text-align:left;padding-left:38px;font-size:20px;color:#303030;box-sizing:border-box;}

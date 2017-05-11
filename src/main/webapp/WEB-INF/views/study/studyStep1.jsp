@@ -32,10 +32,10 @@ $(function() {
 /* 가림판 */
 #main_bg4 .content_area .main_content .shade {
 	position:relative;
-	top:100px;
+	top:-500px;
 	left:434px;
 	width:318px;
-	height:46px;
+	height:460px;
 	border:1px solid #214296;
 	border-radius:10px;
 	background:#214296;
@@ -101,8 +101,8 @@ $(function() {
 	    			<a href="#"><img src="<c:url value="/images/done_btn.png"/>" alt=""></a>
 	    			</div>
 	    		</div>
-	    		<!--<div class="shade" id="shade0"></div>
-	    		<div class="shade" id="shade1" style="top:-561px;"></div>
+	    		<div class="shade" id="shade0"></div>
+	    		<!-- <div class="shade" id="shade1" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
 	    		<div class="shade" style="top:-457px;"></div> -->

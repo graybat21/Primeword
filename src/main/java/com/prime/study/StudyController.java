@@ -37,9 +37,20 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/middle")
-	public String choice2m() {
+	public ModelAndView choice2m() throws Exception{
 		// 중등부 교과서 및 저자 목록 출력
-		return "study/choice2m/중등 선택";
+		ModelAndView mav=new ModelAndView("study/choice2m/중등 선택");
+		Study study = new Study();
+		study.setGrade(7);
+		List<String> textbookList7 = service.textbookListByGrade(study);
+		study.setGrade(8);
+		List<String> textbookList8= service.textbookListByGrade(study);
+		study.setGrade(9);
+		List<String> textbookList9 = service.textbookListByGrade(study);
+		mav.addObject("textbookList7",textbookList7);
+		mav.addObject("textbookList8",textbookList8);
+		mav.addObject("textbookList9",textbookList9);
+		return mav;
 	}
 
 	@RequestMapping("/Study/high")
