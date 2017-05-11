@@ -23,4 +23,9 @@ public class UserServiceImpl implements UserService {
 		return dao.userLogin(user);
 	}
 
+	@Override
+	public int userExist(String username) throws Exception {
+		return dao.userExist(username);
+	}
+
 }

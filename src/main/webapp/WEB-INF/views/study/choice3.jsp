@@ -7,14 +7,26 @@
 <body>
 <div id="wrap">
 	
-	<div id="main_bg3">
-		<div class="step_btn_area">
-			<ul>
-				<li><a href="#"><img src="images/step_btn_01.png" alt=""></a></li>
-				<li><a href="#"><img src="images/step_btn_02.png" alt=""></a></li>
-				<li><a href="#"><img src="images/step_btn_03.png" alt=""></a></li>
-			</ul>
-		</div>
+	<div id="main_bg7">
+		<div class="high_step">
+			<div class="grade"><div class="grade_text">${grade }</div></div>
+			<div class="publish"><div class="publish_text">${textbook }</div></div>
+			<div class="menu_btn">
+				<ul class="top">
+					<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/1">
+					<img src="${pageContext.request.contextPath}/images/high_menu_1.png" alt=""></a></li>
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_2.png" alt=""></a></li>
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_3.png" alt=""></a></li>
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_4.png" alt=""></a></li>					
+				</ul>
+				<ul class="bottom">
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_5.png" alt=""></a></li>
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_6.png" alt=""></a></li>
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_7.png" alt=""></a></li>
+					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_8.png" alt=""></a></li>
+				</ul>
+			</div>
+		</div>    
 	</div>
 </div>
 </body>

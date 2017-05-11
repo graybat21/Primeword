@@ -12,6 +12,10 @@
     	where grade = #{grade} and TEXTBOOK = #{textbook}
 	</select>
 
+	<select id="textbookListByGrade" parameterType="Study" resultType="String">
+		select distinct textbook from WORDTEST 
+		where grade = ${grade}
+	</select>
 </mapper>
 
 

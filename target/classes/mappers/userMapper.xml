@@ -19,6 +19,11 @@
     	select username, passwd, grade from USER
     	where username = #{username}
     </select>
+    
+    <select id="userExist" parameterType="String" resultType="int">
+    	select count(*) as cnt from USER
+    	where username = #{username}
+    </select>
      
  
 </mapper>

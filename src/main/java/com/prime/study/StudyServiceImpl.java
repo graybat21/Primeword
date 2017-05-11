@@ -22,4 +22,9 @@ public class StudyServiceImpl implements StudyService {
 		return dao.howManyLesson(study);
 	}
 
+	@Override
+	public List<String> textbookListByGrade(Study study) throws Exception {
+		return dao.textbookListByGrade(study);
+	}
+
 }

@@ -24,4 +24,9 @@ public class StudyDAOImpl implements StudyDAO {
 		return session.selectOne(namespace + ".howManyLesson", study);
 	}
 
+	@Override
+	public List<String> textbookListByGrade(Study study) {
+		return session.selectList(namespace + ".textbookListByGrade", study);
+	}
+
 }

@@ -54,7 +54,7 @@ $(function() {
 	    		<div class="left_menu">
 	    			<ul>
 	    				<c:forEach begin="1" end="${howManyLesson }" var="x">
-	    				<li><a href="#">
+	    				<li><a href="<c:url value="/Study/${grade}/${textbook}/${x }"/>">
 	    				<c:if test="${x eq lesson }">
 	    				<img src="<c:url value="/images/left_middle_sub${x}_off.png"/>" alt="과목" class="first_img">
 	    				</c:if>
