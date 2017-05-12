@@ -5,7 +5,37 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-  
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+function isExistUser()		// use keyup event -> To check id
+{
+	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;	
+	
+	$("#idCheck").bind("click",function() {
+		$.ajax({
+		  url : "/Primeword/duplicationCheck.prime",
+		  type : "post",
+		  contentType : 'application/json; charset=utf-8',
+		  //data : JSON.stringify({ username : $("#username").val() }),
+		  data : $("#username").val(),
+		  //dataType: "json",
+		  success : function(data) {
+		    if (data) {
+		    	alert("이름이 같은 회원이 있습니다");
+		    } 
+		    else {
+		    	alert("가입 가능합니다.");
+		    } 
+		  },
+		  error : function(error) {
+		    alert("error");  
+		  }
+		});
+	  	return false;
+	});
+}
+	
+</script>
 </head>
 <body>
 <div id="wrap">
@@ -20,8 +50,8 @@
 				<div class="input_area">
 					<div class="left">
 						<div class="top">
-							<div class="text">아이디</div>
-							<div class="input"><input type="text" name="username"></div>
+							<div class="text">이름</div>
+							<div class="input"><input type="text" id="username" name="username"></div>
 						</div>
 						<div>
 							<div class="text">비밀번호</div>
@@ -32,20 +62,21 @@
 							<div class="input"><input type="password" name="passwdCheck"></div>
 						</div>
 						<div class="bottom">
-							<div class="text">학년</div>
+							<div class="text">생년월일</div>
 							<div class="input">
-							<select name="grade">
+							<%-- <select name="grade">
 								<c:forEach begin="1" end="12" var="item">
 									<option value="${item }">${item }학년</option>
 								</c:forEach>
-							</select>
-							<!-- <input type="text" name="grade" value="1"> -->
+							</select> --%>
+							<input type="text" id="birth" name="birth">
 							</div>
 						</div>
 					</div>
 					<div class="right">
 						<div class="join-form-idcheck">
-						<input type="button" value="중복확인"/>
+						<input type="button" name="idCheck" id="idCheck" value="중복확인" onclick="isExistUser()"/>
+						<!-- 이름, 생년월일로 중복확인 -->
 						</div>
 						<div class="join-form-submit">
 						<input type="submit" value="가입"/>

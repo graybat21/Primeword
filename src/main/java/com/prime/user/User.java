@@ -4,7 +4,7 @@ public class User {
 
 	private String username;
 	private String passwd;
-	private int grade;
+	private String birth;
 
 	public String getUsername() {
 		return username;
@@ -22,17 +22,17 @@ public class User {
 		this.passwd = passwd;
 	}
 
-	public int getGrade() {
-		return grade;
+	public String getBirth() {
+		return birth;
 	}
 
-	public void setGrade(int grade) {
-		this.grade = grade;
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", passwd=" + passwd + ", grade=" + grade + "]";
+		return "User [username=" + username + ", passwd=" + passwd + ", birth=" + birth + "]";
 	}
 
 }

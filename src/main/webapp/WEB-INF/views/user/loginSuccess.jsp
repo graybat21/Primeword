@@ -3,4 +3,4 @@
 <h1>로그인 성공</h1>
 <h2>username : ${USER.username }</h2>
 <h2>passwd : ${USER.passwd}</h2>
-<h2>grade : ${USER.grade}</h2>
+<h2>birth : ${USER.birth}</h2>

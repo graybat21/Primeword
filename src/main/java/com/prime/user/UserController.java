@@ -1,5 +1,7 @@
 package com.prime.user;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,7 +29,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/login.prime", method = RequestMethod.POST)
-	public String login(HttpSession session, User user) throws Exception {
+	public String login(HttpSession session, User user) throws Exception, IOException {
 
 		try {
 			User resultUser = service.userLogin(user);
@@ -80,7 +82,7 @@ public class UserController {
 	@ResponseBody
 	public int userExist(@RequestBody String username) throws Exception {
 
-		logger.info(username);
+		logger.info(username.toString());
 		int isUserExist = service.userExist(username);
 		return isUserExist;
 	}

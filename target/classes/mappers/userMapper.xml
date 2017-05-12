@@ -11,21 +11,22 @@
     </resultMap-->
      
     <insert id="insert" parameterType="User">
-    	insert into USER(username, passwd, grade)
-    	values(#{username}, #{passwd}, #{grade} )
+    	insert into USER(username, passwd, birth)
+    	values(#{username}, #{passwd}, #{birth} )
     </insert>
     
     <select id="userLogin" parameterType="User" resultType="User">
-    	select username, passwd, grade from USER
+    	select username, passwd, birth 
+    	from USER
     	where username = #{username}
     </select>
     
     <select id="userExist" parameterType="String" resultType="int">
-    	select count(*) as cnt from USER
+    	select count(*) as cnt 
+    	from USER
     	where username = #{username}
     </select>
      
- 
 </mapper>
 
 

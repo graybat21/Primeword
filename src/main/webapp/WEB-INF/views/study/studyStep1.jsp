@@ -22,9 +22,10 @@ $(function() {
 		sessionStorage.setItem("known","");
 	}
 	function disappealAndRestore(statusCount){
-		var ses = sessionStorage.getItem("known") +","+ document.getElementById(statusCount).value;
+		var ses = sessionStorage.getItem("known") +","+ document.getElementById(statusCount+"_word").value;
 		sessionStorage.setItem("known", ses);
-		document.getElementById(statusCount).value='';
+		document.getElementById(statusCount+"_word").value='';
+		document.getElementById(statusCount+"_meaning").value='';
 		alert(sessionStorage.getItem("known"));
 	}
 </script>
@@ -84,8 +85,8 @@ $(function() {
 	    			<c:if test="${status.count lt 11}">
 	    			<tr>
 	    				<td class="first">${status.count }</td>
-	    				<td><input type="text" id="${status.count}" value="${item.word }" class="input_01" onfocus="disappealAndRestore(${status.count});"></td>
-	    				<td><input type="text" name="${item.no }" value="${item.meaning }" class="input_02"></td>
+	    				<td><input type="text" id="${status.count}_word" value="${item.word }" class="input_01" onfocus="disappealAndRestore(${status.count});"></td>
+	    				<td><input type="text" id="${status.count}_meaning" name="${item.no }" value="${item.meaning }" class="input_02"></td>
 	    				<td class="last">
 	    				<img src="<c:url value="/images/speaker_on.png"/>" alt="">
 	    				</td>
@@ -101,7 +102,7 @@ $(function() {
 	    			<a href="#"><img src="<c:url value="/images/done_btn.png"/>" alt=""></a>
 	    			</div>
 	    		</div>
-	    		<div class="shade" id="shade0"></div>
+	    		<!-- <div class="shade" id="shade0"></div> -->
 	    		<!-- <div class="shade" id="shade1" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
