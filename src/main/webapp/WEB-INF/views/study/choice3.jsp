@@ -1,4 +1,5 @@
 <%@page pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,18 +14,23 @@
 			<div class="publish"><div class="publish_text">${textbook }</div></div>
 			<div class="menu_btn">
 				<ul class="top">
-					<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/1">
-					<img src="${pageContext.request.contextPath}/images/high_menu_1.png" alt=""></a></li>
-					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_2.png" alt=""></a></li>
-					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_3.png" alt=""></a></li>
-					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_4.png" alt=""></a></li>					
+					<c:forEach begin="1" end="${howManyLesson }" var="x">
+						<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${x}/start">
+						<img src="${pageContext.request.contextPath}/images/high_menu_${x}.png" alt=""></a></li>
+					</c:forEach>
+					<%-- <li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/2/start">
+					<img src="${pageContext.request.contextPath}/images/high_menu_2.png" alt=""></a></li>
+					<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/3/start">
+					<img src="${pageContext.request.contextPath}/images/high_menu_3.png" alt=""></a></li>
+					<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/4/start">
+					<img src="${pageContext.request.contextPath}/images/high_menu_4.png" alt=""></a></li> --%>					
 				</ul>
-				<ul class="bottom">
+				<%-- <ul class="bottom">
 					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_5.png" alt=""></a></li>
 					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_6.png" alt=""></a></li>
 					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_7.png" alt=""></a></li>
 					<li><a href="#"><img src="${pageContext.request.contextPath}/images/high_menu_8.png" alt=""></a></li>
-				</ul>
+				</ul> --%>
 			</div>
 		</div>    
 	</div>

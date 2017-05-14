@@ -23,8 +23,8 @@ public class StudyServiceImpl implements StudyService {
 	}
 
 	@Override
-	public List<String> textbookListByGrade(Study study) throws Exception {
-		return dao.textbookListByGrade(study);
+	public List<String> textbookListByGrade(String grade) throws Exception {
+		return dao.textbookListByGrade(grade);
 	}
 
 }

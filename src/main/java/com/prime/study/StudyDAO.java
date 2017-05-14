@@ -6,5 +6,5 @@ public interface StudyDAO {
 	public List<Study> wordList(Study study);
 
 	public int howManyLesson(Study study);
-	public List<String> textbookListByGrade(Study study);
+	public List<String> textbookListByGrade(String grade);
 }

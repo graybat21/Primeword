@@ -5,7 +5,7 @@ public class Study {
 	private int no;
 	private String word;
 	private String meaning;
-	private int grade;
+	private String grade;
 	private String textbook;
 	private int lesson;
 
@@ -33,11 +33,11 @@ public class Study {
 		this.meaning = meaning;
 	}
 
-	public int getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(String grade) {
 		this.grade = grade;
 	}
 

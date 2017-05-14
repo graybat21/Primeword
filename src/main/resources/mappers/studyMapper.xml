@@ -3,7 +3,7 @@
 <mapper namespace="com.prime.mappers.studyMapper">
 
 	<select id="wordList" parameterType="Study" resultType="Study">
-		select * from WORDTEST
+		select no, word, meaning from WORDTEST
 		where GRADE = #{grade} and TEXTBOOK = #{textbook} and LESSON = #{lesson}
 	</select>
 
@@ -12,9 +12,9 @@
     	where grade = #{grade} and TEXTBOOK = #{textbook}
 	</select>
 
-	<select id="textbookListByGrade" parameterType="Study" resultType="String">
+	<select id="textbookListByGrade" parameterType="string" resultType="string">
 		select distinct textbook from WORDTEST 
-		where grade = ${grade}
+		where grade = #{grade}
 	</select>
 </mapper>
 
