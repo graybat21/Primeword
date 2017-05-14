@@ -15,7 +15,7 @@
 			<div class="menu_btn">
 				<ul class="top">
 					<c:forEach begin="1" end="${howManyLesson }" var="x">
-						<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${x}/start">
+						<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${x}">
 						<img src="${pageContext.request.contextPath}/images/high_menu_${x}.png" alt=""></a></li>
 					</c:forEach>
 					<%-- <li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/2/start">

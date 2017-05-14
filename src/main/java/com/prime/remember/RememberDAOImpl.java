@@ -7,13 +7,28 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class RememberDAOImpl implements RememberDAO {
-	private static String namespace = "com.prime.mappers.studyMapper";
+	private static String namespace = "com.prime.mappers.rememberMapper";
 	@Inject
 	private SqlSession session;
 
 	@Override
-	public void recordSession(Remember remember) {
-		session.insert(namespace + ".recordSession", remember);
+	public void insertKnownWords(Remember remember) {
+		session.insert(namespace + ".insertKnownWords", remember);
+	}
+
+	@Override
+	public String rememberKnownWords(Remember remember) {
+		return session.selectOne(namespace + ".rememberKnownWords", remember);
+	}
+
+	@Override
+	public boolean isKnownWords(Remember remember) {
+		return session.selectOne(namespace + ".isKnownWords", remember);
+	}
+
+	@Override
+	public void updateKnownWords(Remember remember) {
+		session.update(namespace + ".updateKnownWords", remember);
 	}
 
 }

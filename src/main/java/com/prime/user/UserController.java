@@ -42,7 +42,9 @@ public class UserController {
 			}
 
 			session.setAttribute("USER", resultUser);
-
+//			session.setAttribute("session_username", resultUser.getUsername());
+//			session.setAttribute("session_words", "");
+			
 			return "user/loginSuccess/LOGIN SUCCESS";
 		} catch (NullPointerException e) {
 			return "user/loginError/LOGIN ERROR";
@@ -53,7 +55,7 @@ public class UserController {
 	public ModelAndView logout(HttpSession session) {
 
 		ModelAndView mav = new ModelAndView();
-		session.removeAttribute("known");
+//		session.removeAttribute("session_known");
 		session.invalidate();
 		
 		mav.addObject("USER", new User());

@@ -11,8 +11,23 @@ public class RememberServiceImpl implements RememberService {
 	private RememberDAO dao;
 
 	@Override
-	public void recordSession(Remember remember) throws Exception {
-		dao.recordSession(remember);
+	public void insertKnownWords(Remember remember) throws Exception {
+		dao.insertKnownWords(remember);
+	}
+
+	@Override
+	public String rememberKnownWords(Remember remember) throws Exception {
+		return dao.rememberKnownWords(remember);
+	}
+
+	@Override
+	public boolean isKnownWords(Remember remember) throws Exception {
+		return dao.isKnownWords(remember);
+	}
+
+	@Override
+	public void updateKnownWords(Remember remember) throws Exception {
+		dao.updateKnownWords(remember);
 	}
 
 }

@@ -10,12 +10,26 @@
     <resultMap id="commonResultMap" type="hashMap">
     </resultMap-->
      
-    <insert id="recordSession" parameterType="Remember">
+    <insert id="insertKnownWords" parameterType="Remember">
     	insert into USER_REMEMBER(username, words, grade, textbook, lesson)
     	values(#{username}, #{words}, #{grade}, #{textbook}, #{lesson} )
     </insert>
     
-     
+    <select id="rememberKnownWords" parameterType="Remember" resultType="String">
+    	select words from USER_REMEMBER
+    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    </select>
+    
+    <select id="isKnownWords" parameterType="Remember" resultType="boolean">
+    	select count(*) from USER_REMEMBER
+    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    </select>
+    
+    <update id="updateKnownWords" parameterType="Remember">
+    	update USER_REMEMBER SET words = #{words}
+    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    </update>
+    
 </mapper>
 
 

@@ -12,7 +12,7 @@
     	where grade = #{grade} and TEXTBOOK = #{textbook}
 	</select>
 
-	<select id="textbookListByGrade" parameterType="string" resultType="string">
+	<select id="textbookListByGrade" parameterType="String" resultType="String">
 		select distinct textbook from WORDTEST 
 		where grade = #{grade}
 	</select>

@@ -13,14 +13,14 @@
 			<div class="logo"><a href="/Primeword">
 			<img src="${pageContext.request.contextPath}/images/logo.png" alt="로고"></a></div>
 			<div class="nav_area">
-				<c:if test="${USER == null }">
+				<c:if test="${USER.username == null }">
 				<div class="top_nav">
 					<a href="/Primeword/join.prime">회원가입</a>
 					<span>|</span>
 					<a href="/Primeword/login.prime">로그인</a>
 				</div>
 				</c:if>
-				<c:if test="${USER != null }">
+				<c:if test="${USER.username != null }">
 				<div class="top_nav">
 					<a href="">${USER.username }&nbsp;님</a>
 					<span>|</span>

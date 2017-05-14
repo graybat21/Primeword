@@ -59,7 +59,7 @@ public class Study {
 
 	@Override
 	public String toString() {
-		return "Study [no=" + no + ", word=" + word + ", meaning=" + meaning + ", grade=" + grade + ", textbook="
+		return "\n Study [no=" + no + ", word=" + word + ", meaning=" + meaning + ", grade=" + grade + ", textbook="
 				+ textbook + ", lesson=" + lesson + "]";
 	}
 

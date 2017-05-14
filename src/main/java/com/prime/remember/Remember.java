@@ -2,6 +2,8 @@ package com.prime.remember;
 
 public class Remember {
 
+	private int no;
+	private String words;
 	private String username;
 	private String grade;
 	private String textbook;
@@ -39,10 +41,26 @@ public class Remember {
 		this.lesson = lesson;
 	}
 
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	public String getWords() {
+		return words;
+	}
+
+	public void setWords(String words) {
+		this.words = words;
+	}
+
 	@Override
 	public String toString() {
-		return "Remember [username=" + username + ", grade=" + grade + ", textbook=" + textbook + ", lesson=" + lesson
-				+ "]";
+		return "Remember [no=" + no + ", words=" + words + ", username=" + username + ", grade=" + grade + ", textbook="
+				+ textbook + ", lesson=" + lesson + "]";
 	}
 
 }
