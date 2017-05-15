@@ -30,6 +30,10 @@
     	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
     </update>
     
+    <update id="wordsInitialize" parameterType="Remember">
+    	update USER_REMEMBER SET words = '==='
+    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    </update>
 </mapper>
 
 

@@ -31,4 +31,9 @@ public class RememberDAOImpl implements RememberDAO {
 		session.update(namespace + ".updateKnownWords", remember);
 	}
 
+	@Override
+	public void wordsInitialize(Remember remember) {
+		session.update(namespace + ".wordsInitialize", remember);
+	}
+
 }

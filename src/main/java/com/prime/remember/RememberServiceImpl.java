@@ -30,4 +30,9 @@ public class RememberServiceImpl implements RememberService {
 		dao.updateKnownWords(remember);
 	}
 
+	@Override
+	public void wordsInitialize(Remember remember) throws Exception {
+		dao.wordsInitialize(remember);
+	}
+
 }

@@ -19,6 +19,15 @@ $(function() {
 </script>
 <script>
 	function sessionCreate(){
+		if(${alreadyFinishedThisLesson}){
+			if(confirm("이미 모두 공부한 과목입니다. 다시 공부 하시겠습니까?") == true){
+				/* 초기화 */
+				document.getElementById("knownWords").value = "";
+				test.submit();
+			}else{
+				return;
+			}
+		}
 		sessionStorage.setItem("session_words", document.getElementById("knownWords").value);
 		alert(sessionStorage.getItem("session_words"));
 	}
@@ -31,6 +40,7 @@ $(function() {
 		var strArray = sessionStorage.getItem("session_words").trim().split(',');
 		var widthPercent = (strArray.length - 1) / ${totalCount} * 100+'%';
 		document.getElementById("graph").style.width = widthPercent;
+		$("#graph").html(widthPercent);
 		/* document.getElementById("graph1").value = widthPercent; */
 		document.getElementById(statusCount+"_word").value='';
 		document.getElementById(statusCount+"_meaning").value='';
@@ -114,7 +124,9 @@ $(function() {
 					<div class="btn_area">
 						<div class="graph">
 							<div class="graph_bg">
-								<div id="graph" class="graph_ratio" style="width: ${(1 - (list.size() / totalCount)) * 100}%"></div>
+								<div id="graph" class="graph_ratio" style="width: ${(1 - (list.size() / totalCount)) * 100}%">
+								
+								</div>
 							</div>
 						</div>
 								

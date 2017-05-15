@@ -8,4 +8,6 @@ public interface RememberDAO {
 	public boolean isKnownWords(Remember remember);
 
 	public void updateKnownWords(Remember remember);
+
+	public void wordsInitialize(Remember remember);
 }

@@ -8,4 +8,7 @@ public interface RememberService {
 	public boolean isKnownWords(Remember remember) throws Exception;
 
 	public void updateKnownWords(Remember remember) throws Exception;
+
+	public void wordsInitialize(Remember remember) throws Exception;
+
 }
