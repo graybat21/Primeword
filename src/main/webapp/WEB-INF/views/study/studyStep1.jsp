@@ -5,48 +5,92 @@
 <head>
 <meta charset="UTF-8">
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+
 <script>
-/* 사이드 lesson 선택 마우스움직이에 따라 보이는게 다름 */
-$(function() {
-	$(".first_img").attr("src",$(".first_img").attr("src").replace("_off","_on"));
-	$(".left_menu li img").mouseover(function() {
-		$(this).attr("src",$(this).attr("src").replace("_off","_on"));
-	});
-	$(".left_menu li img").mouseout(function() {
-		$(this).attr("src",$(this).attr("src").replace("_on","_off"));
-	});
-})
-</script>
-<script>
+	$.noConflict();
+	var J=jQuery;
+	
 	function sessionCreate(){
-		if(${alreadyFinishedThisLesson}){
+		pageLink(1);
+		if(${alreadyFinishedThisLesson} == true){
 			if(confirm("이미 모두 공부한 과목입니다. 다시 공부 하시겠습니까?") == true){
 				/* 초기화 */
 				document.getElementById("knownWords").value = "";
 				test.submit();
 			}else{
-				return;
+				
 			}
 		}
 		sessionStorage.setItem("session_words", document.getElementById("knownWords").value);
 		alert(sessionStorage.getItem("session_words"));
 	}
+
 	function knownDisappeal(){
 		sessionStorage.setItem("session_words","");
 	}
-	function disappealAndRestore(statusCount){
-		var ses = sessionStorage.getItem("session_words") +","+ document.getElementById(statusCount+"_word").value;
-		sessionStorage.setItem("session_words", ses);
-		var strArray = sessionStorage.getItem("session_words").trim().split(',');
-		var widthPercent = (strArray.length - 1) / ${totalCount} * 100+'%';
-		document.getElementById("graph").style.width = widthPercent;
-		$("#graph").html(widthPercent);
-		/* document.getElementById("graph1").value = widthPercent; */
-		document.getElementById(statusCount+"_word").value='';
-		document.getElementById(statusCount+"_meaning").value='';
-		document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
+	function tellSession(){
 		alert(sessionStorage.getItem("session_words"));
 	}
+	
+	function pageLink(p){
+		J('tr').css('display','none');
+		J('tr:eq(0)').css('display','');
+		J('tr').filter(function (index){
+			return ((index / 10) <= p) && ((index / 10) > p-1);
+		}).css('display','');
+	}
+	
+	function disappealAndRestore(s){
+		var ses = sessionStorage.getItem("session_words");
+		var sCw = s + "_word";
+		var sCm = s + "_meaning"
+		var local_word
+		if(document.getElementById(sCw).value != ''){
+			localStorage.setItem(sCw,document.getElementById(sCw).value); 
+			localStorage.setItem(sCm,document.getElementById(sCm).value);
+			if(ses == ',' || ses == '' || ses == null){
+				ses = ","+document.getElementById(sCw).value+",";
+			}else{
+				ses = ses + document.getElementById(sCw).value+",";				
+			}
+			sessionStorage.setItem("session_words", ses);
+			var strArray = sessionStorage.getItem("session_words").trim().split(',');
+			var widthPercent = Math.round((strArray.length - 2) / ${totalCount} * 100);
+			document.getElementById("graph").style.width = widthPercent + '%';
+			J("#graph").html(widthPercent+'%');
+			document.getElementById(sCw).value='';
+			document.getElementById(sCm).value='';
+			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
+			alert(ses);
+		}else if(document.getElementById(sCw).value == ''){
+			var local_word = localStorage.getItem(sCw);
+			var l = ","+local_word+",";
+			var local_meaning = localStorage.getItem(sCm);
+			/* ses = sessionStorage.getItem("session_words"); */
+			ses = ses.replace(l, ',');
+			sessionStorage.setItem("session_words", ses);
+			var strArray = sessionStorage.getItem("session_words").trim().split(',');
+			var widthPercent = Math.round((strArray.length - 2) / ${totalCount} * 100);
+			document.getElementById("graph").style.width = widthPercent +'%';
+			J("#graph").html(widthPercent+'%');
+			document.getElementById(sCw).value=local_word;
+			document.getElementById(sCm).value=local_meaning;
+			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
+			alert(ses);
+		}
+	}
+</script>
+<script>
+/* 사이드 lesson 선택 마우스움직이에 따라 보이는게 다름 */
+J(function() {
+	J(".first_img").attr("src",J(".first_img").attr("src").replace("_off","_on"));
+	J(".left_menu li img").mouseover(function() {
+		J(this).attr("src",J(this).attr("src").replace("_off","_on"));
+	});
+	J(".left_menu li img").mouseout(function() {
+		J(this).attr("src",J(this).attr("src").replace("_on","_off"));
+	});
+})
 </script>
 <style>
 /* 가림판 */
@@ -68,6 +112,7 @@ $(function() {
 
 		<div id="main_bg4">
 			<div class="content_area">
+			
 				<div class="sidebar">
 					<div class="title">단어암기</div>
 					<div class="line"></div>
@@ -90,6 +135,7 @@ $(function() {
 						</ul>
 					</div>
 				</div>
+				
 				<div class="main_content">
 					<table>
 						<colgroup>
@@ -102,49 +148,60 @@ $(function() {
 							<th class="first" onclick="knownDisappeal();">번 호</th>
 							<th>단 어</th>
 							<th>뜻</th>
-							<th class="last"></th>
+							<th class="last" onclick="tellSession();"></th>
 						</tr>
-						<c:forEach var="item" items="${list }" varStatus="status">
-							<c:if test="${status.count lt 11}">
-								<tr>
+						<c:forEach var="item" items="${list }" varStatus="status" >
+							<%-- <c:if test="${status.count lt 11}"> --%>
+								<tr id="${status.count}_tr" style="display:none;">
 									<td class="first">${status.count }</td>
 									<td><input type="text" id="${status.count}_word"
 										value="${item.word }" class="input_01"
-										onfocus="disappealAndRestore(${status.count});"></td>
+										onclick="disappealAndRestore(${status.count});" readonly></td>
 									<td><input type="text" id="${status.count}_meaning"
 										name="${item.no }" value="${item.meaning }" class="input_02"
-										onfocus="disappealAndRestore(${status.count});"></td>
+										onclick="disappealAndRestore(${status.count});" readonly></td>
 									<td class="last"><img
 										src="<c:url value="/images/speaker_on.png"/>" alt=""></td>
 								</tr>
+							<%-- <c:if test="${status.count gt 10 }"> --%>
+								
+								
 								<%-- <div class="shade" id="shade${status.index}"></div> --%>
-							</c:if>
 						</c:forEach>
 					</table>
+					
 					<div class="btn_area">
 						<div class="graph">
 							<div class="graph_bg">
 								<div id="graph" class="graph_ratio" style="width: ${(1 - (list.size() / totalCount)) * 100}%">
-								
 								</div>
 							</div>
 						</div>
-								
+						<!-- 공부할 양이 남아있을경우 다음페이지로, 없을경우 다음스텝으로 -->		
+						
 						<div class="btn">
 							<form
 								action="<c:url value="/Study/${grade}/${textbook}/${lesson }/step2" />"
 								name="test">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
+								<!-- paging -->
+								<!-- <div class="paging"></div> -->
+								<c:forEach begin="1" end="${totalCount%10 == 0 ? totalCount/10 : totalCount/10 +1}" step="1" varStatus="status">
+									<input type="button" value="${status.count }" onclick="return pageLink(${status.count})">
+								</c:forEach>
+								<!-- 발음읽어주는 버튼 start -->
 								<a href="javascript:test.submit();"> <img
 									src="<c:url value="/images/start_btn_02.png"/>" alt="">
+								<!-- 다음스텝으로 가는 버튼 done -->
 								</a> <a href="#"><img
 									src="<c:url value="/images/done_btn.png"/>" alt=""></a>
 							</form>
 						</div>
 					</div>
+					
 				</div>
-				<!-- <div class="shade" id="shade0"></div> -->
-				<!-- <div class="shade" id="shade1" style="top:-561px;"></div>
+				<!-- <div class="shade" id="shade0"></div>
+				<div class="shade" id="shade1" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
 	    		<div class="shade" style="top:-457px;"></div> -->
@@ -153,10 +210,3 @@ $(function() {
 	</div>
 </body>
 </html>
-
-
-
-<!-- function knownDisappeal(){
-		sessionStorage.setItem("session_words","");
-		alert("session_words 모두 지움");
-	} -->

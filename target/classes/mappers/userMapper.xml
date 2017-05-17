@@ -26,6 +26,27 @@
     	from USER
     	where username = #{username}
     </select>
+    
+    <select id="userList" resultType="User">
+    	select * from USER
+    </select>
+    
+    <delete id="userDelete" parameterType="String">
+    	delete from USER where username = #{username}
+    </delete>
+    <!-- <select id="selectUserList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
+		<![CDATA[
+			SELECT
+				ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
+			    username,
+			    passwd,
+			    birth,
+			FROM
+			    USER
+		]]>
+		<include refid="common.pagingPost"/> 
+	</select> -->
      
 </mapper>
 

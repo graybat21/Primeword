@@ -120,10 +120,7 @@ public class StudyController {
 		String knownWords = rememberService.rememberKnownWords(remember);
 
 		mav.addObject("alreadyFinishedThisLesson", false);
-		if(knownWords.trim().equals("===")){
-			mav.addObject("alreadyFinishedThisLesson", true);
-		}
-		if (knownWords != null || !knownWords.trim().equals("===")) {
+		if (knownWords != null) { // || !knownWords.trim().equals("===")
 			String[] known = knownWords.trim().split(",");
 			// 로그인시 얻은 정보로 학습한 데이터를 불러온다. 그 데이터로 리스트를 검사해서 있으면 리스트에서 지운다.
 			for (int i = 0; i < known.length; i++) {
@@ -135,15 +132,15 @@ public class StudyController {
 				}
 			}
 		}
+		logger.info(list.toString());
 
+		
 		if (list.size() < 1) {
 			// 그 부분은 공부를 모두 했으므로 초기화 시켜줌
-			rememberService.wordsInitialize(remember);
+//			rememberService.wordsInitialize(remember);
 			mav.addObject("alreadyFinishedThisLesson", true);
 		}
 		Collections.shuffle(list);
-		logger.info(list.toString());
-
 		// session.setAttribute("session_words", "");
 
 		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도

@@ -1,5 +1,7 @@
 package com.prime.user;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,6 +28,16 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int userExist(String username) {
 		return session.selectOne(namespace + ".userExist", username);
+	}
+
+	@Override
+	public List<User> userList() {
+		return session.selectList(namespace + ".userList");
+	}
+
+	@Override
+	public void userDelete(String username) {
+		session.delete(namespace + ".userDelete", username);
 	}
 
 }
