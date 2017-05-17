@@ -16,13 +16,13 @@
 	    	</div>
 	    	
 	    	<div class="main_content">
-	    		<p class="first"><span>단어체크</span> 페이지 입니다.</p>	    		
-	    		<p class="third">아는단어를 <span>1</span><span>초</span> 이내로 <span>클릭</span><span>하세요.</span></p>
-	    		<p class="four">(클릭하지 않은 단어는 암기페이지에 저장됩니다.)</p>
-	    		<a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${lesson}/step1">
+	    		<p class="first"><span>발음암기</span> 페이지 입니다.</p>
+	    		<p class="second">3번 2번 1번 발음 후<span>에</span></p>
+	    		<p class="third">발음되는 단어를 <span>1</span><span>초</span> 이내로 <span>클릭</span><span>하세요.</span></p>
+	    		<p class="four">(그 외 단어는 발음이 될때까지 스피커를 눌러 반복합니다.)</p>
+	    		<a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${lesson}/step2">
 				<div class="start_btn"><img src="<c:url value="/images/start_btn.png"/>" alt=""></div></a>
 	    	</div>
-	    	
 	    </div>		
 	</div>
 

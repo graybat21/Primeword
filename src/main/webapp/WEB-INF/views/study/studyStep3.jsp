@@ -1,4 +1,4 @@
-<%@page pageEncoding="UTF-8"%>
+<%-- <%@page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -92,17 +92,6 @@ J(function() {
 	});
 })
 </script>
-<script> 
-function aud_play_pause(n) { 
-	var no = "myAudio_" + n;
-	var myAudio = document.getElementById(no); 
-	if (myAudio.paused) { 
-		myAudio.play(); 
-	} else { 
-		myAudio.pause(); 
-	} 
-} 
-</script>
 <style>
 /* 가림판 */
 #main_bg4 .content_area .main_content .shade {
@@ -171,20 +160,10 @@ function aud_play_pause(n) {
 									name="${item.no }" value="${item.meaning }" class="input_02"
 									onclick="disappealAndRestore(${status.count});" readonly></td>
 								<td class="last">
-								
-								<audio id="myAudio_${status.count }">
-								<source src="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob" type='audio/mp3'> 
-								Your user agent does not support the HTML5 Audio element. </audio> 
-								<button type="button" onclick="aud_play_pause(${status.count})">Play</button> 
-								
-								
-
-								
-								
-								<%-- <a href="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob">
-								<img src="<c:url value="/images/speaker_on.png"/>" alt=""></a></td> --%>
+								<a href="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob">
+								<img src="<c:url value="/images/speaker_on.png"/>" alt=""></a></td>
 							</tr>
-							<%-- <div class="shade" id="shade${status.index}"></div> --%>
+							<div class="shade" id="shade${status.index}"></div>
 						</c:forEach>
 					</table>
 					
@@ -204,9 +183,9 @@ function aud_play_pause(n) {
 						<!-- 공부할 양이 남아있을경우 다음페이지로, 없을경우 다음스텝으로 -->		
 						<div class="btn">
 							
-							<%-- <form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/step1" />" name="resetList">
+							<form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/step1" />" name="resetList">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
-							</form> --%>
+							</form>
 							<form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/ready2" />" name="goStep2">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
 							</form>
@@ -231,3 +210,4 @@ function aud_play_pause(n) {
 	</div>
 </body>
 </html>
+ --%>

@@ -8,7 +8,7 @@
 		<package name="com.prime.user"/>
 		<package name="com.prime.study"/>
 		<package name="com.prime.remember"/>
-		<package name="com.prime.admin"/>
+		<!-- <package name="com.prime.admin"/> -->
 	</typeAliases>
 
 </configuration>
