@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
-
+<script src="${pageContext.request.contextPath}/resources/js/studyUtils.js"></script>
+<script ></script>
 <script>
 	$.noConflict();
 	var J=jQuery;
@@ -24,7 +25,7 @@
 		sessionStorage.setItem("session_words", document.getElementById("knownWords").value);
 		/* alert(sessionStorage.getItem("session_words")); */
 	}
-
+	
 	function knownDisappeal(){
 		sessionStorage.setItem("session_words","");
 	}
@@ -131,7 +132,7 @@ function aud_play_pause(n) {
 						<ul>
 							<c:forEach begin="1" end="${howManyLesson }" var="x">
 								<li><a
-									href="<c:url value="/Study/${grade}/${textbook}/${x }"/>">
+									href="<c:url value="/Study/${grade}/${textbook}/${x }/ready1"/>">
 										<c:if test="${x eq lesson }">
 											<img
 												src="<c:url value="/images/left_middle_sub${x}_off.png"/>"

@@ -120,7 +120,7 @@ J(function() {
 						<ul>
 							<c:forEach begin="1" end="${howManyLesson }" var="x">
 								<li><a
-									href="<c:url value="/Study/${grade}/${textbook}/${x }"/>">
+									href="<c:url value="/Study/${grade}/${textbook}/${x }/ready1"/>">
 										<c:if test="${x eq lesson }">
 											<img
 												src="<c:url value="/images/left_middle_sub${x}_off.png"/>"

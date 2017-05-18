@@ -1,6 +1,8 @@
 package com.prime.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.prime.study.Study;
 import com.prime.study.StudyService;
 import com.prime.user.User;
 import com.prime.user.UserService;
@@ -20,10 +24,6 @@ public class AdminController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-	@Inject
-	private UserService userService;
-	@Inject
-	private StudyService studyService;
 	@Inject
 	private AdminService adminService;
 
@@ -84,23 +84,44 @@ public class AdminController {
 		List<User> userList = adminService.userList();
 		mav.addObject(userList);
 		logger.info(userList.toString());
-//		session.setAttribute("USER", user);
+		// session.setAttribute("USER", user);
 		return mav;
 	}
-	
+
 	// 관리자의 회원관리 - 회원 강제 탈퇴
 	@RequestMapping("/admin/userDelete.prime")
 	public ModelAndView userDelete(HttpServletRequest request) throws Exception {
-		
+
 		ModelAndView mav = new ModelAndView();
 		String username = request.getParameter("username");
 		adminService.userDelete(username);
-		
+
 		mav.setViewName("redirect:/admin/userManagement.prime");
 		return mav;
-		
+
 	}
-		
+
+	@RequestMapping(value="/admin/wordsManagement.prime", method=RequestMethod.GET)
+	public String adminWordsForm(){
+		return "admin/wordsList/단어 관리 페이지";
+	}
+	@RequestMapping(value="/admin/wordsManagement.prime", method=RequestMethod.POST)
+	public ModelAndView adminWords(Study study, String pageNo) throws Exception {
+		ModelAndView mav = new ModelAndView("admin/wordsList/단어 관리 페이지");
+		Map<String, Object> map = new HashMap<String, Object>();
+		int first = 1;
+		int last = 10;
+		map.put("grade", study.getGrade());
+		map.put("textbook", study.getTextbook());
+		map.put("lesson", study.getLesson());
+		map.put("first", first);
+		map.put("last", last);
+		List<Study> wordsList = adminService.wordsList(map);
+		mav.addObject(wordsList);
+		logger.info(wordsList.toString());
+
+		return mav;
+	}
 	// @RequestMapping(value="/sample/selectBoardList.do")
 	// public ModelAndView selectBoardList(CommandMap commandMap) throws
 	// Exception{

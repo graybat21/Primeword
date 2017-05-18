@@ -16,6 +16,17 @@
 		select distinct textbook from WORDTEST 
 		where grade = #{grade}
 	</select>
+	
+	<select id="wordsList" parameterType="hashmap" resultType="Study">
+		select *
+			from
+				(SELECT (@row_number:=@row_number+1) as row_number,
+						word, meaning, grade, textbook, lesson 
+					from WORDTEST, (SELECT @row_number:=0) as t
+       				where grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+				) X 
+			where X.row_number between #{first} and #{last};
+	</select>
 </mapper>
 
 

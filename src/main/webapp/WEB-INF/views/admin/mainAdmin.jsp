@@ -11,9 +11,17 @@
 	    <div class="content_area">
 	    	<div class="sidebar">
 	    		<div class="title">관리 항목</div>
-	    		<a href="/Primeword/admin/userManagement.prime"><div class="line">User 관리</div></a>
-	    		<div class="line">Words 관리</div>
-	    		<div class="line">기타 관리</div>
+	    		<div class="line"></div>
+	    		<div class="left_menu">
+	    		<ul>
+	    		<a href="/Primeword/admin/userManagement.prime">
+	    		<li>User 관리</li></a>
+	    		<a href="/Primeword/admin/wordsManagement.prime">
+	    		<li>Words 관리</li></a>
+	    		<a href="/Primeword">
+	    		<li>기타 관리</li></a>
+	    		</ul>
+	    		</div>
 	    	</div>
 	    	
 	    	<div class="main_content">
