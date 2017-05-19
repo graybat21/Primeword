@@ -186,7 +186,7 @@ J(function() {
 							<%-- <form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/step1" />" name="resetList">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
 							</form> --%>
-							<form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/ready2" />" name="goStep2">
+							<form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/ready3" />" name="goStep2">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
 							</form>
 							

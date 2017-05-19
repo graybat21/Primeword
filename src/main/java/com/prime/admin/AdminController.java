@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.prime.study.Study;
-import com.prime.study.StudyService;
 import com.prime.user.User;
-import com.prime.user.UserService;
 
 @Controller
 public class AdminController {
@@ -26,49 +26,6 @@ public class AdminController {
 
 	@Inject
 	private AdminService adminService;
-
-	// @RequestMapping(value = "/admin/login.prime", method = RequestMethod.GET)
-	// public String loginForm() {
-	// return "main/login/LOGIN";
-	// }
-	//
-	// @RequestMapping(value = "/admin/login.prime", method =
-	// RequestMethod.POST)
-	// public String login(HttpSession session, User user) throws Exception,
-	// IOException {
-	//
-	// try {
-	// User resultUser = service.userLogin(user);
-	// logger.info(resultUser.toString());
-	//
-	// if (resultUser == null || resultUser.getUsername() == null) {
-	// return "user/loginError/해당 유저가 없습니다.";
-	// } else if (!user.getPasswd().equals(resultUser.getPasswd())) {
-	// return "user/loginError/비밀번호가 틀렸습니다.";
-	// }
-	//
-	// session.setAttribute("USER", resultUser);
-	//// session.setAttribute("session_username", resultUser.getUsername());
-	//// session.setAttribute("session_words", "");
-	//
-	// return "user/loginSuccess/LOGIN SUCCESS";
-	// } catch (NullPointerException e) {
-	// return "user/loginError/LOGIN ERROR";
-	// }
-	// }
-	//
-	// @RequestMapping("/logout.prime")
-	// public ModelAndView logout(HttpSession session) {
-	//
-	// ModelAndView mav = new ModelAndView();
-	//// session.removeAttribute("session_known");
-	// session.invalidate();
-	//
-	// mav.addObject("USER", new User());
-	// mav.setViewName("redirect:/login.prime");
-	//
-	// return mav;
-	// }
 
 	// admin 메인 페이지
 	@RequestMapping(value = "/admin/main.prime")
@@ -101,27 +58,90 @@ public class AdminController {
 
 	}
 
-	@RequestMapping(value="/admin/wordsManagement.prime", method=RequestMethod.GET)
-	public String adminWordsForm(){
+	// 관리자의 단어관리
+	@RequestMapping(value = "/admin/wordsManagement.prime")
+	public String adminWordsForm() throws Exception {
+//		ModelAndView mav = new ModelAndView();
+//		List<String> gradeList = adminService.gradeList();
+//		logger.info(gradeList.toString());
+//		mav.addObject("gradeList", gradeList);
 		return "admin/wordsList/단어 관리 페이지";
 	}
-	@RequestMapping(value="/admin/wordsManagement.prime", method=RequestMethod.POST)
-	public ModelAndView adminWords(Study study, String pageNo) throws Exception {
-		ModelAndView mav = new ModelAndView("admin/wordsList/단어 관리 페이지");
-		Map<String, Object> map = new HashMap<String, Object>();
-		int first = 1;
-		int last = 10;
-		map.put("grade", study.getGrade());
-		map.put("textbook", study.getTextbook());
-		map.put("lesson", study.getLesson());
-		map.put("first", first);
-		map.put("last", last);
-		List<Study> wordsList = adminService.wordsList(map);
-		mav.addObject(wordsList);
-		logger.info(wordsList.toString());
 
+	@RequestMapping(value = "/admin/wordsList.prime")
+	public ModelAndView adminWordsListBySearch(@RequestParam("searchKeyword") String searchKeyword,
+			@RequestParam("searchOption") String searchOption) throws Exception {
+		ModelAndView mav=new ModelAndView();
+		if(searchKeyword == null){
+			mav.setViewName("redirect:/admin/wordsManagement.prime");
+			return mav;
+		}
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("searchOption", searchOption);
+		map.put("searchKeyword", searchKeyword);
+		logger.info(map.toString());
+		List<Study> wordsList = adminService.adminWordsListBySearch(map);
+		logger.info(wordsList.toString());
+		mav.addObject("wordsList",wordsList);
+		mav.setViewName("admin/wordsList/단어 관리 페이지");
 		return mav;
 	}
+	// // 검색을 통해 단어리스트 뽑기
+	// @RequestMapping(value="/admin/wordsManagement.prime",
+	// method=RequestMethod.POST)
+	// public ModelAndView adminWords(Study study) throws Exception {
+	// ModelAndView mav = new ModelAndView("admin/wordsList/단어 관리 페이지");
+	// Map<String, Object> map = new HashMap<String, Object>();
+	// map.put("grade", study.getGrade());
+	// map.put("textbook", study.getTextbook());
+	// map.put("lesson", study.getLesson());
+	//// int first = 1;
+	//// int last = 10;
+	//// map.put("first", first);
+	//// map.put("last", last);
+	//// List<String> gradeList = adminService.gradeList();
+	// List<Study> wordsList = adminService.wordsList(map);
+	// mav.addObject("wordsList",wordsList);
+	//// mav.addObject("gradeList",gradeList);
+	// logger.info(wordsList.toString());
+	//
+	// return mav;
+	// }
+
+	// @ResponseBody
+	// @RequestMapping("/admin/textbookCondition.prime")
+	// public List<String> adminConditionTextbook(@RequestBody String
+	// grade)throws Exception{
+	// Map<String, Object> map=new HashMap<String, Object>();
+	// map.put("grade", grade);
+	// List<String> textbookList=adminService.textbookList(map);
+	//
+	// ProductDAO dao = new ProductDAO();
+	// ArrayList<String> list = dao.getSubList(request.getParameter("product"));
+	// JSONArray js = JSONArray.fromObject(list);
+	// JSONObject obj = new JSONObject();
+	// obj.put("VERION_LIST", js.toString());
+	// response.setContentType(CommonFinalInfo.getJsonContentType());
+	// response.getWriter().print(obj);
+	//
+	//
+	//
+	//
+	//
+	//
+	// return textbookList;
+	// }
+	// @ResponseBody
+	// @RequestMapping("/admin/lessonCondition.prime")
+	// public List<String> adminConditionLesson(@RequestBody String grade,
+	// @RequestBody String textbook)throws Exception{
+	// Map<String, Object> map=new HashMap<String, Object>();
+	// map.put("grade", grade);
+	// map.put("textbook", textbook);
+	//
+	// List<String> lessonList=adminService.textbookList(map);
+	// return lessonList;
+	// }
 	// @RequestMapping(value="/sample/selectBoardList.do")
 	// public ModelAndView selectBoardList(CommandMap commandMap) throws
 	// Exception{

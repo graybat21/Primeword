@@ -13,4 +13,10 @@ public interface AdminService {
 	public void userDelete(String username) throws Exception;
 
 	public List<Study> wordsList(Map<String, Object> map) throws Exception;
+	
+	public List<String> gradeList()throws Exception;
+	public List<String> textbookList(Map<String, Object> map)throws Exception;
+	public List<String> lessonList(Map<String, Object> map)throws Exception;
+	
+	public List<Study> adminWordsListBySearch(Map<String, Object> map)throws Exception;
 }

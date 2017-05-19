@@ -13,4 +13,9 @@ public interface AdminDAO {
 
 	public List<Study> wordsList(Map<String, Object> map);
 
+	public List<String> gradeList();
+	public List<String> textbookList(Map<String, Object> map);
+	public List<String> lessonList(Map<String, Object> map);
+	
+	public List<Study> adminWordsListBySearch(Map<String, Object> map);
 }

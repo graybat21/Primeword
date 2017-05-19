@@ -18,15 +18,36 @@
 	</select>
 	
 	<select id="wordsList" parameterType="hashmap" resultType="Study">
-		select *
+		<!-- select *
 			from
 				(SELECT (@row_number:=@row_number+1) as row_number,
 						word, meaning, grade, textbook, lesson 
 					from WORDTEST, (SELECT @row_number:=0) as t
        				where grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
 				) X 
-			where X.row_number between #{first} and #{last};
+			where X.row_number between #{first} and #{last}; -->
+		select * from WORDTEST
+		where grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
 	</select>
+	
+	<select id="gradeList" resultType="String">
+		select distinct grade from WORDTEST 
+	</select>
+	<select id="textbookList" resultType="String" parameterType="hashmap">
+		select dictinct textbook from WORDTEST 
+		where grade = ${grade}
+	</select>
+	<select id="lessonList" resultType="String" parameterType="hashmap">
+		select dictinct lesson from WORDTEST 
+		where grade = ${grade} and textbook = #{textbook}
+	</select>
+	
+	<select id="adminWordsListBySearch" parameterType="hashmap" resultType="Study">
+		select * from WORDTEST
+		where #{searchOption} like CONCAT('%',#{searchKeyword},'%')
+	</select>
+
+	
 </mapper>
 
 

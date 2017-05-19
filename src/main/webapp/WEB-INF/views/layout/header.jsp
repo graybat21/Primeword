@@ -34,7 +34,7 @@
 					<span>|</span>
 					<a href="#">나의학습</a>
 					<span>|</span>
-					<a href="#">관리자PAGE</a>
+					<a href="/Primeword/admin/main.prime">관리자PAGE</a>
 				</div>
 			</div>
 		</div>

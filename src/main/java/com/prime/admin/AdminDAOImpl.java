@@ -34,4 +34,24 @@ public class AdminDAOImpl implements AdminDAO {
 		return session.selectList(studyNamespace + ".wordsList", map);
 	}
 
+	@Override
+	public List<String> gradeList() {
+		return session.selectList(studyNamespace + ".gradeList");
+	}
+
+	@Override
+	public List<String> textbookList(Map<String, Object> map) {
+		return session.selectList(studyNamespace + ".textbookList", map);
+	}
+
+	@Override
+	public List<String> lessonList(Map<String, Object> map) {
+		return session.selectList(studyNamespace + ".lessonList", map);
+	}
+
+	@Override
+	public List<Study> adminWordsListBySearch(Map<String, Object> map) {
+		return session.selectList(studyNamespace + ".adminWordsListBySearch", map);
+	}
+
 }

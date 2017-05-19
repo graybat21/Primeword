@@ -33,4 +33,24 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.wordsList(map);
 	}
 
+	@Override
+	public List<String> gradeList() throws Exception {
+		return adminDao.gradeList();
+	}
+
+	@Override
+	public List<String> textbookList(Map<String, Object> map) throws Exception {
+		return adminDao.textbookList(map);
+	}
+
+	@Override
+	public List<String> lessonList(Map<String, Object> map) throws Exception {
+		return adminDao.lessonList(map);
+	}
+
+	@Override
+	public List<Study> adminWordsListBySearch(Map<String, Object> map) throws Exception {
+		return adminDao.adminWordsListBySearch(map);
+	}
+
 }
