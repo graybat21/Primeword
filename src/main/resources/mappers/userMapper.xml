@@ -11,29 +11,56 @@
     </resultMap-->
      
     <insert id="insert" parameterType="User">
-    	insert into USER(username, passwd, birth)
-    	values(#{username}, #{passwd}, #{birth} )
+    	insert into USER(username, passwd, birth
+    	<if test="phone != null || phone == ''">
+    	, phone, belong
+    	</if>
+    	)
+    	values(#{username}, #{passwd}, #{birth} 
+    	<if test="phone != null || phone == ''">
+    	, #{phone}, #{belong}
+    	</if>
+    	)
     </insert>
     
     <select id="userLogin" parameterType="User" resultType="User">
-    	select username, passwd, birth 
-    	from USER
-    	where username = #{username}
+    	select * from USER
+    	where username = #{username} and passwd = #{passwd}
     </select>
     
-    <select id="userExist" parameterType="String" resultType="int">
+    <select id="userExist" parameterType="int" resultType="int">
     	select count(*) as cnt 
     	from USER
-    	where username = #{username}
+    	where no = #{no}
     </select>
     
-    <select id="userList" resultType="User">
-    	select * from USER
+    <select id="userList" resultType="User" parameterType="hashmap">
+    	select 
+    		* 
+    	from 
+    		(SELECT (@row_number:=@row_number+1) as row_number,
+    				no, username, passwd, birth, phone, belong
+    		from USER, (SELECT @row_number:=0) as t
+          	<if test="searchKeyword != null || searchKeyword == ''">
+    		where ${searchOption} like '%${searchKeyword}%'
+  			</if>
+    		) X
+    	WHERE X.row_number BETWEEN #{first} and #{last}
+    </select>
+    <select id="userListCnt" resultType="int" parameterType="hashmap">
+    	select count(*) from USER
+ 		<if test="searchKeyword != null || searchKeyword == ''">
+   		where ${searchOption} like '%${searchKeyword}%'
+		</if>
     </select>
     
-    <delete id="userDelete" parameterType="String">
-    	delete from USER where username = #{username}
+    <delete id="userDelete" parameterType="int">
+    	delete from USER where no = #{no}
     </delete>
+    
+    <select id="userDetail" parameterType="int" resultType="User">
+    	select * from USER where no = #{no}
+    </select>
     <!-- <select id="selectUserList" parameterType="hashmap" resultType="hashmap">
 		<include refid="common.pagingPre"/> 
 		<![CDATA[

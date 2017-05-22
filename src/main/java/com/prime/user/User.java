@@ -2,9 +2,12 @@ package com.prime.user;
 
 public class User {
 
+	private int no;
 	private String username;
 	private String passwd;
 	private String birth;
+	private String phone;
+	private String belong;
 
 	public String getUsername() {
 		return username;
@@ -30,9 +33,34 @@ public class User {
 		this.birth = birth;
 	}
 
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getBelong() {
+		return belong;
+	}
+
+	public void setBelong(String belong) {
+		this.belong = belong;
+	}
+
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", passwd=" + passwd + ", birth=" + birth + "]";
+		return "\nUser [no=" + no + ", username=" + username + ", passwd=" + passwd + ", birth=" + birth + ", phone="
+				+ phone + ", belong=" + belong + "]";
 	}
 
 }

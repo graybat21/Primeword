@@ -80,12 +80,13 @@ public class UserController {
 		return mav;
 	}
 	
-	@RequestMapping(value="duplicationCheck.prime", method=RequestMethod.POST)
-	@ResponseBody
-	public int userExist(@RequestBody String username) throws Exception {
-
-		logger.info(username.toString());
-		int isUserExist = service.userExist(username);
-		return isUserExist;
-	}
+//	@RequestMapping(value="duplicationCheck.prime", method=RequestMethod.POST)
+//	@ResponseBody
+//	public int userExist(@RequestBody String username) throws Exception {
+//
+//		logger.info(username.toString());
+//		int no = 
+//		int isUserExist = service.userExist(no);
+//		return isUserExist;
+//	}
 }

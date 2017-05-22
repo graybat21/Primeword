@@ -85,7 +85,7 @@
 #main_bg4 .content_area .main_content p.third span:nth-child(4) {color:#494949;}
 #main_bg4 .content_area .main_content p.four {font-size:25px;color:#494949;font-weight:bold;}
 #main_bg4 .content_area .main_content .start_btn {width:864px;height:150px;text-align:center;}
-#main_bg4 .content_area .main_content table {margin:21px 0 0 24px;width:804px;line-height:150%;border:2px solid #8f8f8f;border-left:none;border-right:none;border-bottom:none;border-collapse:collapse;font-size:15px;box-sizing:border-box;}
+#main_bg4 .content_area .main_content table {margin:21px 0 0 24px;width:804px;line-height:150%;border:2px solid #8f8f8f;border-left:none;border-right:none;border-bottom:none;border-collapse:collapse;font-size:15px;box-sizing:border-box;z-index:1}
 #main_bg4 .content_area .main_content table th {border:2px solid #8f8f8f;border-top:none;height:50px;box-sizing:border-box;}
 #main_bg4 .content_area .main_content table th.first {border-left:none;}
 #main_bg4 .content_area .main_content table th.last {border-right:none;}
@@ -159,3 +159,4 @@
 #main_bg7 .high_step .menu_btn .top li:last-child {margin-right:0;}
 #main_bg7 .high_step .menu_btn .bottom li {float:left;width:150px;height:150px;margin-right:32px;}
 #main_bg7 .high_step .menu_btn .bottom li:last-child {margin-right:0;}
+

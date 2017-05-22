@@ -1,5 +1,6 @@
 package com.prime.user;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,18 +27,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int userExist(String username) {
-		return session.selectOne(namespace + ".userExist", username);
+	public int userExist(int no) {
+		return session.selectOne(namespace + ".userExist", no);
 	}
 
+	
 	@Override
-	public List<User> userList() {
-		return session.selectList(namespace + ".userList");
-	}
-
-	@Override
-	public void userDelete(String username) {
-		session.delete(namespace + ".userDelete", username);
+	public void userDelete(int no) {
+		session.delete(namespace + ".userDelete", no);
 	}
 
 }

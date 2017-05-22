@@ -5,66 +5,54 @@
 <head>
 <meta charset="UTF-8">
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<!-- <script type="text/javascript" src="/js/studyUtils.js"></script>
 <script>
-/* function changes1Step(v){
-	$.ajax({
-		url : 'textbookCondition.prime',
-		dataType : 'json',
-		data : params,
-		type : 'POST',
-		success : function(data){
-			if(data == null){
-				data = 0;
-			}
-			for(var i=0; i<data.length; i++){
-				$('#textbook').append("<option value='" + data[i])
-			}
-		}
-	})
+window.onload = function(){
+	var doubleSelect1 = new DoubleSelect(
+		'grade', 'textbook', 'selectCategory.jsp', '&parent=grade');
+	var doubleSelect2 = new DoubleSelect(
+		'textbook', 'lesson', 'selectCategory.jsp', '&parent=textbook');
 }
- */
-/* $(function() {
-	var select = "<option>:: 선택 ::</option>"; 
-	$("#grade").change(function() {			
-		if($("#grade").val() == "") { // select의 value가 ""이면, "선택" 메뉴만 보여줌.
-			$("#textbook").find("option").remove().end().append(select);
-		} else {
-			console.log('aa');
-			comboChange($(this).val());
-		}
-	});
-
-	function comboChange() {
-		$.ajax({
-			type:"post",
-			url:"textbookCondition.prime",
-			datatype: "json",
-			data: $("#productForm").serialize(),
-			success: function(data) {
-				
-				if(data.textbookList.length > 0) {
-					$("#textbook").find("option").remove().end().append(select);
-					$.each(data.textbookList, function(key, value) {
-						$("#textbook").append("<option>" + value + "</option>"); 
-					});
-				} else {
-					$("#textbook").find("option").remove().end().append("<option>-- No TextBook --</option>");
-					return;
-				}
-			},
-			error: function(x, o, e) {
-				var msg = "페이지 호출 중 에러 발생 \n" + x.status + " : " + o + " : " + e; 
-				alert(msg);
-			}				
-		});
-	}	
-}); */
-/* $('#searchBtn').on("click",function(event){
-	var searchOption = $("select[name=searchOption]").val();
-	var searchKeyword = $("input[name=searchKeyword]").val();
-	self.location = "wordsList.prime&searchOption=" + searchOption + "&searchKeyword=" + searchKeyword;
-}); */
+</script> -->
+<script>
+	function deleteWord() {
+		return confirm("선택한 단어를 삭제하겠습니까?");
+	}
 </script>
+<style>
+ul.pagination {  
+    text-align:center;  
+}  
+ul.pagination li {  
+    display:inline;  
+    vertical-align:middle;  
+}  
+ul.pagination li a {  
+    display:-moz-inline-stack;  /*FF2*/  
+    display:inline-block;  
+    vertical-align:top;  
+    padding:4px;  
+    margin-right:3px;  
+    width:15px !important;  
+    color:#000;  
+    font:bold 12px tahoma;  
+    border:1px solid #eee;  
+    text-align:center;  
+    text-decoration:none;  
+    width /**/:26px;    /*IE 5.5*/  
+}  
+ul.pagination li a.now {  
+    color:#fff;  
+    background-color:#f40;  
+    border:1px solid #f40;  
+}  
+ul.pagination li a:hover, ul.pagination li a:focus {  
+    color:#fff;  
+    border:1px solid #f40;  
+    background-color:#f40;  
+}  
+</style>
 </head>
 <body>
 	<div id="wrap">
@@ -90,58 +78,100 @@
 				</div>
 
 				<div class="main_content">
+					<span>&nbsp;총&nbsp;${totalCount }&nbsp;개</span>
 					<table>
 						<thead>
 							<tr>
-								<th>번호</th>
 								<th>단어명</th>
 								<th>뜻</th>
 								<th>grade</th>
 								<th>교과서</th>
 								<th>레슨</th>
+								<th>기타</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="item" items="${wordsList }" varStatus="status">
 								<tr>
-									<td>${status.count }</td>
 									<td>${item.word }</td>
 									<td>${item.meaning}</td>
 									<td>${item.grade }</td>
 									<td>${item.textbook }</td>
 									<td>${item.lesson }</td>
+									<td><c:url var="deleteWord" value="/admin/wordDelete.prime">
+											<c:param name="no" value="${item.no}" />
+										</c:url> <a href="${deleteWord }"> <input type="button" value="단어삭제"
+											onclick="return deleteWord()">
+									</a></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-						<form action="wordsList.prime">
-						<select id="searchOption" name="searchOption">
-							<option value="grade">grade</option>
-							<option value="textbook">textbook</option>
-							<option value="lesson">lesson</option>
-						</select>
-					<%--<form method="post" id="productForm">
-						 <select id="grade" name="grade">
-							<option>:: 선택 ::</option>
-							<c:forEach var="item1" items="${gradeList }">
-								<option value="${item1 }">${item1 }</option>
+					
+					<form action="wordsManagement.prime">
+						<select name="o">
+							<option value="word" ${param.o eq "word" ? "selected" : "" }>word</option>
+							<option value="meaning" ${param.o eq "meaning" ? "selected" : "" }>meaning</option>
+							<option value="grade" ${param.o eq "grade" ? "selected" : "" }>grade</option>
+							<option value="textbook" ${param.o eq "textbook" ? "selected" : "" }>textbook</option>
+						</select> <input type="text" name="k" value="${searchKeyword }"> <input
+							type="submit" value="검색">
+					</form>
+					
+					<!-- 페이징 -->
+						<ul class="pagination">
+							<c:if test="${pageMaker.prev }">
+								<c:if test="${searchKeyword != null }">
+									<c:url var="adminWordList" value="wordsManagement.prime">
+										<c:param name="page" value="${pageMaker.start - 1}" />
+										<c:param name="o" value="${searchOption }"></c:param>
+										<c:param name="k" value="${searchKeyword }"></c:param>
+									</c:url>
+								</c:if>
+								<c:if test="${searchKeyword == null }">
+									<c:url var="adminWordList" value="wordsManagement.prime">
+										<c:param name="page" value="${pageMaker.start - 1}" />
+									</c:url>
+								</c:if>
+								<li><a href="${adminWordList }">이전</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.start }" end="${pageMaker.end}"
+								var="idx">
+								<c:if test="${searchKeyword != null }">
+									<c:url var="adminWordList" value="wordsManagement.prime">
+										<c:param name="page" value="${idx}" />
+										<c:param name="o" value="${searchOption }"></c:param>
+										<c:param name="k" value="${searchKeyword }"></c:param>
+									</c:url>
+								</c:if>
+								<c:if test="${searchKeyword == null }">
+									<c:url var="adminWordList" value="wordsManagement.prime">
+										<c:param name="page" value="${idx}" />
+									</c:url>
+								</c:if>
+								<li
+									class='<c:out value="${idx == pageMaker.page ? 'now' : ''}"/>'>
+									<a href='${adminWordList }'>${idx}</a>
+								</li>
+
 							</c:forEach>
-						</select> 
-						<select id="textbook" name="textbook" onchange='changes2Step(value)'>
-							<option>:: 선택 ::</option>
-							<c:forEach var="item2" items="${textbookList }">
-								<option value="${item2 }">${item2 }</option>
-							</c:forEach>
-						</select> 
-						<select id="lesson" name="lesson">
-							<option>:: 선택 ::</option>
-							<c:forEach var="item3" items="${lessonList }">
-								<option value="${item3 }">${item3 }</option>
-							</c:forEach>
-						</select> --%>
-						<input type="text" id="searchKeyword" name="searchKeyword">
-						<button type="submit" id="searchBtn">검색</button>
-						</form>
+							<c:if test="${pageMaker.next }">
+								<c:if test="${searchKeyword != null }">
+									<c:url var="adminWordList" value="wordsManagement.prime">
+										<c:param name="page" value="${pageMaker.end + 1}" />
+										<c:param name="o" value="${searchOption }"></c:param>
+										<c:param name="k" value="${searchKeyword }"></c:param>
+									</c:url>
+								</c:if>
+								<c:if test="${searchKeyword == null }">
+									<c:url var="adminWordList" value="wordsManagement.prime">
+										<c:param name="page" value="${pageMaker.end + 1}" />
+									</c:url>
+								</c:if>
+								<li><a href="${adminWordList }">다음</a></li>
+							</c:if>
+						</ul>
+					
 				</div>
 			</div>
 		</div>
@@ -149,3 +179,31 @@
 	</div>
 </body>
 </html>
+
+<%-- 						<form action="wordsList.prime">
+						<!-- <select id="searchOption" name="searchOption">
+							<option value="grade">grade</option>
+							<option value="textbook">textbook</option>
+							<option value="lesson">lesson</option>
+						</select> -->
+						<select id="grade" name="grade" onchange="findTextbook(value)">
+							<option>:: 선택 ::</option>
+							<c:forEach var="item1" items="${gradeList }">
+								<option value="${item1 }">${item1 }</option>
+							</c:forEach>
+						</select> &gt; 
+						<select id="textbook" name="textbook">
+							<option>:: 선택 ::</option>
+							<c:forEach var="item2" items="${textbookList }">
+								<option value="${item2 }">${item2 }</option>
+							</c:forEach>
+						</select> &gt;
+						<select id="lesson" name="lesson">
+							<option>:: 선택 ::</option>
+							<c:forEach var="item3" items="${lessonList }">
+								<option value="${item3 }">${item3 }</option>
+							</c:forEach>
+						</select>
+						<input type="text" id="searchKeyword" name="searchKeyword">
+						<button type="submit" id="searchBtn">검색</button>
+						</form> --%>

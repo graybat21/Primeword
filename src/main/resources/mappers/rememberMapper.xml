@@ -11,29 +11,34 @@
     </resultMap-->
      
     <insert id="insertKnownWords" parameterType="Remember">
-    	insert into USER_REMEMBER(username, words, grade, textbook, lesson)
-    	values(#{username}, #{words}, #{grade}, #{textbook}, #{lesson} )
+    	insert into USER_REMEMBER(user_no, words, grade, textbook, lesson)
+    	values(#{user_no}, #{words}, #{grade}, #{textbook}, #{lesson} )
     </insert>
     
     <select id="rememberKnownWords" parameterType="Remember" resultType="String">
     	select words from USER_REMEMBER
-    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    	where user_no = #{user_no} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
     </select>
     
     <select id="isKnownWords" parameterType="Remember" resultType="boolean">
     	select count(*) from USER_REMEMBER
-    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    	where user_no = #{user_no} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
     </select>
     
     <update id="updateKnownWords" parameterType="Remember">
     	update USER_REMEMBER SET words = #{words}
-    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    	where user_no = #{user_no} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
     </update>
     
     <update id="wordsInitialize" parameterType="Remember">
     	update USER_REMEMBER SET words = '==='
-    	where username = #{username} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    	where user_no = #{user_no} and grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
     </update>
+    
+    <select id="knownWordsByUserNo" parameterType="int" resultType="Remember">
+    	select * from USER_REMEMBER
+    	where user_no = #{user_no} 
+    </select>
 </mapper>
 
 

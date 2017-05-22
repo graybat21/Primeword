@@ -38,6 +38,9 @@
 		J('tr').filter(function (index){
 			return ((index / 10) <= p) && ((index / 10) > p-1);
 		}).css('display','');
+		J('.shade').filter(function (index){
+			return ((index / 10) <= p) && ((index / 10) > p-1);
+		}).css('display','');
 	}
 	
 	function disappealAndRestore(s){
@@ -78,8 +81,12 @@
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
 			alert(ses);
 		}
+		setInterval(function(){
+			J('.shade').css('height','-50'),;
+		}, 1000);
 	}
 </script>
+
 <script>
 /* 사이드 lesson 선택 마우스움직이에 따라 보이는게 다름 */
 J(function() {
@@ -92,20 +99,6 @@ J(function() {
 	});
 })
 </script>
-<style>
-/* 가림판 */
-#main_bg4 .content_area .main_content .shade {
-	position: relative;
-	top: -500px;
-	left: 434px;
-	width: 318px;
-	height: 460px;
-	border: 1px solid #214296;
-	border-radius: 10px;
-	background: #214296;
-	z-index: 999;
-}
-</style>
 </head>
 <body onload="sessionCreate();">
 	<div id="wrap">
@@ -156,16 +149,23 @@ J(function() {
 								<td><input type="text" id="${status.count}_word"
 									value="${item.word }" class="input_01"
 									onclick="disappealAndRestore(${status.count});" readonly></td>
-								<td><input type="text" id="${status.count}_meaning"
+								<td>
+								<input type="text" id="${status.count}_meaning"
 									name="${item.no }" value="${item.meaning }" class="input_02"
-									onclick="disappealAndRestore(${status.count});" readonly></td>
+									onclick="disappealAndRestore(${status.count});" readonly>
+								
+								
+								</td>
 								<td class="last">
 								<a href="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob">
 								<img src="<c:url value="/images/speaker_on.png"/>" alt=""></a></td>
 							</tr>
-							<%-- <div class="shade" id="shade${status.index}"></div> --%>
+								
+							
+								
 						</c:forEach>
 					</table>
+						
 					
 					<div class="btn_area">
 						<div class="graph">
@@ -197,15 +197,69 @@ J(function() {
 							</a> <a href="javascript:goStep2.submit();"><img
 								src="<c:url value="/images/done_btn.png"/>" alt=""></a>
 						</div>
+						
 					</div>
 					
-				</div>
-				<!-- <div class="shade" id="shade"></div>
-				<div class="shade" id="shade" style="top:-561px;"></div>
+				<!-- <div class="shade" id="shade" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
 	    		<div class="shade" style="top:-457px;"></div> -->
+					
+						
+					<div class="shade" id="shade"></div>
+				</div>
+				
+<!-- <style>
+/* 가림판 */
+#main_bg4 .content_area .main_content .shade {
+	position: relative;
+	top:-565px;
+	left:434px;
+	width:318px;
+	/* height:500px; */
+	border: 1px solid #214296;
+	border-radius: 10px;
+	background: #214296;
+	z-index: 999;
+}
+/* {position:relative;top:-520px;left:434px;width:318px;height:460px;border:1px solid #214296;border-radius:10px;background:#214296;z-index:999;} */
+</style> -->
+<style>
+@-webkit-keyframes 'shrink' {
+	from { 
+		top: -500px;
+		height: 500px;
+	}
+	10% {top: -450px;height: 450px;}
+	20% {top: -400px;height: 400px;}
+	30% {top: -350px;height: 350px;}
+	40% {top: -300px;height: 300px;}
+	50% {top: -250px;height: 250px;}
+	60% {top: -200px;height: 200px;}
+	70% {top: -150px;height: 150px;}
+	80% {top: -100px;height: 100px;}
+	90% {top: -50px;height: 50px;}
+	to {
+		top: 0px;
+		height: 0px;
+	}
+}
+#main_bg4 .content_area .main_content .shade {
+    position: relative;
+	top:-565px;left:434px;width:318px;height:500px;
+	border: 1px solid #214296;
+	border-radius: 10px;
+	background: #214296;
+	z-index: 999;
+}
+#main_bg4 .content_area .main_content .shade:hover {
+    -webkit-animation-name: shrink;
+    -webkit-animation-duration: 3s;
+}
+</style>
+				
 			</div>
+			
 		</div>
 	</div>
 </body>

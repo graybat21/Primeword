@@ -4,17 +4,17 @@ public class Remember {
 
 	private int no;
 	private String words;
-	private String username;
+	private int user_no;
 	private String grade;
 	private String textbook;
 	private int lesson;
 
-	public String getUsername() {
-		return username;
+	public int getUser_no() {
+		return user_no;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser_no(int user_no) {
+		this.user_no = user_no;
 	}
 
 	public String getGrade() {
@@ -59,7 +59,7 @@ public class Remember {
 
 	@Override
 	public String toString() {
-		return "Remember [no=" + no + ", words=" + words + ", username=" + username + ", grade=" + grade + ", textbook="
+		return "\nRemember [no=" + no + ", words=" + words + ", user_no=" + user_no + ", grade=" + grade + ", textbook="
 				+ textbook + ", lesson=" + lesson + "]";
 	}
 

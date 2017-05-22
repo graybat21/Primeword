@@ -116,7 +116,7 @@ public class StudyController {
 		remember.setTextbook(textbook);
 		remember.setLesson(Integer.parseInt(lesson));
 		User user = (User) session.getAttribute("USER");
-		remember.setUsername(user.getUsername());
+		remember.setUser_no(user.getNo());
 		String knownWords = rememberService.rememberKnownWords(remember);
 		
 		if(knownWords == null){
@@ -164,7 +164,7 @@ public class StudyController {
 		Remember remember = new Remember();
 		User user = (User) session.getAttribute("USER");
 		remember.setWords(knownWords);
-		remember.setUsername(user.getUsername());
+		remember.setUser_no(user.getNo());
 		remember.setGrade(grade);
 		remember.setTextbook(textbook);
 		remember.setLesson(Integer.parseInt(lesson));
@@ -203,7 +203,7 @@ public class StudyController {
 		remember.setTextbook(textbook);
 		remember.setLesson(Integer.parseInt(lesson));
 		User user = (User) session.getAttribute("USER");
-		remember.setUsername(user.getUsername());
+		remember.setUser_no(user.getNo());
 		String knownWords = rememberService.rememberKnownWords(remember);
 		
 		if(knownWords == null){
@@ -251,7 +251,7 @@ public class StudyController {
 		Remember remember = new Remember();
 		User user = (User) session.getAttribute("USER");
 		remember.setWords(knownWords);
-		remember.setUsername(user.getUsername());
+		remember.setUser_no(user.getNo());
 		remember.setGrade(grade);
 		remember.setTextbook(textbook);
 		remember.setLesson(Integer.parseInt(lesson));
@@ -290,7 +290,7 @@ public class StudyController {
 		remember.setTextbook(textbook);
 		remember.setLesson(Integer.parseInt(lesson));
 		User user = (User) session.getAttribute("USER");
-		remember.setUsername(user.getUsername());
+		remember.setUser_no(user.getNo());
 		String knownWords = rememberService.rememberKnownWords(remember);
 		
 		if(knownWords == null){

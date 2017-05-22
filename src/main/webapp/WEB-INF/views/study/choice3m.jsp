@@ -9,17 +9,14 @@
 <div id="wrap">
 	
 	<div id="main_bg7">
-		<div class="middle_step">
+		<div class="high_step">
 			<div class="grade"><div class="grade_text">${grade }</div></div>
 			<div class="publish"><div class="publish_text">${textbook }</div></div>
 			<div class="menu_btn">
 				<ul class="top">
 					<c:forEach begin="1" end="${howManyLesson }" var="x">
-						<c:if test="${x == 6 }">
-						</ul><ul class="bottom">
-						</c:if>
 						<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${x}/ready1">
-						<img src="${pageContext.request.contextPath}/images/middle_menu_${x}.png" alt=""></a></li>
+						<img src="${pageContext.request.contextPath}/images/high_menu_${x}.png" alt=""></a></li>
 					</c:forEach>
 					<%-- <li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/2/start">
 					<img src="${pageContext.request.contextPath}/images/high_menu_2.png" alt=""></a></li>

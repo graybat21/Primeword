@@ -5,8 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
-<script src="${pageContext.request.contextPath}/resources/js/studyUtils.js"></script>
-<script ></script>
 <script>
 	$.noConflict();
 	var J=jQuery;
@@ -104,20 +102,11 @@ function aud_play_pause(n) {
 	} 
 } 
 </script>
-<style>
-/* 가림판 */
-#main_bg4 .content_area .main_content .shade {
-	position: relative;
-	top: -500px;
-	left: 434px;
-	width: 318px;
-	height: 460px;
-	border: 1px solid #214296;
-	border-radius: 10px;
-	background: #214296;
-	z-index: 999;
+<!-- <script>
+function pronounceRepeat(){
+	aut_play_pause();
 }
-</style>
+</script> -->
 </head>
 <body onload="sessionCreate();">
 	<div id="wrap">
@@ -220,10 +209,24 @@ function aud_play_pause(n) {
 								src="<c:url value="/images/done_btn.png"/>" alt=""></a>
 						</div>
 					</div>
+<style>
+/* 가림판 */
+#main_bg4 .content_area .main_content .shade {
+	position: relative;
+	top: -500px;
+	left: 434px;
+	width: 318px;
+	height: 460px;
+	border: 1px solid #214296;
+	border-radius: 10px;
+	background: #214296;
+	z-index: 999;
+}
+</style>
 					
 				</div>
-				<!-- <div class="shade" id="shade"></div>
-				<div class="shade" id="shade" style="top:-561px;"></div>
+				<div class="shade" id="shade"></div>
+				<!-- <div class="shade" id="shade" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
 	    		<div class="shade" style="top:-457px;"></div> -->

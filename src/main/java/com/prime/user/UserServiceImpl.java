@@ -1,5 +1,8 @@
 package com.prime.user;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -24,8 +27,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int userExist(String username) throws Exception {
-		return dao.userExist(username);
+	public int userExist(int no) throws Exception {
+		return dao.userExist(no);
 	}
 
 }
