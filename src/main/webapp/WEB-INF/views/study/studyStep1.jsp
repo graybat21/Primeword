@@ -23,8 +23,6 @@
 		graphChange();
 	}
 	
-	
-    
 	function pageLink(p){
 		var ar = new Array();
 	    var temp;
