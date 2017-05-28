@@ -15,13 +15,92 @@
 			if(confirm("이미 모두 공부한 과목입니다. 다시 공부 하시겠습니까?") == true){
 				/* 초기화 */
 				document.getElementById("knownWords").value = "";
-				/* resetList.submit(); */
 			}else{
 				
 			}
 		}
 		sessionStorage.setItem("session_words", document.getElementById("knownWords").value);
-		/* alert(sessionStorage.getItem("session_words")); */
+		graphChange();
+	}
+	
+	
+    
+	function pageLink(p){
+		var ar = new Array();
+	    var temp;
+	    var rnum;
+	    for(var i=1+(p-1)*15; i<=15*p; i++){
+	        ar.push(i);
+	    }
+	    for(var i=0; i< ar.length ; i++){
+	        rnum = Math.floor(Math.random() *15);
+	        temp = ar[i];
+	        ar[i] = ar[rnum];
+	        ar[rnum] = temp;
+	    }
+		J('tr').css('display','none');
+		J('tr:eq(0)').css('display','');
+		J('tr').filter(function (index){
+			// 1~50개 중에서 15 / 15 / 15 / 5 이렇게 나눠지고
+			// 15개중 랜덤으로 10개씩 나오게 순서 섞기
+			
+			/* var ar = new array();
+			for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+	        return arr; */
+			return ( index != ar[0] ) && ( index != ar[1] ) && ( index != ar[2] ) && ( index != ar[3] ) && ( index != ar[4] ) && ((index / 15) <= p) && ((index / 15) > p-1); 
+			/* return ((index / 15) <= p) && ((index / 15) > p-1) && ( index < 15 * (p-1) + 11 ); */
+		}).css('display','');
+	}
+	
+	function disappealAndRestore(s){
+		var ses = sessionStorage.getItem("session_words");
+		var sCw = s + "_word";
+		var sCm = s + "_meaning";
+		if(document.getElementById(sCw).value != ''){
+			localStorage.setItem(sCw,document.getElementById(sCw).value); 
+			localStorage.setItem(sCm,document.getElementById(sCm).value);
+			if(ses == ';' || ses == '' || ses == null){
+				ses = ";" + document.getElementById(sCw).value + ";";
+			}else{
+				ses = ses + document.getElementById(sCw).value + ";";				
+			}
+			sessionStorage.setItem("session_words", ses);
+
+			graphChange();
+			
+			document.getElementById(sCw).value='';
+			document.getElementById(sCm).value='';
+			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
+			alert(ses);
+		}else if(document.getElementById(sCw).value == ''){
+			var local_word = localStorage.getItem(sCw);
+			var l = ";" + local_word + ";";
+			var local_meaning = localStorage.getItem(sCm);
+			/* ses = sessionStorage.getItem("session_words"); */
+			ses = ses.replace(l, ';');
+			sessionStorage.setItem("session_words", ses);
+			
+			graphChange();
+			
+			document.getElementById(sCw).value=local_word;
+			document.getElementById(sCm).value=local_meaning;
+			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
+			alert(ses);
+		}
+	}
+	
+	function graphChange(){
+		var ses = sessionStorage.getItem("session_words");
+		var regExp = /;/gi;
+		var knownWordsCount = ses.match(regExp).length;
+		var widthPercent = Math.round((knownWordsCount - 1) / ${totalCount} * 100);
+		if(widthPercent <= 0){
+			document.getElementById("graph").style.width = '0%';
+			J("#graph").html('0%');
+		}else{
+			document.getElementById("graph").style.width = widthPercent +'%';
+			J("#graph").html(widthPercent+'%');
+		}
 	}
 	
 	function knownDisappeal(){
@@ -29,54 +108,6 @@
 	}
 	function tellSession(){
 		alert(sessionStorage.getItem("session_words"));
-	}
-	
-	function pageLink(p){
-		J('tr').css('display','none');
-		J('tr:eq(0)').css('display','');
-		J('tr').filter(function (index){
-			return ((index / 10) <= p) && ((index / 10) > p-1);
-		}).css('display','');
-	}
-	
-	function disappealAndRestore(s){
-		var ses = sessionStorage.getItem("session_words");
-		var sCw = s + "_word";
-		var sCm = s + "_meaning"
-		var local_word
-		if(document.getElementById(sCw).value != ''){
-			localStorage.setItem(sCw,document.getElementById(sCw).value); 
-			localStorage.setItem(sCm,document.getElementById(sCm).value);
-			if(ses == ',' || ses == '' || ses == null){
-				ses = ","+document.getElementById(sCw).value+",";
-			}else{
-				ses = ses + document.getElementById(sCw).value+",";				
-			}
-			sessionStorage.setItem("session_words", ses);
-			var strArray = sessionStorage.getItem("session_words").trim().split(',');
-			var widthPercent = Math.round((strArray.length - 2) / ${totalCount} * 100);
-			document.getElementById("graph").style.width = widthPercent + '%';
-			J("#graph").html(widthPercent+'%');
-			document.getElementById(sCw).value='';
-			document.getElementById(sCm).value='';
-			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			alert(ses);
-		}else if(document.getElementById(sCw).value == ''){
-			var local_word = localStorage.getItem(sCw);
-			var l = ","+local_word+",";
-			var local_meaning = localStorage.getItem(sCm);
-			/* ses = sessionStorage.getItem("session_words"); */
-			ses = ses.replace(l, ',');
-			sessionStorage.setItem("session_words", ses);
-			var strArray = sessionStorage.getItem("session_words").trim().split(',');
-			var widthPercent = Math.round((strArray.length - 2) / ${totalCount} * 100);
-			document.getElementById("graph").style.width = widthPercent +'%';
-			J("#graph").html(widthPercent+'%');
-			document.getElementById(sCw).value=local_word;
-			document.getElementById(sCm).value=local_meaning;
-			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			alert(ses);
-		}
 	}
 </script>
 <script>
@@ -91,7 +122,7 @@ J(function() {
 	});
 })
 </script>
-<script> 
+<!-- <script> 
 function aud_play_pause(n) { 
 	var no = "myAudio_" + n;
 	var myAudio = document.getElementById(no); 
@@ -102,7 +133,7 @@ function aud_play_pause(n) {
 	} 
 } 
 </script>
-<!-- <script>
+<script>
 function pronounceRepeat(){
 	aut_play_pause();
 }
@@ -162,16 +193,11 @@ function pronounceRepeat(){
 									onclick="disappealAndRestore(${status.count});" readonly></td>
 								<td class="last">
 								
-								<audio id="myAudio_${status.count }">
+								<%-- <audio id="myAudio_${status.count }">
 								<source src="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob" type='audio/mp3'> 
 								Your user agent does not support the HTML5 Audio element. </audio> 
 								<button type="button" onclick="aud_play_pause(${status.count})">Play</button> 
-								
-								
-
-								
-								
-								<%-- <a href="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob">
+								<a href="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob">
 								<img src="<c:url value="/images/speaker_on.png"/>" alt=""></a></td> --%>
 							</tr>
 							<%-- <div class="shade" id="shade${status.index}"></div> --%>
@@ -181,13 +207,15 @@ function pronounceRepeat(){
 					<div class="btn_area">
 						<div class="graph">
 							<div class="graph_bg">
-								<div id="graph" class="graph_ratio" style="width: ${(1 - (list.size() / totalCount)) * 100}%">
+								<div id="graph" class="graph_ratio" 
+								<%-- style="width: ${(1 - (list.size() / totalCount)) * 100}%" --%>
+								>
 								</div>
 							</div>
 						</div>
 
 						<!-- paging -->
-						<c:forEach begin="1" end="${list.size()%10 == 0 ? list.size()/10 : list.size()/10 +1}" step="1" varStatus="status">
+						<c:forEach begin="1" end="${list.size()%15 == 0 ? list.size()/15 : list.size()/15 + 1}" step="1" varStatus="status">
 							<input type="button" value="${status.count }" onclick="return pageLink(${status.count})">
 						</c:forEach>
 						
