@@ -38,8 +38,9 @@
 						<thead>
 							<tr>
 								<th>번호</th>
-								<th>이름</th>
+								<th>id</th>
 								<th>pw</th>
+								<th>이름</th>
 								<th>birth</th>
 								<th>phone</th>
 								<th>소속</th>
@@ -55,6 +56,7 @@
 									<td><a href="${userDetail }">${item.no}</a></td>
 									<td><a href="${userDetail }">${item.username }</a></td>
 									<td><a href="${userDetail }">${item.passwd }</a></td>
+									<td><a href="${userDetail }">${item.realname }</a></td>
 									<td>${item.birth }</td>
 									<td>${item.phone }</td>
 									<td>${item.belong}</td>

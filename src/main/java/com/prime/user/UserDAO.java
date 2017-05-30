@@ -7,6 +7,5 @@ public interface UserDAO {
 
 	public int userExist(int no);
 
-	public void userDelete(int no);
 	
 }

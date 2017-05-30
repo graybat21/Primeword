@@ -5,11 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 <script>
 	$.noConflict();
 	var J=jQuery;
 	
 	function sessionCreate(){
+		responsiveVoice.setDefaultVoice("US English Female");
 		pageLink(1);
 		if(${alreadyFinishedThisLesson} == true){
 			if(confirm("이미 모두 공부한 과목입니다. 다시 공부 하시겠습니까?") == true){
@@ -69,7 +71,7 @@
 			document.getElementById(sCw).value='';
 			document.getElementById(sCm).value='';
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			alert(ses);
+			/* alert(ses); */
 		}else if(document.getElementById(sCw).value == ''){
 			var local_word = localStorage.getItem(sCw);
 			var l = ";" + local_word + ";";
@@ -83,14 +85,15 @@
 			document.getElementById(sCw).value=local_word;
 			document.getElementById(sCm).value=local_meaning;
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			alert(ses);
+			/* alert(ses); */
 		}
 	}
 	
 	function graphChange(){
 		var ses = sessionStorage.getItem("session_words");
-		var regExp = /;/gi;
-		var knownWordsCount = ses.match(regExp).length;
+		/* var regExp = /;/gi; */
+		var knownWordsArr = ses.split(';');
+		var knownWordsCount = knownWordsArr.length
 		var widthPercent = Math.round((knownWordsCount - 1) / ${totalCount} * 100);
 		if(widthPercent <= 0){
 			document.getElementById("graph").style.width = '0%';
@@ -101,11 +104,18 @@
 		}
 	}
 	
+	function tellWord(word){
+		responsiveVoice.speak(word);
+	}
+	function stopSpeak(){
+		responsiveVoice.cancel();
+	}
+	
 	function knownDisappeal(){
 		sessionStorage.setItem("session_words","");
 	}
 	function tellSession(){
-		alert(sessionStorage.getItem("session_words"));
+		/* responsiveVoice.speak(${everyWords}); */
 	}
 </script>
 <script>
@@ -120,22 +130,6 @@ J(function() {
 	});
 })
 </script>
-<!-- <script> 
-function aud_play_pause(n) { 
-	var no = "myAudio_" + n;
-	var myAudio = document.getElementById(no); 
-	if (myAudio.paused) { 
-		myAudio.play(); 
-	} else { 
-		myAudio.pause(); 
-	} 
-} 
-</script>
-<script>
-function pronounceRepeat(){
-	aut_play_pause();
-}
-</script> -->
 </head>
 <body onload="sessionCreate();">
 	<div id="wrap">
@@ -178,7 +172,7 @@ function pronounceRepeat(){
 							<th class="first" onclick="knownDisappeal();">번 호</th>
 							<th>단 어</th>
 							<th>뜻</th>
-							<th class="last" onclick="tellSession();"></th>
+							<th class="last" onclick="stopSpeak();"></th>
 						</tr>
 						<c:forEach var="item" items="${list }" varStatus="status" >
 							<tr id="${status.count}_tr" style="display:none;">
@@ -190,13 +184,10 @@ function pronounceRepeat(){
 									name="${item.no }" value="${item.meaning }" class="input_02"
 									onclick="disappealAndRestore(${status.count});" readonly></td>
 								<td class="last">
+								<img src="<c:url value="/images/speaker_on.png"/>" onclick='tellWord("${item.word}");'>
+								</td>
+								<%-- responsiveVoice.speak("${item.word}"); --%>
 								
-								<%-- <audio id="myAudio_${status.count }">
-								<source src="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob" type='audio/mp3'> 
-								Your user agent does not support the HTML5 Audio element. </audio> 
-								<button type="button" onclick="aud_play_pause(${status.count})">Play</button> 
-								<a href="https://translate.google.com/translate_tts?q=${item.word }&tl&tl=en-us&client=tw-ob">
-								<img src="<c:url value="/images/speaker_on.png"/>" alt=""></a></td> --%>
 							</tr>
 							<%-- <div class="shade" id="shade${status.index}"></div> --%>
 						</c:forEach>
@@ -228,7 +219,7 @@ function pronounceRepeat(){
 							</form>
 							
 							<!-- 발음읽어주는 버튼 start -->
-							<a href="javascript:pronounceRepeat();"> <img
+							<a href="javascript:tellEveryWords('');"> <img
 								src="<c:url value="/images/start_btn_02.png"/>" alt="">
 							<!-- 다음스텝으로 가는 버튼 done -->
 							</a> <a href="javascript:goStep2.submit();"><img

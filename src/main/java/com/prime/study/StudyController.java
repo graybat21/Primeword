@@ -142,7 +142,6 @@ public class StudyController {
 		mav.addObject("lesson", lesson);
 		mav.addObject("list", list);
 		mav.addObject("knownWords", knownWords);
-
 		mav.setViewName("study/studyStep1/체크");
 
 		return mav;

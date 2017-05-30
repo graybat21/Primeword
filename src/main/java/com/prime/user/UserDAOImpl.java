@@ -31,10 +31,5 @@ public class UserDAOImpl implements UserDAO {
 		return session.selectOne(namespace + ".userExist", no);
 	}
 
-	
-	@Override
-	public void userDelete(int no) {
-		session.delete(namespace + ".userDelete", no);
-	}
 
 }

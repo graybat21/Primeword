@@ -13,12 +13,12 @@
     <insert id="insert" parameterType="User">
     	insert into USER(username, passwd, birth
     	<if test="phone != null || phone == ''">
-    	, phone, belong
+    	, realname, phone, belong, school
     	</if>
     	)
     	values(#{username}, #{passwd}, #{birth} 
     	<if test="phone != null || phone == ''">
-    	, #{phone}, #{belong}
+    	, #{realname}, #{phone}, #{belong}, #{school}
     	</if>
     	)
     </insert>
@@ -39,7 +39,7 @@
     		* 
     	from 
     		(SELECT (@row_number:=@row_number+1) as row_number,
-    				no, username, passwd, birth, phone, belong
+    				no, username, realname, passwd, birth, phone, belong, school
     		from USER, (SELECT @row_number:=0) as t
           	<if test="searchKeyword != null || searchKeyword == ''">
     		where ${searchOption} like '%${searchKeyword}%'
