@@ -16,9 +16,12 @@ public interface AdminDAO {
 	public List<Study> wordsList(HashMap<String, Object> map);
 	public int wordsListCnt(HashMap<String, Object> map);
 	public void wordDelete(int no);
-
+	public void wordInsert(Study study);
 	public List<Remember> knownWordsByUserNo(int user_no);
 	
+	public int wordsGroupListCnt(HashMap<String, Object> map);
+	public List<Study> wordsGroupList(HashMap<String, Object> map);
+	public void wordsGroupDelete(Study study);
 	
 	
 	/*아직 미구현 검색기능*/

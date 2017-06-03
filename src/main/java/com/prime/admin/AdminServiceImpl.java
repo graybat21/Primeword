@@ -53,8 +53,28 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public void wordInsert(Study study) throws Exception {
+		adminDao.wordInsert(study);
+	}
+
+	@Override
 	public List<Remember> knownWordsByUserNo(int user_no) throws Exception {
 		return adminDao.knownWordsByUserNo(user_no);
+	}
+
+	@Override
+	public int wordsGroupListCnt(HashMap<String, Object> map) throws Exception {
+		return adminDao.wordsGroupListCnt(map);
+	}
+
+	@Override
+	public List<Study> wordsGroupList(HashMap<String, Object> map) throws Exception {
+		return adminDao.wordsGroupList(map);
+	}
+
+	@Override
+	public void wordsGroupDelete(Study study) throws Exception {
+		adminDao.wordsGroupDelete(study);
 	}
 
 	

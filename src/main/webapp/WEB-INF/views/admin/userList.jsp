@@ -4,35 +4,53 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <script>
 	function deleteMem() {
 		return confirm("선택한 회원을 탈퇴시키겠습니까?");
 	}
 </script>
+<style>
+ul.pagination {  
+    text-align:center;  
+}  
+ul.pagination li {  
+    display:inline;  
+    vertical-align:middle;  
+}  
+ul.pagination li a {  
+    display:-moz-inline-stack;  /*FF2*/  
+    display:inline-block;  
+    vertical-align:top;  
+    padding:4px;  
+    margin-right:3px;  
+    width:15px !important;  
+    color:#000;  
+    font:bold 12px tahoma;  
+    border:1px solid #eee;  
+    text-align:center;  
+    text-decoration:none;  
+    width /**/:26px;    /*IE 5.5*/  
+}  
+ul.pagination li a.now {  
+    color:#fff;  
+    background-color:#f40;  
+    border:1px solid #f40;  
+}  
+ul.pagination li a:hover, ul.pagination li a:focus {  
+    color:#fff;  
+    border:1px solid #f40;  
+    background-color:#f40;  
+}  
+</style>
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="main_bg4">
 			<div class="content_area">
-				<div class="sidebar">
-					<div class="title">관리 항목</div>
-					<div class="line"></div>
-					<div class="left_menu">
-						<ul>
-							<a href="/Primeword/admin/userManagement.prime">
-								<li>User 관리</li>
-							</a>
-							<a href="/Primeword/admin/wordsManagement.prime">
-								<li>Words 관리</li>
-							</a>
-							<a href="/Primeword">
-								<li>기타 관리</li>
-							</a>
-						</ul>
-					</div>
-				</div>
-
+<%@ include file="/WEB-INF/views/layout/adminSide.jsp" %>
 				<div class="main_content">
 					<table>
 						<thead>

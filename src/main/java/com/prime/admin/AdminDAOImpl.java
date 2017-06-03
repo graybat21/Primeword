@@ -2,7 +2,6 @@ package com.prime.admin;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -56,28 +55,46 @@ public class AdminDAOImpl implements AdminDAO {
 	public void wordDelete(int no) {
 		session.delete(studyNamespace + ".wordDelete", no);
 	}
+	
+
+	@Override
+	public void wordInsert(Study study) {
+		session.insert(studyNamespace+".wordInsert",study);
+	}
 
 	@Override
 	public List<Remember> knownWordsByUserNo(int user_no) {
-		return session.selectList(rememberNamespace+".knownWordsByUserNo", user_no);
+		return session.selectList(rememberNamespace + ".knownWordsByUserNo", user_no);
 	}
-	
-	
 
-//	@Override
-//	public List<String> gradeList() {
-//		return session.selectList(studyNamespace + ".gradeList");
-//	}
-//
-//	@Override
-//	public List<String> textbookList(Map<String, Object> map) {
-//		return session.selectList(studyNamespace + ".textbookList", map);
-//	}
-//
-//	@Override
-//	public List<String> lessonList(Map<String, Object> map) {
-//		return session.selectList(studyNamespace + ".lessonList", map);
-//	}
+	@Override
+	public int wordsGroupListCnt(HashMap<String, Object> map) {
+		return session.selectOne(studyNamespace + ".wordsGroupListCnt", map);
+	}
 
+	@Override
+	public List<Study> wordsGroupList(HashMap<String, Object> map) {
+		return session.selectList(studyNamespace + ".wordsGroupList", map);
+	}
+
+	@Override
+	public void wordsGroupDelete(Study study) {
+		session.delete(studyNamespace + ".wordsGroupDelete", study);
+	}
+
+	// @Override
+	// public List<String> gradeList() {
+	// return session.selectList(studyNamespace + ".gradeList");
+	// }
+	//
+	// @Override
+	// public List<String> textbookList(Map<String, Object> map) {
+	// return session.selectList(studyNamespace + ".textbookList", map);
+	// }
+	//
+	// @Override
+	// public List<String> lessonList(Map<String, Object> map) {
+	// return session.selectList(studyNamespace + ".lessonList", map);
+	// }
 
 }

@@ -59,25 +59,19 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 
 		<div id="main_bg4">
 			<div class="content_area">
-				<div class="sidebar">
-					<div class="title">관리 항목</div>
-					<div class="line"></div>
-					<div class="left_menu">
-						<ul>
-							<a href="/Primeword/admin/userManagement.prime">
-								<li>User 관리</li>
-							</a>
-							<a href="/Primeword/admin/wordsManagement.prime">
-								<li>Words 관리</li>
-							</a>
-							<a href="/Primeword">
-								<li>기타 관리</li>
-							</a>
-						</ul>
-					</div>
-				</div>
-
+<%@ include file="/WEB-INF/views/layout/adminSide.jsp" %>
 				<div class="main_content">
+				<form action="insertWord.prime">
+				<table>
+					<tr>
+						<td><input type="text" placeholder="단어명" name="word"></td>
+						<td><input type="text" placeholder="뜻" name="meaning"></td>
+						<td><input type="text" placeholder="grade" name="grade"></td>
+						<td><input type="text" placeholder="교과서" name="textbook"></td>
+						<td><input type="text" placeholder="레슨" name="lesson"></td>
+						<td><input type="submit" value="입력"></td>
+					</tr>
+				</table></form>
 					<span>&nbsp;총&nbsp;${totalCount }&nbsp;개</span>
 					<table>
 						<thead>

@@ -37,15 +37,42 @@
    		where ${searchOption} like '%${searchKeyword}%'
 		</if>
     </select>
-    
+    <insert id="wordInsert" parameterType="Study">
+    	insert into WORDTEST2(word, meaning, grade, textbook, lesson) 
+    	VALUES(#{word}, #{meaning}, #{grade}, #{textbook}, #{lesson})
+    </insert>
     <delete id="wordDelete" parameterType="int">
     	delete from WORDTEST2 where no = #{no}
     </delete>
     
-    
-    
-    
-    
+	<!-- 그룹별 단어리스트 -->
+    <select id="wordsGroupListCnt" resultType="int" parameterType="hashmap">
+    	select count(distinct grade, textbook, lesson) from WORDTEST2
+ 		<if test="searchKeyword != null || searchKeyword == ''">
+   		where ${searchOption} like '%${searchKeyword}%'
+		</if>
+    </select>
+    <select id="wordsGroupList" parameterType="hashmap" resultType="Study">
+		SELECT 
+			grade, textbook, lesson 
+		FROM (    
+    		SELECT 
+    			(@row_number:=@row_number+1) AS row_number, grade, textbook, lesson
+    		FROM ( 
+    			SELECT 
+    				DISTINCT grade, textbook, lesson
+    			FROM WORDTEST2
+    			<if test="searchKeyword != null || searchKeyword == ''">
+		   		WHERE ${searchOption} like '%${searchKeyword}%'
+				</if>
+   			) X, (SELECT @row_number:=0) AS t
+        ) XX
+        WHERE XX.row_number BETWEEN #{first} and #{last}
+	</select>
+    <delete id="wordsGroupDelete" parameterType="Study">
+    	delete from WORDTEST2 
+    	where grade = #{grade} and textbook = #{textbook} and lesson = #{lesson}
+    </delete>
     
 	<!-- 검색 추가기능 미구현 -->
 	<select id="gradeList" resultType="String">
