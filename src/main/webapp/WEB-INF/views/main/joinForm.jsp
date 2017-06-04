@@ -5,6 +5,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf_header" content="X-CSRF-TOKEN" />
+<meta name="${_csrf.parameterName}" content="${_csrf.token}" />
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 function isExistUser()		// use keyup event -> To check id
@@ -46,6 +49,7 @@ function isExistUser()		// use keyup event -> To check id
 				<div class="login_title">회원가입</div>
 				<!-- <form method="post" id="join-form" name="join-form"> -->
 				<form:form method="post" id="join-form" name="join-form" onsubmit="valid_check(this)">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<!-- commandName="user"  -->
 				<div class="input_area">
 					<div class="left">

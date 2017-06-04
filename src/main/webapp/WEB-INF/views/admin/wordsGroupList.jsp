@@ -4,6 +4,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf_header" content="X-CSRF-TOKEN" />
+<meta name="${_csrf.parameterName}" content="${_csrf.token}" />
+
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <script>
@@ -77,6 +80,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 	    	
 	    	<div class="main_content">
 	    	<form action="insertExcel.prime" method="post" enctype="multipart/form-data">
+	    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	    		<input type="file" name="file" value="엑셀파일 업로드">
 	    		<input type="submit" value="업로드">
 	    	</form>

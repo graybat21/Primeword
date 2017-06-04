@@ -6,6 +6,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
+
 <title><tiles:getAsString name="title" /></title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nanumbarungothic.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">

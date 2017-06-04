@@ -3,6 +3,8 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf_header" content="X-CSRF-TOKEN" />
+<meta name="${_csrf.parameterName}" content="${_csrf.token}" />
 <script type="text/javascript">
 	function submit(){
 		document.getElementById('login-form').submit();
@@ -17,6 +19,7 @@
 			<div class="login_content">
 				<div class="login_title">로그인</div>
 				<form method="post" id="login-form" name="login-form">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<div class="input_area">
 					<div class="left">
 						<div class="top">

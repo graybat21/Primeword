@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,6 +43,16 @@ public class AdminController {
 
 	@Inject
 	private AdminService adminService;
+
+	@RequestMapping(value = "/admin/login.prime", method = RequestMethod.GET)
+	public String loginForm() {
+		return "admin/loginAdmin/admin login";
+	}
+
+	@RequestMapping(value = "/admin/logout.prime", method = RequestMethod.GET)
+	public String logout() {
+		return "redirect:/admin/login.prime";
+	}
 
 	// admin 메인 페이지
 	@RequestMapping(value = "/admin/main.prime")

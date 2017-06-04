@@ -4,6 +4,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf_header" content="X-CSRF-TOKEN" />
+<meta name="${_csrf.parameterName}" content="${_csrf.token}" />
+
 <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 <!-- <script type="text/javascript" src="/js/studyUtils.js"></script>
@@ -62,6 +65,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 <%@ include file="/WEB-INF/views/layout/adminSide.jsp" %>
 				<div class="main_content">
 				<form action="insertWord.prime">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				<table>
 					<tr>
 						<td><input type="text" placeholder="단어명" name="word"></td>
