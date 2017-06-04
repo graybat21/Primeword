@@ -25,8 +25,13 @@ public class StudyDAOImpl implements StudyDAO {
 	}
 
 	@Override
-	public List<String> textbookListByGrade(String grade) {
-		return session.selectList(namespace + ".textbookListByGrade", grade);
+	public List<String> textbookListByGrade(Study study) {
+		return session.selectList(namespace + ".textbookListByGrade", study);
+	}
+
+	@Override
+	public Integer getCreatorForTextbookList(String belong) {
+		return session.selectOne(namespace+".getCreatorForTextbookList", belong);
 	}
 
 }

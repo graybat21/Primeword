@@ -50,7 +50,6 @@
 	    				<th>grade</th>
 	    				<th>textbook</th>
 	    				<th>lesson</th>
-	    				<th>진행률</th>
 	    				<th width="70%">학습단어</th>
 	    				<th>기타</th>
 	    			</tr></thead>
@@ -60,7 +59,6 @@
 	    					<td>${item.grade }</td>
 	    					<td>${item.textbook }</td>
 	    					<td>${item.lesson }</td>
-	    					<td></td>
 	    					<td>${item.words }</td>
 	    					<td></td>
 	    				</tr>

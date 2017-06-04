@@ -50,6 +50,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 
 		<div id="main_bg4">
 			<div class="content_area">
+			
 <%@ include file="/WEB-INF/views/layout/adminSide.jsp" %>
 				<div class="main_content">
 					<table>
@@ -67,6 +68,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 						</thead>
 						<tbody>
 							<c:forEach var="item" items="${userList }" varStatus="status">
+								<c:if test="${item.belong == sessionScope.USER.belong || sessionScope.USER.no == 1}">
 								<tr>
 									<c:url var="userDetail" value="/admin/userDetail.prime">
 										<c:param name="no" value="${item.no}" />
@@ -77,13 +79,17 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 									<td><a href="${userDetail }">${item.realname }</a></td>
 									<td>${item.birth }</td>
 									<td>${item.phone }</td>
-									<td>${item.belong}</td>
-									<td><c:url var="deleteMem" value="/admin/userDelete.prime">
+									<td>${item.belong}${item.school == '1' ? '*' : ''}</td>
+									<td>
+									<c:if test="${USER.school == '1' && USER.no == 1}">
+										<c:url var="deleteMem" value="/admin/userDelete.prime">
 											<c:param name="no" value="${item.no }" />
 										</c:url> <a href="${deleteMem }"> <input type="button" value="탈 퇴"
 											onclick="return deleteMem()">
-									</a></td>
+									</a></c:if>
+									</td>
 								</tr>
+								</c:if>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -91,10 +97,10 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 					<form action="userManagement.prime">
 						<select name="o">
 							<option value="username"
-								${param.o eq "username" ? "selected" : "" }>username</option>
-							<option value="birth" ${param.o eq "birth" ? "selected" : "" }>birth</option>
+								${param.o eq "username" ? "selected" : "" }>id</option>
+							<option value="birth" ${param.o eq "birth" ? "selected" : "" }>생일</option>
 							<option value="phone" ${param.o eq "phone" ? "selected" : "" }>phone</option>
-							<option value="belong" ${param.o eq "belong" ? "selected" : "" }>belong</option>
+							<option value="belong" ${param.o eq "belong" ? "selected" : "" }>소속</option>
 						</select> <input type="text" name="k" value="${searchKeyword }"> <input
 							type="submit" value="검색">
 					</form>

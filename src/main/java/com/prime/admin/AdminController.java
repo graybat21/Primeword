@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.prime.common.PageMaker;
@@ -113,7 +112,7 @@ public class AdminController {
 	// 관리자의 단어관리
 	@RequestMapping(value = "/admin/wordsManagement.prime")
 	public ModelAndView adminWords(PageMaker pagemaker, @RequestParam(value = "o", required = false) String searchOption,
-			@RequestParam(value = "k", required = false) String searchKeyword) throws Exception {
+			@RequestParam(value = "k", required = false) String searchKeyword, HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView("admin/wordsList/단어 관리 페이지");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
@@ -121,6 +120,8 @@ public class AdminController {
 		pagemaker.setPage(page);
 		map.put("searchOption", searchOption);
 		map.put("searchKeyword", searchKeyword);
+		User user = (User) session.getAttribute("USER");
+		map.put("user_no", user.getNo());
 		int totalCnt = adminService.wordsListCnt(map); // DB연동_ 총 갯수 구해오기
 		int countPerPage = 10;
 		int countPerPaging = 5;
@@ -143,7 +144,9 @@ public class AdminController {
 
 	// 한단어 추가
 	@RequestMapping("/admin/insertWord.prime")
-	public String wordInsert(Study study)throws Exception{
+	public String wordInsert(Study study, HttpSession session)throws Exception{
+		User user = (User) session.getAttribute("USER");
+		study.setCreator(user.getNo());
 		adminService.wordInsert(study);
 		return "redirect:/admin/wordsManagement.prime";
 	}
@@ -175,7 +178,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/wordsGroupManagement.prime")
 	public ModelAndView adminWordsGroup(PageMaker pagemaker, @RequestParam(value = "o", required = false) String searchOption,
-			@RequestParam(value = "k", required = false) String searchKeyword) throws Exception {
+			@RequestParam(value = "k", required = false) String searchKeyword, HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView("admin/wordsGroupList/단어 그룹 관리 페이지");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
@@ -183,6 +186,8 @@ public class AdminController {
 		pagemaker.setPage(page);
 		map.put("searchOption", searchOption);
 		map.put("searchKeyword", searchKeyword);
+		User user = (User) session.getAttribute("USER");
+		map.put("user_no", user.getNo());
 		int totalCnt = adminService.wordsGroupListCnt(map); // DB연동_ 총 갯수 구해오기
 		int countPerPage = 5;
 		int countPerPaging = 5;
@@ -212,7 +217,8 @@ public class AdminController {
 		int rowSize = 0;
 		String message="";
 		List<Integer> errorNo = new ArrayList<Integer>();
-
+		User user =(User) req.getSession().getAttribute("USER");
+		int user_no = user.getNo();
 		File file = new File("C:\\test1.xlsx");
 
 		FileInputStream inputDocument = null;
@@ -244,10 +250,10 @@ public class AdminController {
 				boolean isBlankCell = false;
 				String valueStr = ""; // 엑셀에서 뽑아낸 데이터를 담아놓을 String 변수 선언 및 초기화
 				Study study= new Study(); // DB에 Insert하기 위해 valueStr 데이터를 옮겨담을 객체 (각자 DB 테이블의 데이터 타입에 맞춰서...)
+				study.setCreator(user_no);
 
 				for(int j=0; j<cellLength; j++){
 					Cell cell = row.getCell(j);
-					
 					// 셀에 있는 데이터들을 타입별로 분류해서 valueStr 변수에 담는다.
 					if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) { // CELL_TYPE_BLANK로만 체크할 경우 비어있는  셀을 놓칠 수 있다.
 						System.out.println(j + "번, 빈값 들어감.");

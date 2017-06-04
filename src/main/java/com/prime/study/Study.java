@@ -8,6 +8,15 @@ public class Study {
 	private String grade;
 	private String textbook;
 	private int lesson;
+	private int creator;
+	
+	public int getCreator() {
+		return creator;
+	}
+
+	public void setCreator(int creator) {
+		this.creator = creator;
+	}
 
 	public int getNo() {
 		return no;
@@ -59,8 +68,9 @@ public class Study {
 
 	@Override
 	public String toString() {
-		return "\n Study [no=" + no + ", word=" + word + ", meaning=" + meaning + ", grade=" + grade + ", textbook="
-				+ textbook + ", lesson=" + lesson + "]";
+		return "\nStudy [no=" + no + ", word=" + word + ", meaning=" + meaning + ", grade=" + grade + ", textbook="
+				+ textbook + ", lesson=" + lesson + ", creator=" + creator + "]";
 	}
+
 
 }

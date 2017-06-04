@@ -90,7 +90,8 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 							<tr>
 								<th>grade</th>
 								<th>교과서</th>
-								<th>레슨</th>
+								<th>레슨</th> 
+								<th>올린이</th> 
 								<th>action</th>
 							</tr>
 						</thead>
@@ -100,13 +101,17 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 									<td>${item.grade }</td>
 									<td>${item.textbook }</td>
 									<td>${item.lesson }</td>
-									<td><c:url var="deleteWordsGroup" value="/admin/wordsGroupDelete.prime">
+									<td>${item.creator == 1 ? 'PRIME' : ( sessionScope.USER.no == 1 ? item.creator : '내가올림' ) }</td>
+									<td>
+									<c:if test="${item.creator == sessionScope.USER.no || sessionScope.USER.no == 1}">
+									<c:url var="deleteWordsGroup" value="/admin/wordsGroupDelete.prime">
 											<c:param name="grade" value="${item.grade}" />
 											<c:param name="textbook" value="${item.textbook}" />
 											<c:param name="lesson" value="${item.lesson}" />
 										</c:url> <a href="${deleteWordsGroup }"> <input type="button" value="단원삭제"
 											onclick="return deleteWordsGroup()">
-									</a></td>
+									</a></c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -115,7 +120,8 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 					<form action="wordsGroupManagement.prime">
 						<select name="o">
 							<option value="grade" ${param.o eq "grade" ? "selected" : "" }>grade</option>
-							<option value="textbook" ${param.o eq "textbook" ? "selected" : "" }>textbook</option>
+							<option value="textbook" ${param.o eq "textbook" ? "selected" : "" }>교과서</option>
+							<option value="creator" ${param.o eq "creator" ? "selected" : "" }>올린이 회원번호</option>
 						</select> <input type="text" name="k" value="${searchKeyword }"> <input
 							type="submit" value="검색">
 					</form>

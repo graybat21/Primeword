@@ -47,13 +47,20 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/middle")
-	public ModelAndView choice2m() throws Exception {
+	public ModelAndView choice2m(HttpSession session) throws Exception {
 		// 중등부 교과서 및 저자 목록 출력
 		ModelAndView mav = new ModelAndView("study/choice2m/중등 선택");
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		User user= (User) session.getAttribute("USER");
+		Integer temp =service.getCreatorForTextbookList(user.getBelong());
+		int creator =  temp == null ? 0 : temp;
+		System.out.println(creator);
 		for (int i = 0; i < middleGrade.length; i++) {
-			map.put("m" + i, service.textbookListByGrade(middleGrade[i]));
+			Study study = new Study();
+			study.setCreator(creator);
+			study.setGrade(middleGrade[i]);
+			logger.info(study.toString());
+			map.put("m" + i, service.textbookListByGrade(study));
 		}
 		// List<String> textbookList7 = service.textbookListByGrade("중1");
 		mav.addObject("textbookList", map);
@@ -62,13 +69,17 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/high")
-	public ModelAndView choice2h() throws Exception {
+	public ModelAndView choice2h(HttpSession session) throws Exception {
 		// 고등부 교과서 및 저자 목록 출력 ~ grade 10,11,12
 		ModelAndView mav = new ModelAndView("study/choice2h/고등 선택");
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		User user= (User) session.getAttribute("USER");
+		int creator = service.getCreatorForTextbookList(user.getBelong());
 		for (int i = 0; i < highGrade.length; i++) {
-			map.put("h" + i, service.textbookListByGrade(highGrade[i]));
+			Study study = new Study();
+			study.setCreator(creator);
+			study.setGrade(highGrade[i]);
+			map.put("h" + i, service.textbookListByGrade(study));
 		}
 
 		mav.addObject("textbookList", map);

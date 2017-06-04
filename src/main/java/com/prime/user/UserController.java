@@ -71,7 +71,7 @@ public class UserController {
 
 	@RequestMapping(value = "/join.prime", method = RequestMethod.POST)
 	public ModelAndView join(User user, HttpSession session) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/login.prime");
+		ModelAndView mav = new ModelAndView("redirect:/");
 
 		logger.info(user.toString());
 		service.insert(user);

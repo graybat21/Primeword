@@ -8,7 +8,7 @@ public interface StudyService {
 
 	public int howManyLesson(Study study) throws Exception;
 
-	public List<String> textbookListByGrade(String grade) throws Exception;
+	public List<String> textbookListByGrade(Study study) throws Exception;
 
-	
+	public Integer getCreatorForTextbookList(String belong) throws Exception;
 }

@@ -12,34 +12,59 @@
     	where grade = #{grade} and TEXTBOOK = #{textbook}
 	</select>
 
-	<select id="textbookListByGrade" parameterType="String" resultType="String">
-		select distinct textbook from WORDTEST2
-		where grade = #{grade}
+	<select id="getCreatorForTextbookList" parameterType="String" resultType="Integer">
+		select distinct(creator) from WORDTEST2 w, USER u
+		where w.creator = u.no and u.belong = #{belong}
+	</select>
+	<!-- 위에서 구한 creator 를 통해 학원에서 입력한 단어를 추가해 준다. 학원에서 추가한 단어가 없을경우 creator = 0 -->
+	<select id="textbookListByGrade" parameterType="Study" resultType="String">
+		(select distinct textbook from WORDTEST2
+		where creator = 1 and grade = #{grade}
+		)
+		<if test="creator != 0"> 
+		union 
+		(select distinct textbook from WORDTEST2
+		where creator = #{creator} and grade = #{grade} )
+		</if>
 	</select>
 	
 	<select id="wordsList" parameterType="hashmap" resultType="Study">
-		select 
-    		* 
-    	from 
+		select no, word, meaning, grade, textbook, lesson, creator from 
     		(SELECT (@row_number:=@row_number+1) as row_number,
-    				no, word, meaning, grade, textbook, lesson
-    		from WORDTEST2, (SELECT @row_number:=0) as t
-          	<if test="searchKeyword != null || searchKeyword == ''">
-    		where ${searchOption} like '%${searchKeyword}%'
-  			</if>
-  			order by no desc
+         		 no, word, meaning, grade, textbook, lesson, creator from
+      		<if test="user_no != 1">
+      		(SELECT no, word, meaning, grade, textbook, lesson, creator from
+      		</if>
+        	WORDTEST2
+        	<if test="user_no != 1">
+    		WHERE creator = 1 or creator = #{user_no} ) XX
+    		</if>
+        	, (SELECT @row_number:=0) as t
+        	<if test="searchKeyword != null || searchKeyword == '' ">
+			WHERE ${searchOption} like '%${searchKeyword}%'
+			</if>
+    		ORDER BY no desc
     		) X
-    	WHERE X.row_number BETWEEN #{first} and #{last}
+		WHERE X.row_number BETWEEN #{first} and #{last}
 	</select>
 	<select id="wordsListCnt" resultType="int" parameterType="hashmap">
-    	select count(*) from WORDTEST2
- 		<if test="searchKeyword != null || searchKeyword == ''">
-   		where ${searchOption} like '%${searchKeyword}%'
+		SELECT count(*) FROM
+		<if test="user_no != 1">
+			(SELECT * FROM 		
+		</if>
+				WORDTEST2 
+		<if test="searchKeyword != null || searchKeyword == ''">
+    		WHERE ${searchOption} like '%${searchKeyword}%'
+    	</if>
+		<if test="user_no != 1">
+	    	) s
+      	WHERE s.creator = 1 or s.creator = #{user_no}
 		</if>
     </select>
+    
     <insert id="wordInsert" parameterType="Study">
-    	insert into WORDTEST2(word, meaning, grade, textbook, lesson) 
-    	VALUES(#{word}, #{meaning}, #{grade}, #{textbook}, #{lesson})
+    	insert into WORDTEST2(word, meaning, grade, textbook, lesson, creator) 
+    	VALUES(#{word}, #{meaning}, #{grade}, #{textbook}, #{lesson}, #{creator})
     </insert>
     <delete id="wordDelete" parameterType="int">
     	delete from WORDTEST2 where no = #{no}
@@ -47,26 +72,43 @@
     
 	<!-- 그룹별 단어리스트 -->
     <select id="wordsGroupListCnt" resultType="int" parameterType="hashmap">
-    	select count(distinct grade, textbook, lesson) from WORDTEST2
- 		<if test="searchKeyword != null || searchKeyword == ''">
-   		where ${searchOption} like '%${searchKeyword}%'
+    	SELECT count(distinct grade, textbook, lesson, creator) from
+    	<if test="user_no != 1">
+    		(SELECT grade, textbook, lesson, creator FROM
+    	</if> 
+				WORDTEST2
+		<if test="user_no != 1">		
+			WHERE creator = 1 or creator = #{user_no}
+			) s
 		</if>
+		<if test="searchKeyword != null || searchKeyword == ''">
+		WHERE ${searchOption} like '%${searchKeyword}%'
+		</if>
+    	<!-- select count(distinct grade, textbook, lesson, creator) from WORDTEST2
+		WHERE 
+		<if test="searchKeyword != null || searchKeyword == ''">
+		${searchOption} like '%${searchKeyword}%' and
+		</if>
+		creator = 1 or creator =#{user_no} -->
     </select>
     <select id="wordsGroupList" parameterType="hashmap" resultType="Study">
 		SELECT 
-			grade, textbook, lesson 
+			grade, textbook, lesson, creator
 		FROM (    
     		SELECT 
-    			(@row_number:=@row_number+1) AS row_number, grade, textbook, lesson
+    			(@row_number:=@row_number+1) AS row_number, grade, textbook, lesson, creator
     		FROM ( 
     			SELECT 
-    				DISTINCT grade, textbook, lesson
+    				DISTINCT grade, textbook, lesson, creator
     			FROM WORDTEST2
-    			<if test="searchKeyword != null || searchKeyword == ''">
-		   		WHERE ${searchOption} like '%${searchKeyword}%'
-				</if>
+    			<if test="user_no != 1">
+    			WHERE creator = 1 or creator = #{user_no}
+    			</if>
 				ORDER BY no DESC
    			) X, (SELECT @row_number:=0) AS t
+   			<if test="searchKeyword != null || searchKeyword == ''">
+	   		WHERE ${searchOption} like '%${searchKeyword}%'
+			</if>
         ) XX
         WHERE XX.row_number BETWEEN #{first} and #{last}
 	</select>
@@ -76,7 +118,7 @@
     </delete>
     
 	<!-- 검색 추가기능 미구현 -->
-	<select id="gradeList" resultType="String">
+	<!-- <select id="gradeList" resultType="String">
 		select distinct grade from WORDTEST2 
 	</select>
 	<select id="textbookList" resultType="String" parameterType="hashmap">
@@ -86,7 +128,7 @@
 	<select id="lessonList" resultType="String" parameterType="hashmap">
 		select dictinct lesson from WORDTEST2 
 		where grade = #{grade} and textbook = #{textbook}
-	</select>
+	</select> -->
 	
 	
 </mapper>

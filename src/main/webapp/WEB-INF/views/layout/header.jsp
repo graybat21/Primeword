@@ -33,8 +33,10 @@
 					<a href="/Primeword/Study">단어암기</a>
 					<span>|</span>
 					<a href="#">나의학습</a>
+					<c:if test="${USER.school == '1' }">
 					<span>|</span>
 					<a href="/Primeword/admin/main.prime">관리자PAGE</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

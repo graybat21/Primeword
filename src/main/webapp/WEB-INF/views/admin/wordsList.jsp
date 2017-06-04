@@ -59,6 +59,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 
 		<div id="main_bg4">
 			<div class="content_area">
+				
 <%@ include file="/WEB-INF/views/layout/adminSide.jsp" %>
 				<div class="main_content">
 				<form action="insertWord.prime">
@@ -81,6 +82,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 								<th>grade</th>
 								<th>교과서</th>
 								<th>레슨</th>
+								<th>올린이</th>
 								<th>기타</th>
 							</tr>
 						</thead>
@@ -92,11 +94,17 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 									<td>${item.grade }</td>
 									<td>${item.textbook }</td>
 									<td>${item.lesson }</td>
-									<td><c:url var="deleteWord" value="/admin/wordDelete.prime">
+									<!-- admin 으로 접속시 PRIME 으로 보이거나 올린사람 회원번호로 보임, 모두 삭제가능
+									학원관리자로 접속시 PRIME 으로 보이거나 내가 올림 으로 보임 , 내가올린것만 삭제가능-->
+									<td>${item.creator == 1 ? 'PRIME' : ( sessionScope.USER.no == 1 ? item.creator : '내가올림' ) }</td>
+									<td>
+									<c:if test="${item.creator == sessionScope.USER.no || sessionScope.USER.no == 1}">
+									<c:url var="deleteWord" value="/admin/wordDelete.prime">
 											<c:param name="no" value="${item.no}" />
 										</c:url> <a href="${deleteWord }"> <input type="button" value="단어삭제"
 											onclick="return deleteWord()">
-									</a></td>
+									</a></c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -104,10 +112,11 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 					
 					<form action="wordsManagement.prime">
 						<select name="o">
-							<option value="word" ${param.o eq "word" ? "selected" : "" }>word</option>
-							<option value="meaning" ${param.o eq "meaning" ? "selected" : "" }>meaning</option>
+							<option value="word" ${param.o eq "word" ? "selected" : "" }>단어</option>
+							<option value="meaning" ${param.o eq "meaning" ? "selected" : "" }>뜻</option>
 							<option value="grade" ${param.o eq "grade" ? "selected" : "" }>grade</option>
-							<option value="textbook" ${param.o eq "textbook" ? "selected" : "" }>textbook</option>
+							<option value="textbook" ${param.o eq "textbook" ? "selected" : "" }>교과서</option>
+							<option value="creator" ${param.o eq "creator" ? "selected" : "" }>올린이 회원번호</option>
 						</select> <input type="text" name="k" value="${searchKeyword }"> <input
 							type="submit" value="검색">
 					</form>
