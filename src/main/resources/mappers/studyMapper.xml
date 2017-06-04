@@ -65,6 +65,7 @@
     			<if test="searchKeyword != null || searchKeyword == ''">
 		   		WHERE ${searchOption} like '%${searchKeyword}%'
 				</if>
+				ORDER BY no DESC
    			) X, (SELECT @row_number:=0) AS t
         ) XX
         WHERE XX.row_number BETWEEN #{first} and #{last}

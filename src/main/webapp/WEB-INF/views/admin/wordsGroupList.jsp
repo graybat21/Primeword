@@ -10,6 +10,11 @@
 	function deleteWordsGroup() {
 		return confirm("선택한 그룹을 삭제하겠습니까?");
 	}
+
+	$(window).load(function() {    
+	     $('#loading').hide();  
+    });
+
 </script>
 <style>
 ul.pagination {  
@@ -43,23 +48,43 @@ ul.pagination li a:hover, ul.pagination li a:focus {
     border:1px solid #f40;  
     background-color:#f40;  
 }  
+#loading {
+ width: 100%;  
+ height: 100%;  
+ top: 0px;
+ left: 0px;
+ position: fixed;  
+ display: block;  
+ opacity: 0.7;  
+ background-color: #fff;  
+ z-index: 999;  
+ text-align: center; } 
+  
+#loading-image {  
+ position: absolute;  
+ top: 50%;  
+ left: 50%; 
+ z-index: 1000; }
+
 </style>
 </head>
 <body>
 <div id="wrap">
-	
 	<div id="main_bg4">
 	    <div class="content_area">
 	    
 <%@ include file="/WEB-INF/views/layout/adminSide.jsp" %>
 	    	
 	    	<div class="main_content">
-	    	<form action="insertExcel.prime" enctype="multipart/form-data">
+	    	<form action="insertExcel.prime" method="post" enctype="multipart/form-data">
 	    		<input type="file" name="file" value="엑셀파일 업로드">
 	    		<input type="submit" value="업로드">
-	    	</form><hr>
+	    	</form>
+	    	<div id="loading"><img id="loading-image" src="${pageContext.request.contextPath}/images/loading.gif" alt="Loading..." /></div>
+	    	<span>${message }</span><br>
+	    	<hr>
 	    	
-	    		<span>&nbsp;총&nbsp;${totalCount }&nbsp;개</span>
+	    		<span>&nbsp;총&nbsp;${totalCount }&nbsp;개 그룹</span>
 					<table>
 						<thead>
 							<tr>

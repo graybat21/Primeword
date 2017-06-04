@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -153,7 +155,7 @@ public class AdminController {
 		int no = Integer.parseInt(request.getParameter("no"));
 		adminService.wordDelete(no);
 		
-		mav.setViewName("redirect:/admin/wordsManagement.prime");
+		mav.setViewName("forward:/admin/wordsManagement.prime");
 		return mav;
 	}
 	// 단어그룹 삭제
@@ -167,7 +169,7 @@ public class AdminController {
 //		study.setLesson(Integer.parseInt(request.getParameter("lesson")));
 		adminService.wordsGroupDelete(study);
 		
-		mav.setViewName("redirect:/admin/wordsGroupManagement.prime");
+		mav.setViewName("forward:/admin/wordsGroupManagement.prime");
 		return mav;
 	}
 	
@@ -202,103 +204,17 @@ public class AdminController {
 		return mav;
 	}
 	
-//	@RequestMapping(value = "/admin/wordsList.prime")
-//	public ModelAndView adminWordsListBySearch(@RequestParam("searchKeyword") String searchKeyword,
-//			@RequestParam("searchOption") String searchOption) throws Exception {
-//		ModelAndView mav = new ModelAndView();
-//		if (searchKeyword == null) {
-//			mav.setViewName("redirect:/admin/wordsManagement.prime");
-//			return mav;
-//		}
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("searchOption", searchOption);
-//		map.put("searchKeyword", searchKeyword);
-//		logger.info(map.toString());
-//		List<Study> wordsList = adminService.adminWordsListBySearch(map);
-//		logger.info(wordsList.toString());
-//		mav.addObject("wordsList", wordsList);
-//		mav.setViewName("admin/wordsList/단어 관리 페이지");
-//		return mav;
-//	}
-
-//	@ResponseBody
-//	@RequestMapping("/admin/textbookCondition.prime")
-//	public List<String> adminConditionTextbook(@RequestBody String grade) throws Exception {
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("grade", grade);
-//		List<String> textbookList = adminService.textbookList(map);
-//
-//		// ProductDAO dao = new ProductDAO();
-//		// ArrayList<String> list =
-//		// dao.getSubList(request.getParameter("product"));
-//		// JSONArray js = JSONArray.fromObject(list);
-//		// JSONObject obj = new JSONObject();
-//		// obj.put("VERION_LIST", js.toString());
-//		// response.setContentType(CommonFinalInfo.getJsonContentType());
-//		// response.getWriter().print(obj);
-//
-//		return textbookList;
-//	}
-
-	// @ResponseBody
-	// @RequestMapping("/admin/lessonCondition.prime")
-	// public List<String> adminConditionLesson(@RequestBody String grade,
-	// @RequestBody String textbook) throws Exception {
-	// Map<String, Object> map = new HashMap<String, Object>();
-	// map.put("grade", grade);
-	// map.put("textbook", textbook);
-	//
-	// List<String> lessonList = adminService.textbookList(map);
-	// return lessonList;
-	// }
-	// @RequestMapping(value="/sample/selectBoardList.do")
-	// public ModelAndView selectBoardList(CommandMap commandMap) throws
-	// Exception{
-	//
-	// List<Map<String,Object>> list =
-	// sampleService.selectBoardList(commandMap.getMap());
-	// mv.addObject("list", list);
-	// if(list.size() > 0){
-	// mv.addObject("TOTAL", list.get(0).get("TOTAL_COUNT"));
-	// }
-	// else{
-	// mv.addObject("TOTAL", 0);
-	// }
-	//
-	// return mv;
-	// }
-
-	// admin 단어관리페이지
-	// @RequestMapping(value = "/admin/words.prime")
-	// public ModelAndView adminStudy(Study study, HttpSession session) throws
-	// Exception {
-	// ModelAndView mav = new ModelAndView("redirect:/login.prime");
-	//
-	// logger.info(user.toString());
-	// service.insert(user);
-	// session.setAttribute("USER", user);
-	// mav.addObject(user);
-	// return mav;
-	// }
-
-	// @RequestMapping(value="duplicationCheck.prime",
-	// method=RequestMethod.POST)
-	// @ResponseBody
-	// public int userExist(@RequestBody String username) throws Exception {
-	//
-	// logger.info(username.toString());
-	// int isUserExist = service.userExist(username);
-	// return isUserExist;
-	// }
 	
 	@RequestMapping("/admin/insertExcel.prime")
-	public void excelDataInsert(MultipartHttpServletRequest req) throws Exception{
+	public String excelDataInsert(HttpServletRequest req, Model model) throws Exception{
 		
-//		Iterator<String> fileFullPath = req.getFileNames();
-		
-		File file = new File("C:/test.xlsx");
-//				new File(fileFullPath.next());
-				
+		long startTime = System.currentTimeMillis();
+		int rowSize = 0;
+		String message="";
+		List<Integer> errorNo = new ArrayList<Integer>();
+
+		File file = new File("C:\\test1.xlsx");
+
 		FileInputStream inputDocument = null;
 		Workbook workbook = null;
 
@@ -317,14 +233,15 @@ public class AdminController {
 
 		try {
 			Sheet workSheet = workbook.getSheetAt(0); // 첫번째 Sheet
-			Iterator<Row> rowIterator = workSheet.iterator();
+			workSheet.iterator();
 			
-			int rowSize = workSheet.getLastRowNum() + 1; // 행의 총 개수 (행은 0부터 시작함)
+			rowSize = workSheet.getLastRowNum() + 1; // 행의 총 개수 (행은 0부터 시작함)
+			System.out.println(rowSize+"*********");
 			for(int i=1; i<rowSize; i++){ // i를 1부터 시작해야 두번째 행부터 데이터가 입력된다.
 				Row row = workSheet.getRow(i);
 				
 				int cellLength = (int) row.getLastCellNum(); // 열의 총 개수
-				
+				boolean isBlankCell = false;
 				String valueStr = ""; // 엑셀에서 뽑아낸 데이터를 담아놓을 String 변수 선언 및 초기화
 				Study study= new Study(); // DB에 Insert하기 위해 valueStr 데이터를 옮겨담을 객체 (각자 DB 테이블의 데이터 타입에 맞춰서...)
 
@@ -334,7 +251,12 @@ public class AdminController {
 					// 셀에 있는 데이터들을 타입별로 분류해서 valueStr 변수에 담는다.
 					if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) { // CELL_TYPE_BLANK로만 체크할 경우 비어있는  셀을 놓칠 수 있다.
 						System.out.println(j + "번, 빈값 들어감.");
-						valueStr = "";
+						isBlankCell = true;
+						errorNo.add(i+1);
+						j=5;
+//						message = "총 "+(rowSize-1) + "개의 단어....중에 \n"+(i-1)+"개 단어 입력함.";
+//						model.addAttribute("message", message);
+//						return "admin/uploadStatus/부분 업로드 완료";
 					}else{
 						switch(cell.getCellType()){
 							case Cell.CELL_TYPE_STRING :
@@ -383,18 +305,33 @@ public class AdminController {
 							study.setMeaning(valueStr);
 							System.out.println(j + "번 Cell, " + "meaning : " + valueStr);
 							break;
+						case 5 :
+							break;
 					} // switch end
-
+					
 				} // for loop(j) end (Cells)
-				
-				adminService.wordInsert(study); // Data insert.
-
-				System.out.println(i+"번 행 Instert 완료---------------------------------------------------");
+				if(!isBlankCell){
+					adminService.wordInsert(study); // Data insert.
+					System.out.println((i+1)+"번 행 Insert 완료---------------------------------------------------");
+				}else{
+					System.out.println((i+1)+"번 행 빈칸 있어서 입력 안됨---------------------------------------------");
+				}
+				isBlankCell = false;
 			} // for loop(i) end (Rows)
 			
 			inputDocument.close();		
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		message = "총 "+ (rowSize-1) + " 개의 단어중  " +(rowSize - 1 - errorNo.size())+ " 개의 단어 입력함.";
+		model.addAttribute("message", message);
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		System.out.println(elapsedTime/1000 + " s");
+		if(errorNo.size() == 0){
+			return "forward:/admin/wordsGroupManagement.prime";
+		}else{
+			model.addAttribute("errorNo",errorNo);
+			return "admin/uploadStatus/부분 업로드 완료";
 		}
 	}
 }
