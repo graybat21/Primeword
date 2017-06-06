@@ -27,9 +27,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int userExist(int no) {
-		return session.selectOne(namespace + ".userExist", no);
+	public int userExist(String username) {
+		return session.selectOne(namespace + ".userExist", username);
 	}
 
+	@Override
+	public List<String> belongList() {
+		return session.selectList(namespace + ".belongList");
+	}
 
 }

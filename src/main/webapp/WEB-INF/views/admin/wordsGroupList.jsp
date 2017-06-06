@@ -81,8 +81,15 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 	    		<input type="submit" value="업로드">
 	    	</form>
 	    	<div id="loading"><img id="loading-image" src="${pageContext.request.contextPath}/images/loading.gif" alt="Loading..." /></div>
-	    	<span>${message }</span><br>
-	    	<hr>
+	    	
+	    		<h1>업로드 상황</h1>
+				${message}
+				<br>
+				<c:forEach var="item" items="${errorNo }" varStatus="status">
+					${item } 행 
+					<c:if test="${status.last == false}">, </c:if>
+					<c:if test="${status.last == true}">입력 안됨<br></c:if>
+				</c:forEach>
 	    	
 	    		<span>&nbsp;총&nbsp;${totalCount }&nbsp;개 그룹</span>
 					<table>

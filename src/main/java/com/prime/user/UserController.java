@@ -1,14 +1,15 @@
 package com.prime.user;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,7 +66,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/join.prime", method = RequestMethod.GET)
-	public String joinForm() {
+	public String joinForm(Model model) throws Exception {
+		List<String> belongList=service.belongList();
+		model.addAttribute("belongList",belongList);
 		return "main/joinForm/JOIN";
 	}
 
@@ -80,13 +83,15 @@ public class UserController {
 		return mav;
 	}
 	
-//	@RequestMapping(value="duplicationCheck.prime", method=RequestMethod.POST)
-//	@ResponseBody
-//	public int userExist(@RequestBody String username) throws Exception {
-//
-//		logger.info(username.toString());
-//		int no = 
-//		int isUserExist = service.userExist(no);
-//		return isUserExist;
-//	}
+	@RequestMapping(value="duplicationCheck.prime", method=RequestMethod.POST)
+	@ResponseBody
+	public int userExist(@RequestBody String username) throws Exception {
+
+		if(username.substring(username.length()-1).equals("=")){
+			username = username.substring(0, username.length()-1);
+		}
+		int isUserExist = service.userExist(username);
+		logger.info("\n username : "+username + " , isUserExist : "+isUserExist);
+		return isUserExist;
+	}
 }

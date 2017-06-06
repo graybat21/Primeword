@@ -27,8 +27,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int userExist(int no) throws Exception {
-		return dao.userExist(no);
+	public int userExist(String username) throws Exception {
+		return dao.userExist(username);
 	}
 
+	@Override
+	public List<String> belongList() throws Exception {
+		return dao.belongList();
+	}
+
+	
 }

@@ -28,10 +28,10 @@
     	where username = #{username} and passwd = #{passwd}
     </select>
     
-    <select id="userExist" parameterType="int" resultType="int">
+    <select id="userExist" parameterType="String" resultType="int">
     	select count(*) as cnt 
     	from USER
-    	where no = #{no}
+    	where username = #{username}
     </select>
     
     <select id="userList" resultType="User" parameterType="hashmap">
@@ -74,7 +74,10 @@
 		]]>
 		<include refid="common.pagingPost"/> 
 	</select> -->
-     
+	<select id="belongList" resultType="String">
+		select distinct belong from USER
+		where school = '1'
+	</select>
 </mapper>
 
 

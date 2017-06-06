@@ -52,6 +52,10 @@ public class StudyController {
 		ModelAndView mav = new ModelAndView("study/choice2m/중등 선택");
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user= (User) session.getAttribute("USER");
+		if(user == null){
+			mav.setViewName("redirect:/login.prime");
+			return mav;
+		}
 		Integer temp =service.getCreatorForTextbookList(user.getBelong());
 		int creator =  temp == null ? 0 : temp;
 		System.out.println(creator);

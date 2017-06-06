@@ -63,6 +63,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 								<th>birth</th>
 								<th>phone</th>
 								<th>소속</th>
+								<th>학교</th>
 								<th>기타</th>
 							</tr>
 						</thead>
@@ -79,7 +80,8 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 									<td><a href="${userDetail }">${item.realname }</a></td>
 									<td>${item.birth }</td>
 									<td>${item.phone }</td>
-									<td>${item.belong}${item.school == '1' ? '*' : ''}</td>
+									<td>${item.belong}</td>
+									<td>${item.school == '1' ? '*' : item.school }
 									<td>
 									<c:if test="${USER.school == '1' && USER.no == 1}">
 										<c:url var="deleteMem" value="/admin/userDelete.prime">
