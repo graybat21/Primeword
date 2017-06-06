@@ -41,8 +41,12 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/elementary")
-	public String choice2e() {
+	public String choice2e(HttpSession session) {
 		// 초등부 교과서및 저자 목록 출력
+		User user = (User) session.getAttribute("USER");
+		if (user == null) {
+			return "redirect:/login.prime";
+		}
 		return "study/choice2e/초등 선택";
 	}
 
@@ -51,19 +55,18 @@ public class StudyController {
 		// 중등부 교과서 및 저자 목록 출력
 		ModelAndView mav = new ModelAndView("study/choice2m/중등 선택");
 		Map<String, Object> map = new HashMap<String, Object>();
-		User user= (User) session.getAttribute("USER");
-		if(user == null){
+		User user = (User) session.getAttribute("USER");
+		if (user == null) {
 			mav.setViewName("redirect:/login.prime");
 			return mav;
 		}
-		Integer temp =service.getCreatorForTextbookList(user.getBelong());
-		int creator =  temp == null ? 0 : temp;
+		Integer temp = service.getCreatorForTextbookList(user.getBelong());
+		int creator = temp == null ? 0 : temp;
 		System.out.println(creator);
 		for (int i = 0; i < middleGrade.length; i++) {
 			Study study = new Study();
 			study.setCreator(creator);
 			study.setGrade(middleGrade[i]);
-			logger.info(study.toString());
 			map.put("m" + i, service.textbookListByGrade(study));
 		}
 		// List<String> textbookList7 = service.textbookListByGrade("중1");
@@ -77,8 +80,14 @@ public class StudyController {
 		// 고등부 교과서 및 저자 목록 출력 ~ grade 10,11,12
 		ModelAndView mav = new ModelAndView("study/choice2h/고등 선택");
 		Map<String, Object> map = new HashMap<String, Object>();
-		User user= (User) session.getAttribute("USER");
-		int creator = service.getCreatorForTextbookList(user.getBelong());
+		User user = (User) session.getAttribute("USER");
+		if (user == null) {
+			mav.setViewName("redirect:/login.prime");
+			return mav;
+		}
+		Integer temp = service.getCreatorForTextbookList(user.getBelong());
+		int creator = temp == null ? 0 : temp;
+		System.out.println(creator);
 		for (int i = 0; i < highGrade.length; i++) {
 			Study study = new Study();
 			study.setCreator(creator);
@@ -92,8 +101,8 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}")
-	public ModelAndView choice3h(@PathVariable String grade, @PathVariable String textbook) throws Exception {
-		// 고등부 교과서 및 저자 선택후 과목 출력
+	public ModelAndView choice3(@PathVariable String grade, @PathVariable String textbook) throws Exception {
+		// 교과서선택후 몇과까지 있는지 확인해서 보내줌
 		ModelAndView mav = new ModelAndView("study/choice3/고등 선택-과목");
 		Study study = new Study();
 		study.setGrade(grade);
@@ -104,16 +113,15 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready1")
-	public String ready1(@ModelAttribute @PathVariable String grade, @ModelAttribute @PathVariable String textbook,
+	public String ready1(@PathVariable String grade, @PathVariable String textbook,
 			@PathVariable String lesson, HttpSession session) throws Exception {
 		// session.setAttribute("session_textbook", textbook);
 		return "study/ready1/step1 안내문";
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step1")
-	public ModelAndView studyStep1(@ModelAttribute @PathVariable String grade,
-			@ModelAttribute @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
-			throws Exception {
+	public ModelAndView studyStep1(@PathVariable String grade, @PathVariable String textbook,
+			@PathVariable String lesson, HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		Study study = new Study();
 		Remember remember = new Remember();
@@ -124,24 +132,32 @@ public class StudyController {
 		study.setLesson(Integer.parseInt(lesson));
 		int howManyLesson = service.howManyLesson(study);
 		List<Study> list = service.wordList(study);
+		
+		
 		mav.addObject("totalCount", list.size());
 
+		User user = (User) session.getAttribute("USER");
+		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
+		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
+		
+		remember.setUser_no(user.getNo());
 		remember.setGrade(grade);
 		remember.setTextbook(textbook);
 		remember.setLesson(Integer.parseInt(lesson));
-		User user = (User) session.getAttribute("USER");
-		remember.setUser_no(user.getNo());
+		
 		String knownWords = rememberService.rememberKnownWords(remember);
-
+		System.out.println("knownWords : "+knownWords);
 		if (knownWords == null) {
 			// knownWords 받은게 없음
-		}else if (knownWords.trim().equals("") || knownWords.trim().equals(";")) {
+		} else if (knownWords.trim().equals("") || knownWords.trim().equals(";")) {
 			// 학습한적있음. 초기화 또는 손만댔음
 		} else if (knownWords.trim().equals("===")) {
 			// 학습완료
 			alreadyFinishedThisLesson = true;
 		} else {
+			logger.info(list.toString());
 			list = removeListByKnownWords(knownWords, remember, list);
+			logger.info(list.toString());
 			if (list.size() < 1) {
 				alreadyFinishedThisLesson = true;
 				// "===" 로 초기화
@@ -149,7 +165,7 @@ public class StudyController {
 			}
 		}
 
-//		Collections.shuffle(list);
+		// Collections.shuffle(list);
 		// 섞지 않고 출력할 페이지를 알려주면서 jsp로 보낸다.
 		// jsp쪽에서 필요한 개수만큼 display:''으로 해준다.
 		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
@@ -157,6 +173,7 @@ public class StudyController {
 		mav.addObject("lesson", lesson);
 		mav.addObject("list", list);
 		mav.addObject("knownWords", knownWords);
+		mav.addObject("removeTotalCount", list.size());
 		mav.setViewName("study/studyStep1/체크");
 
 		return mav;
@@ -177,9 +194,8 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready2")
-	public String ready2(@ModelAttribute @PathVariable String grade, @ModelAttribute @PathVariable String textbook,
-			@ModelAttribute @PathVariable String lesson, @ModelAttribute("knownWords") String knownWords,
-			HttpSession session) throws Exception {
+	public String ready2(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
+			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
 		Remember remember = new Remember();
 		User user = (User) session.getAttribute("USER");
 		remember.setWords(knownWords);
@@ -192,7 +208,7 @@ public class StudyController {
 
 		return "study/ready2/step2 안내문";
 	}
-	
+
 	private void updateRemember(Remember remember) throws Exception {
 		if (rememberService.isKnownWords(remember)) {
 			System.out.println("학습한적 있음 . update");
@@ -204,8 +220,7 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step2")
-	public ModelAndView studyStep2(@ModelAttribute @PathVariable String grade,
-			@ModelAttribute @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
+	public ModelAndView studyStep2(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
 			throws Exception {
 		ModelAndView mav = new ModelAndView();
 		Study study = new Study();
@@ -223,17 +238,16 @@ public class StudyController {
 		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
 		mav.addObject("lesson", lesson);
 		mav.addObject("list", list);
-//		mav.addObject("knownWords", knownWords);
+		// mav.addObject("knownWords", knownWords);
 
-		mav.setViewName("study/studyStep1/체크");
+		mav.setViewName("study/studyStep2/발음");
 
 		return mav;
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready3")
-	public String ready3(@ModelAttribute @PathVariable String grade, @ModelAttribute @PathVariable String textbook,
-			@ModelAttribute @PathVariable String lesson, @ModelAttribute("knownWords") String knownWords,
-			HttpSession session) throws Exception {
+	public String ready3(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
+			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
 		Remember remember = new Remember();
 		User user = (User) session.getAttribute("USER");
 		remember.setWords(knownWords);
@@ -248,8 +262,7 @@ public class StudyController {
 	}
 
 	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step3")
-	public ModelAndView studyStep3(@ModelAttribute @PathVariable String grade,
-			@ModelAttribute @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
+	public ModelAndView studyStep3(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
 			throws Exception {
 		ModelAndView mav = new ModelAndView();
 		Study study = new Study();
@@ -267,10 +280,15 @@ public class StudyController {
 		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
 		mav.addObject("lesson", lesson);
 		mav.addObject("list", list);
-//		mav.addObject("knownWords", knownWords);
+		// mav.addObject("knownWords", knownWords);
 
-		mav.setViewName("study/studyStep1/체크");
+		mav.setViewName("study/studyStep3/발음뜻");
 
 		return mav;
+	}
+	
+	private List<Study> listChange(List<Study> list, int user_no, int lesson){
+		
+		return list;
 	}
 }
