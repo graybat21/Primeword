@@ -73,15 +73,21 @@
 		var end = (standardNum+10) > endCount ? endCount : standardNum+10;
 		//alert(everyWords);
 		for(var i = standardNum ; i< end; i++){
+			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";"+ everyWords[i]+";"+ everyWords[i] + ";";
+			}
 		}
 		//alert("1 " + repeatEveryWords);
 		for(var i = standardNum ; i< end; i++){
+			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";"+ everyWords[i]+";";
+			}
 		}
 		//alert("2 " + repeatEveryWords);
 		for(var i = standardNum ; i< end; i++){
+			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";";
+			}
 		}
 	}
 	function disappealAndRestore(s){
@@ -96,11 +102,7 @@
 			}else{
 				ses = ses + document.getElementById(sCw).value + ";";				
 			}
-			/* if(repeatEveryWords == ';' || repeatEveryWords == ''){
-				repeatEveryWords = ";" + document.getElementById(sCw).value + ";";
-			}else{
-				repeatEveryWords = repeatEveryWords + document.getElementById(sCw).value + ";";				
-			} */
+			everyWords[s-1] = "";
 			sessionStorage.setItem("session_words", ses);
 
 			graphChange();
@@ -113,10 +115,8 @@
 			var local_word = localStorage.getItem(sCw);
 			var l = ";" + local_word + ";";
 			var local_meaning = localStorage.getItem(sCm);
-			/* ses = sessionStorage.getItem("session_words"); */
 			ses = ses.replace(l, ';');
-			
-			/* repeatEveryWords = repeatEveryWords.replace(l,';'); */
+			everyWords[s-1] = local_word;
 			
 			sessionStorage.setItem("session_words", ses);
 			
