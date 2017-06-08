@@ -24,6 +24,7 @@
 							<th>birth</th>
 							<th>phone</th>
 							<th>소속</th>
+							<th>학교</th>
 							<th>기타</th>
 						</tr>
 					</thead>
@@ -36,11 +37,13 @@
 							<td>${user.birth }</td>
 							<td>${user.phone}</td>
 							<td>${user.belong }</td>
-							<td><c:url var="deleteMem" value="/admin/userDelete.prime">
+							<td>${user.school }</td>
+							<td><c:if test="${USER.school == '1' && USER.no == 1}">
+							<c:url var="deleteMem" value="/admin/userDelete.prime">
 									<c:param name="no" value="${user.no }" />
 								</c:url> <a href="${deleteMem }"> <input type="button" value="탈 퇴"
 									onclick="return deleteMem()">
-							</a></td>
+							</a></c:if></td>
 						</tr>
 					</tbody>
 	    		</table>

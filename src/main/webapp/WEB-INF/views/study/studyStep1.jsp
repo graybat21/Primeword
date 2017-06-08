@@ -19,7 +19,7 @@
 	var page = 1;
 	
 	function sessionCreate(){
-		responsiveVoice.setDefaultVoice("US English Female");		
+		responsiveVoice.setDefaultVoice("US English Female");
 		
 		for(var i = 1; i< endCount + 1; i++){
 			everyWords.push(document.getElementById(i + "_word").value);

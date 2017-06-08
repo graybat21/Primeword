@@ -103,6 +103,7 @@ ul.pagination li a:hover, ul.pagination li a:focus {
 							<option value="birth" ${param.o eq "birth" ? "selected" : "" }>생일</option>
 							<option value="phone" ${param.o eq "phone" ? "selected" : "" }>phone</option>
 							<option value="belong" ${param.o eq "belong" ? "selected" : "" }>소속</option>
+							<option value="school" ${param.o eq "school" ? "selected" : "" }>학교</option>
 						</select> <input type="text" name="k" value="${searchKeyword }"> <input
 							type="submit" value="검색">
 					</form>

@@ -62,8 +62,8 @@ public class AdminController {
 		map.put("searchOption", searchOption);
 		map.put("searchKeyword", searchKeyword);
 		int totalCnt = adminService.userListCnt(map); // DB연동_ 총 갯수 구해오기
-		int countPerPage = 5;
-		int countPerPaging = 3;
+		int countPerPage = 7;
+		int countPerPaging = 5;
 
 		int first = ((pagemaker.getPage() - 1) * countPerPage) + 1;
 		int last = first + countPerPage - 1;
@@ -102,6 +102,7 @@ public class AdminController {
 		User user = adminService.userDetail(no);
 		List<Remember> remember= adminService.knownWordsByUserNo(no);
 		
+		
 		mav.addObject(user);
 		mav.addObject("remember", remember);
 				
@@ -125,8 +126,8 @@ public class AdminController {
 		User user = (User) session.getAttribute("USER");
 		map.put("user_no", user.getNo());
 		int totalCnt = adminService.wordsListCnt(map); // DB연동_ 총 갯수 구해오기
-		int countPerPage = 10;
-		int countPerPaging = 5;
+		int countPerPage = 7;
+		int countPerPaging = 10;
 
 		int first = ((pagemaker.getPage() - 1) * countPerPage) + 1;
 		int last = first + countPerPage - 1;
@@ -268,7 +269,7 @@ public class AdminController {
 					Cell cell = row.getCell(j);
 					// 셀에 있는 데이터들을 타입별로 분류해서 valueStr 변수에 담는다.
 					if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) { // CELL_TYPE_BLANK로만 체크할 경우 비어있는  셀을 놓칠 수 있다.
-//						System.out.println(j + "번, 빈값 들어감.");
+						System.out.println(j + "번, 빈값 들어감.");
 						isBlankCell = true;
 						errorNo.add(i+1);
 						j=5;
@@ -325,7 +326,7 @@ public class AdminController {
 					} // switch end
 					
 				} // for loop(j) end (Cells)
-				if(!isBlankCell){
+				if(!isBlankCell && study.getMeaning() != null){
 					adminService.wordInsert(study); // Data insert.
 //					System.out.println((i+1)+"번 행 Insert 완료---------------------------------------------------");
 				}else{

@@ -1,5 +1,6 @@
 package com.prime.study;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -38,16 +40,6 @@ public class StudyController {
 	@RequestMapping("/Study")
 	public String choice1() {
 		return "study/choice1/초중고 선택";
-	}
-
-	@RequestMapping("/Study/elementary")
-	public String choice2e(HttpSession session) {
-		// 초등부 교과서및 저자 목록 출력
-		User user = (User) session.getAttribute("USER");
-		if (user == null) {
-			return "redirect:/login.prime";
-		}
-		return "study/choice2e/초등 선택";
 	}
 
 	@RequestMapping("/Study/middle")
@@ -112,72 +104,65 @@ public class StudyController {
 		return mav;
 	}
 
-	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready1")
-	public String ready1(@PathVariable String grade, @PathVariable String textbook,
-			@PathVariable String lesson, HttpSession session) throws Exception {
-		// session.setAttribute("session_textbook", textbook);
-		return "study/ready1/step1 안내문";
-	}
-
-	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step1")
-	public ModelAndView studyStep1(@PathVariable String grade, @PathVariable String textbook,
-			@PathVariable String lesson, HttpSession session) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		Study study = new Study();
-		Remember remember = new Remember();
-		boolean alreadyFinishedThisLesson = false;
-
-		study.setGrade(grade);
-		study.setTextbook(textbook);
-		study.setLesson(Integer.parseInt(lesson));
-		int howManyLesson = service.howManyLesson(study);
-		List<Study> list = service.wordList(study);
-		
-		
-		mav.addObject("totalCount", list.size());
-
+	// 초등부는 grade 는 초등밖에없고, textbook 은 입문, 심화만 있다.
+	@RequestMapping("/Study/elementary")
+	public ModelAndView choice3e(HttpSession session) throws Exception {
+		// 초등부 교과서및 저자 목록 출력
+		ModelAndView mav = new ModelAndView("study/choice3e/초등 선택");
 		User user = (User) session.getAttribute("USER");
-		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
-		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
-		
-		remember.setUser_no(user.getNo());
-		remember.setGrade(grade);
-		remember.setTextbook(textbook);
-		remember.setLesson(Integer.parseInt(lesson));
-		
-		String knownWords = rememberService.rememberKnownWords(remember);
-		System.out.println("knownWords : "+knownWords);
-		if (knownWords == null) {
-			// knownWords 받은게 없음
-		} else if (knownWords.trim().equals("") || knownWords.trim().equals(";")) {
-			// 학습한적있음. 초기화 또는 손만댔음
-		} else if (knownWords.trim().equals("===")) {
-			// 학습완료
-			alreadyFinishedThisLesson = true;
-		} else {
-			logger.info(list.toString());
-			list = removeListByKnownWords(knownWords, remember, list);
-			logger.info(list.toString());
-			if (list.size() < 1) {
-				alreadyFinishedThisLesson = true;
-				// "===" 로 초기화
-				rememberService.wordsInitialize(remember);
-			}
+		if (user == null) {
+			mav.setViewName("redirect:/login.prime");
+			return mav;
 		}
-
-		// Collections.shuffle(list);
-		// 섞지 않고 출력할 페이지를 알려주면서 jsp로 보낸다.
-		// jsp쪽에서 필요한 개수만큼 display:''으로 해준다.
-		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
-		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
-		mav.addObject("lesson", lesson);
-		mav.addObject("list", list);
-		mav.addObject("knownWords", knownWords);
-		mav.addObject("removeTotalCount", list.size());
-		mav.setViewName("study/studyStep1/체크");
-
+		Study study = new Study();
+		study.setGrade("초등");
+		study.setTextbook("입문");
+		int howManyLessonBasic = service.howManyLesson(study);
+		study.setTextbook("도약");
+		int howManyLessonAdvanced = service.howManyLesson(study);
+		mav.addObject("howManyLessonBasic", howManyLessonBasic);
+		mav.addObject("howManyLessonAdvanced", howManyLessonAdvanced);
 		return mav;
 	}
+
+//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready1")
+//	public String ready1(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
+//			HttpSession session) throws Exception {
+//		// session.setAttribute("session_textbook", textbook);
+//		return "study/ready1/step1 안내문";
+//	}
+//
+//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step1")
+//	public ModelAndView studyStep1(@PathVariable String grade, @PathVariable String textbook,
+//			@PathVariable String lesson, HttpSession session) throws Exception {
+//		ModelAndView mav = new ModelAndView();
+//		Study study = new Study();
+////		Remember remember = new Remember();
+//		boolean alreadyFinishedThisLesson = false;
+//
+//		study.setGrade(grade);
+//		study.setTextbook(textbook);
+//		study.setLesson(Integer.parseInt(lesson));
+//		int howManyLesson = service.howManyLesson(study);
+//		List<Study> list = service.wordList(study);
+//		mav.addObject("totalCount", list.size());
+//
+//		User user = (User) session.getAttribute("USER");
+//		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
+//		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
+//
+//		String knownWords = "";
+//
+//		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
+//		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
+//		mav.addObject("lesson", lesson);
+//		mav.addObject("list", list);
+//		mav.addObject("knownWords", knownWords);
+//		mav.addObject("removeTotalCount", list.size());
+//		mav.setViewName("study/studyStep1/체크");
+//
+//		return mav;
+//	}
 
 	private List<Study> removeListByKnownWords(String knownWords, Remember remember, List<Study> list) {
 		String[] known = knownWords.trim().split(";");
@@ -193,21 +178,21 @@ public class StudyController {
 		return list;
 	}
 
-	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready2")
-	public String ready2(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
-			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
-		Remember remember = new Remember();
-		User user = (User) session.getAttribute("USER");
-		remember.setWords(knownWords);
-		remember.setUser_no(user.getNo());
-		remember.setGrade(grade);
-		remember.setTextbook(textbook);
-		remember.setLesson(Integer.parseInt(lesson));
-
-		updateRemember(remember);
-
-		return "study/ready2/step2 안내문";
-	}
+//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready2")
+//	public String ready2(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
+//			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
+//		Remember remember = new Remember();
+//		User user = (User) session.getAttribute("USER");
+//		remember.setWords(knownWords);
+//		remember.setUser_no(user.getNo());
+//		remember.setGrade(grade);
+//		remember.setTextbook(textbook);
+//		remember.setLesson(Integer.parseInt(lesson));
+//
+//		updateRemember(remember);
+//
+//		return "study/ready2/step2 안내문";
+//	}
 
 	private void updateRemember(Remember remember) throws Exception {
 		if (rememberService.isKnownWords(remember)) {
@@ -219,76 +204,211 @@ public class StudyController {
 		}
 	}
 
-	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step2")
-	public ModelAndView studyStep2(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
-			throws Exception {
-		ModelAndView mav = new ModelAndView();
-		Study study = new Study();
-		Remember remember = new Remember();
-		boolean alreadyFinishedThisLesson = false;
+//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step2")
+//	public ModelAndView studyStep2(@PathVariable String grade, @PathVariable String textbook,
+//			@PathVariable String lesson, HttpSession session) throws Exception {
+//		ModelAndView mav = new ModelAndView();
+//		Study study = new Study();
+//		Remember remember = new Remember();
+//		boolean alreadyFinishedThisLesson = false;
+//
+//		study.setGrade(grade);
+//		study.setTextbook(textbook);
+//		study.setLesson(Integer.parseInt(lesson));
+//		int howManyLesson = service.howManyLesson(study);
+//		List<Study> list = service.wordList(study);
+//		mav.addObject("totalCount", list.size());
+//
+//		User user = (User) session.getAttribute("USER");
+//		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
+//		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
+//
+//		String knownWords = "";
+//		remember.setUser_no(user.getNo());
+//		remember.setGrade(grade);
+//		remember.setTextbook(textbook);
+//		remember.setLesson(Integer.parseInt(lesson));
+//		knownWords = rememberService.rememberKnownWords(remember);
+//		System.out.println("knownWords : " + knownWords);
+//		if (knownWords == null) {
+//			// knownWords 받은게 없음
+//		} else if (knownWords.trim().equals("") || knownWords.trim().equals(";")) {
+//			// 학습한적있음. 초기화 또는 손만댔음
+//		} else if (knownWords.trim().equals("===")) {
+//			// 학습완료
+//			alreadyFinishedThisLesson = true;
+//		} else {
+//			// 첫스텝에서는 학습한 단어 제외하고 보여준다.
+//			list = removeListByKnownWords(knownWords, remember, list);
+//			logger.info(list.toString());
+//			if (list.size() < 1) {
+//				alreadyFinishedThisLesson = true;
+//				// "===" 로 초기화
+//				rememberService.wordsInitialize(remember);
+//			}
+//		}
+//		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
+//		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
+//		mav.addObject("lesson", lesson);
+//		mav.addObject("list", list);
+//		mav.addObject("knownWords", knownWords);
+//		mav.addObject("removeTotalCount", list.size());
+//
+//		mav.setViewName("study/studyStep2/발음");
+//
+//		return mav;
+//	}
+//
+//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready3")
+//	public String ready3(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
+//			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
+//		Remember remember = new Remember();
+//		User user = (User) session.getAttribute("USER");
+//		remember.setWords(knownWords);
+//		remember.setUser_no(user.getNo());
+//		remember.setGrade(grade);
+//		remember.setTextbook(textbook);
+//		remember.setLesson(Integer.parseInt(lesson));
+//
+//		updateRemember(remember);
+//
+//		return "study/ready3/step3 안내문";
+//	}
+//
+//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step3")
+//	public ModelAndView studyStep3(@PathVariable String grade, @PathVariable String textbook,
+//			@PathVariable String lesson, HttpSession session) throws Exception {
+//		ModelAndView mav = new ModelAndView();
+//		Study study = new Study();
+////		Remember remember = new Remember();
+//		boolean alreadyFinishedThisLesson = false;
+//
+//		study.setGrade(grade);
+//		study.setTextbook(textbook);
+//		study.setLesson(Integer.parseInt(lesson));
+//		int howManyLesson = service.howManyLesson(study);
+//		List<Study> list = service.wordList(study);
+//		mav.addObject("totalCount", list.size());
+//
+//		User user = (User) session.getAttribute("USER");
+//		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
+//		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
+//		
+//		String knownWords = "";
+//		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
+//		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
+//		mav.addObject("lesson", lesson);
+//		mav.addObject("list", list);
+//		mav.addObject("knownWords", knownWords);
+//		mav.addObject("removeTotalCount", list.size());
+//		
+//		mav.setViewName("study/studyStep3/발음뜻");
+//
+//		return mav;
+//	}
 
-		study.setGrade(grade);
-		study.setTextbook(textbook);
-		study.setLesson(Integer.parseInt(lesson));
-		int howManyLesson = service.howManyLesson(study);
-		List<Study> list = service.wordList(study);
-		mav.addObject("totalCount", list.size());
-
-		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
-		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
-		mav.addObject("lesson", lesson);
-		mav.addObject("list", list);
-		// mav.addObject("knownWords", knownWords);
-
-		mav.setViewName("study/studyStep2/발음");
-
-		return mav;
-	}
-
-	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready3")
-	public String ready3(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
-			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
-		Remember remember = new Remember();
-		User user = (User) session.getAttribute("USER");
-		remember.setWords(knownWords);
-		remember.setUser_no(user.getNo());
-		remember.setGrade(grade);
-		remember.setTextbook(textbook);
-		remember.setLesson(Integer.parseInt(lesson));
-
-		updateRemember(remember);
-
-		return "study/ready3/step3 안내문";
-	}
-
-	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step3")
-	public ModelAndView studyStep3(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson, HttpSession session)
-			throws Exception {
-		ModelAndView mav = new ModelAndView();
-		Study study = new Study();
-		Remember remember = new Remember();
-		boolean alreadyFinishedThisLesson = false;
-
-		study.setGrade(grade);
-		study.setTextbook(textbook);
-		study.setLesson(Integer.parseInt(lesson));
-		int howManyLesson = service.howManyLesson(study);
-		List<Study> list = service.wordList(study);
-		mav.addObject("totalCount", list.size());
-
-		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
-		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
-		mav.addObject("lesson", lesson);
-		mav.addObject("list", list);
-		// mav.addObject("knownWords", knownWords);
-
-		mav.setViewName("study/studyStep3/발음뜻");
-
-		return mav;
+	// 리스트 순서를 user_no와 해당 lesson 을 통해서 바꾸기 , 둘을 더한것만큼 밀어내기
+	private List<Study> listChange(List<Study> list, int user_no, int lesson) {
+		List<Study> listTemp = new ArrayList<Study>();
+		int sizeOfList = list.size();
+		int userChange = user_no % 10;
+		if(userChange + lesson < sizeOfList){
+		for (int i = 0; i < lesson; i++) {
+			listTemp.addAll(list.subList(userChange + lesson, sizeOfList));
+			listTemp.addAll(list.subList(0, userChange + lesson - 1));
+		}
+		}
+		// logger.info(listTemp.toString());
+		return listTemp;
 	}
 	
-	private List<Study> listChange(List<Study> list, int user_no, int lesson){
+	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/{step}")
+	public ModelAndView studyStep(@PathVariable String grade, @PathVariable String textbook,
+			@PathVariable String lesson, @PathVariable String step, @ModelAttribute("knownWords") String knownWords,
+			HttpSession session) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		Study study = new Study();
+		Remember remember = new Remember();
+		User user = (User) session.getAttribute("USER");
+		if (user == null) {
+			mav.setViewName("redirect:/login.prime");
+			return mav;
+		}
+		boolean alreadyFinishedThisLesson = false;
+		String lastIndex = step.substring(step.length()-1);
+		System.out.println("step : " + step + ", lastIndex : "+lastIndex);
+		if(step.substring(0, 5).equals("ready")){
+			// 숫자에 따라서 remember 이용하거나 안함. 1,4 이용 안함, 2,3,5,6은 이용,
+			if(Integer.parseInt(lastIndex) % 3 == 1){
+				// remember 이용 안함
+			}else{
+				// remember 이용함
+				remember.setWords(knownWords);
+				remember.setUser_no(user.getNo());
+				remember.setGrade(grade);
+				remember.setTextbook(textbook);
+				remember.setLesson(Integer.parseInt(lesson));
+				
+				updateRemember(remember);
+			}
+			mav.setViewName("study/ready"+lastIndex+"/다음스텝 안내문");
+			return mav;
+		}
 		
-		return list;
+		if(step.substring(0,4).equals("step")){
+			// 숫자에 따라서 remember 이용 하거나 안함. 1,3,4,6 이용안함. 2,5 이용함.
+			study.setGrade(grade);
+			study.setTextbook(textbook);
+			study.setLesson(Integer.parseInt(lesson));
+			int howManyLesson = service.howManyLesson(study);
+			List<Study> list = service.wordList(study);
+			mav.addObject("totalCount", list.size());
+			
+			list = listChange(list, user.getNo(), Integer.parseInt(lesson));
+			
+			if(Integer.parseInt(lastIndex) % 3 == 2){
+				// remember 이용함.
+				remember.setUser_no(user.getNo());
+				remember.setGrade(grade);
+				remember.setTextbook(textbook);
+				remember.setLesson(Integer.parseInt(lesson));
+				knownWords = rememberService.rememberKnownWords(remember);
+				System.out.println("knownWords : " + knownWords);
+				if (knownWords == null) {
+					// knownWords 받은게 없음
+				} else if (knownWords.trim().equals("") || knownWords.trim().equals(";")) {
+					// 학습한적있음. 초기화 또는 손만댔음
+				} else if (knownWords.trim().equals("===")) {
+					// 학습완료
+					alreadyFinishedThisLesson = true;
+				} else {
+					// 첫스텝에서는 학습한 단어 제외하고 보여준다.
+					list = removeListByKnownWords(knownWords, remember, list);
+					logger.info(list.toString());
+					if (list.size() < 1) {
+						alreadyFinishedThisLesson = true;
+						// "===" 로 초기화
+						rememberService.wordsInitialize(remember);
+					}
+				}
+			}else{
+				// remember 이용안함.
+			}
+			mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
+			mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
+			mav.addObject("lesson", lesson);
+			mav.addObject("list", list);
+			mav.addObject("knownWords", knownWords);
+			mav.addObject("removeTotalCount", list.size());
+			
+			mav.setViewName("study/studyStep"+lastIndex+"/step"+lastIndex);
+			
+			return mav;
+		}
+		
+		mav.setViewName("study/studyStepError/스터디스텝 에러");
+		return mav;
+
 	}
+	
 }
