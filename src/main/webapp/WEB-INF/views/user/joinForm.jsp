@@ -55,25 +55,23 @@ a.button:hover {
 
    function checksubmit() {
       if ($('#IDcodeCheck').val() == "1") {
+    	  alert('a');
          $('#join-form').submit();
       } else {
          alert("중복체크 확인하세요.")
       }
    }
-</script>
-<script>
-   $('#sbelong').change(function(){
-      $("#sbelong option:selected").each(function () {
-           
-           if($(this).val() == '1'){ //직접입력일 경우
+   function selectChange(){
+		$('#sbelong option:selected').each(function () {
+           if($("#sbelong").val() == '1'){ //직접입력일 경우
                 $("#belong").val('');                        //값 초기화
                 $("#belong").attr("disabled",false); //활성화
            }else{ //직접입력이 아닐경우
-                $("#belong").val($(this).text());      //선택값 입력
+                $("#belong").val($("#sbelong").val());      //선택값 입력
                 $("#belong").attr("disabled",true); //비활성화
            }
-      });
-   });
+      	});
+   }
 </script>
 </head>
 <body>
@@ -83,9 +81,9 @@ a.button:hover {
          <div class="join_wrap" style="height:650px;">
             <div class="login_content">
                <div class="login_title">회원가입</div>
-               <!-- <form method="post" id="join-form" name="join-form"> -->
-               <form:form method="post" id="join-form" name="join-form"
-                  onsubmit="valid_check(this)">
+               <form method="post" id="join-form" name="join-form" >
+               <%-- <form:form method="post" id="join-form" name="join-form"
+                  onsubmit="valid_check(this)"> --%>
                   <!-- commandName="user"  -->
                   <input type="hidden" id="IDcodeCheck" value="0">
                   <div class="input_area">
@@ -130,8 +128,8 @@ a.button:hover {
                            <div class="text">BELONG</div>
                            <div class="input">
                               <!-- <input type="text" name="belong"> -->
-                              <select id="sbelong" style="width:338px; height:46px; background:#ffffff;">
-                                 <option selected="selected" disabled="disabled">소속 학원을 선택하세요</option>
+                              <select id="sbelong" style="width:338px; height:46px; background:#ffffff;" onchange="javascript:selectChange();">
+                                 <option value->소속 학원을 선택하세요</option>
                                  <c:forEach var="item" items="${belongList }">
                                     <c:if test="${item != null}">
                                        <option value="${item }">${item }</option>
@@ -144,7 +142,7 @@ a.button:hover {
                         <div>
                            <div class="text">&nbsp;</div>
                            <div class="input">
-                              <input type="text" id="belong" name="belong" disabled="disabled">
+                              <input type="text" id="belong" name="belong" disabled>
                            </div>
                         </div>
 
@@ -182,7 +180,7 @@ a.button:hover {
                         <!-- <img src="images/login_btn.png" alt="조인" onclick="javascript:join-form.submit();" > -->
                      </div>
                   </div>
-               </form:form>
+                  </form>
             </div>
          </div>
       </div>

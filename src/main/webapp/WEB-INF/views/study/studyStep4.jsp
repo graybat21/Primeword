@@ -62,7 +62,7 @@
 			for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
 	        return arr; */
 			/* return ( index != ar[0] ) && ( index != ar[1] ) && ( index != ar[2] ) && ( index != ar[3] ) && ( index != ar[4] ) && ((index / 15) <= p) && ((index / 15) > p-1); */ 
-			return ((index / 15) <= p) && ((index / 15) > p-1) && ( index < 15 * (p-1) + 11 );
+			return ((index / 15) <= p) && ((index / 15) > p-1);
 		}).css('display','');
 		page = p;
 		makeRepeatWords(p);
@@ -70,7 +70,7 @@
 	function makeRepeatWords(p){
 		repeatEveryWords = "";
 		var standardNum = 15 * (p-1);
-		var end = (standardNum+10) > endCount ? endCount : standardNum+10;
+		var end = (standardNum+15) > endCount ? endCount : standardNum+15;
 		//alert(everyWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
@@ -178,7 +178,7 @@ J(function() {
 <body onload="sessionCreate();">
 	<div id="wrap">
 
-		<div id="main_bg4">
+		<div id="main_bg44">
 			<div class="content_area">
 			
 				<div class="sidebar">
@@ -273,7 +273,7 @@ J(function() {
 					</div>
 <style>
 /* 가림판 */
-#main_bg4 .content_area .main_content .shade {
+#main_bg44 .content_area .main_content .shade {
 	position: relative;
 	top: -500px;
 	left: 434px;

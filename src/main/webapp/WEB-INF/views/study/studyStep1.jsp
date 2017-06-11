@@ -188,8 +188,7 @@
 
 <script>
 /* $("#box").click(function() { */
-	function aaaaa(){
-	alert ('sdfasdf')
+	function changebox(){
 	J('.transform').toggleClass('transform-active');
 	
 }
@@ -239,7 +238,7 @@ J(function() {
 				
 				
 				<div class="main_content">
-				<div id="box" class="box transform" onclick="aaaaa()"></div>
+				<div id="box" class="box transform" onclick="changebox()"></div>
 				
 					<table>
 						<colgroup>
@@ -314,11 +313,7 @@ J(function() {
 
 					
 				</div>
-				
-				<!-- <div class="shade" id="shade" style="top:-561px;"></div>
-	    		 <div class="shade" style="top:-558px;"></div>
-	    		<div class="shade" style="top:-460px;"></div>
-	    		<div class="shade" style="top:-457px;"></div> -->
+
 			</div>
 		</div>
 	</div>
