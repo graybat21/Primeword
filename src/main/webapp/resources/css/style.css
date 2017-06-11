@@ -92,8 +92,8 @@
 #main_bg4 .content_area .main_content table td {border:2px solid #8f8f8f;border-top:none;height:48px;box-sizing:border-box;}
 #main_bg4 .content_area .main_content table td.first {border-left:none;}
 #main_bg4 .content_area .main_content table td.last {border-right:none;}
-#main_bg4 .content_area .main_content table .input_01 {width:296px;height:42px;border:1px solid #fecc74;background:#fecc74;font-size:19px;padding-left:10px;box-sizing:border-box;}
-#main_bg4 .content_area .main_content table .input_02 {width:306px;height:42px;border:1px solid #92d6fd;background:#92d6fd;font-size:19px;padding-left:10px;box-sizing:border-box;}
+#main_bg4 .content_area .main_content table .input_01 {width:296px;height:42px;border:1px solid #fff;background:#fff;font-size:19px;padding-left:10px;box-sizing:border-box;font-weight: bold}
+#main_bg4 .content_area .main_content table .input_02 {width:306px;height:42px;border:1px solid #fff;background:#fff;font-size:19px;padding-left:10px;box-sizing:border-box;font-weight: bold}
 #main_bg4 .content_area .main_content .btn_area {margin:14px 0 0 24px;width:804px;height:50px;}
 #main_bg4 .content_area .main_content .btn_area .graph {float:left;width:560px;height:50px;padding-top:13px;box-sizing:border-box;}
 #main_bg4 .content_area .main_content .btn_area .graph .graph_bg {width:335px;height:28px;border:1px solid #dedede;border-radius:10px;background:#fefefe;}
@@ -133,8 +133,8 @@
 #main_bg44 .content_area .main_content table td {border:2px solid #8f8f8f;border-top:none;height:37px;box-sizing:border-box;}
 #main_bg44 .content_area .main_content table td.first {border-left:none;}
 #main_bg44 .content_area .main_content table td.last {border-right:none;}
-#main_bg44 .content_area .main_content table .input_01 {width:296px;height:32px;border:1px solid #fecc74;background:#fecc74;font-size:19px;padding-left:10px;box-sizing:border-box;}
-#main_bg44 .content_area .main_content table .input_02 {width:306px;height:32px;border:1px solid #92d6fd;background:#92d6fd;font-size:19px;padding-left:10px;box-sizing:border-box;}
+#main_bg44 .content_area .main_content table .input_01 {width:296px;height:32px;border:1px solid #fff;background:#fff;font-size:19px;padding-left:10px;box-sizing:border-box;font-weight: bold}
+#main_bg44 .content_area .main_content table .input_02 {width:306px;height:32px;border:1px solid #fff;background:#fff;font-size:19px;padding-left:10px;box-sizing:border-box;font-weight: bold}
 #main_bg44 .content_area .main_content .btn_area {margin:14px 0 0 24px;width:804px;height:50px;}
 #main_bg44 .content_area .main_content .btn_area .graph {float:left;width:560px;height:50px;padding-top:13px;box-sizing:border-box;}
 #main_bg44 .content_area .main_content .btn_area .graph .graph_bg {width:335px;height:28px;border:1px solid #dedede;border-radius:10px;background:#fefefe;}

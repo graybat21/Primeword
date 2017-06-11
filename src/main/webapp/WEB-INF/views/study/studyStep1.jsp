@@ -18,7 +18,9 @@
 	var repeatEveryWords = "";
 	var totalCount = ${totalCount};
 	var endCount = ${removeTotalCount};
+	var endPage = Math.ceil(endCount/15);
 	var page = 1;
+	var changeHeight = 0;
 	
 	function sessionCreate(){
 		responsiveVoice.setDefaultVoice("US English Female");
@@ -41,19 +43,23 @@
 	}
 	
 	function pageLink(p){
+		page = p;
+		/* J('.transform').addClass('transform-active'); */
+		J('.transform').removeClass('transform-active');
+		if(endPage == page){
+			changeHeight = 48 * (endCount - (page - 1) * 15);
+		 	J('.transform').css("-webkit-transition-duration","0s");
+		 	J('#box').css("height", changeHeight + "px");
+		 	var str = "translate(0px, "+(changeHeight)+"px)";
+		 	alert(str);
+		 	J('.transform-active').css("transformY","192px");
+		 	J('.transform-active').css("background-color","#fff");
+		}else{
+		 	J('.transform').css("-webkit-transition-duration","0s");
+		 	J('#box').css("height", "480px");
+		 	J('.transform-active').css("transform","translate(0px, 480px)");
+		}
 		
-		/* var ar = new Array();
-	    var temp;
-	    var rnum;
-	    for(var i=1+(p-1)*15; i<=15*p; i++){
-	        ar.push(i);
-	    }
-	    for(var i=0; i< ar.length ; i++){
-	        rnum = Math.floor(Math.random() *15);
-	        temp = ar[i];
-	        ar[i] = ar[rnum];
-	        ar[rnum] = temp;
-	    } */
 		J('tr').css('display','none');
 		J('tr:eq(0)').css('display','');
 		J('tr').filter(function (index){
@@ -66,8 +72,9 @@
 			/* return ( index != ar[0] ) && ( index != ar[1] ) && ( index != ar[2] ) && ( index != ar[3] ) && ( index != ar[4] ) && ((index / 15) <= p) && ((index / 15) > p-1); */ 
 			return ((index / 15) <= p) && ((index / 15) > p-1) && ( index < 15 * (p-1) + 11 );
 		}).css('display','');
-		page = p;
+		
 		makeRepeatWords(p);
+		// 가림판 크기조정
 	}
 	function makeRepeatWords(p){
 		repeatEveryWords = "";
@@ -169,29 +176,33 @@
 #main_bg4 .content_area .main_content .box {
   position:absolute;
   background-color: #218D9B;
-  height: 500px;
+  height: 480px;
   width: 305px;
   z-index:999;
   float:right;
-  margin:73px 0px 0px 440px;
+  border-radius:20px;
+  margin:53px 0px 0px 440px;
 }
 
 #main_bg4 .content_area .main_content .transform {
-   -webkit-transition-duration:2s;  
-    transition-timing-function:steps(4,end);
+    -webkit-transition-duration:10s;
+    transition-timing-function:linear;
+	height: 480px;
 }
 
-#main_bg4 .content_area .main_content .transform-active { transform: translate(0px, 400px);
-  background-color: #45CEE0;
+#main_bg4 .content_area .main_content .transform-active { 
+	transform: translateY(480px);
+  	background-color: #45CEE0;
+	/* height: 0px; */
 } 
 </style>
 
 <script>
-/* $("#box").click(function() { */
 	function changebox(){
-	J('.transform').toggleClass('transform-active');
-	
-}
+		J('.transform').css("-webkit-transition-duration","2s");
+		J('.transform').addClass('transform-active');
+		J('.transform-active').css("height","0px");
+	}
 </script>
 
 <script>
@@ -238,6 +249,7 @@ J(function() {
 				
 				
 				<div class="main_content">
+				
 				<div id="box" class="box transform" onclick="changebox()"></div>
 				
 					<table>
@@ -288,9 +300,14 @@ J(function() {
 						</div>
 
 						<!-- paging -->
+						<input type="button" value="이전" onclick="return pageLink(page-1 < 1 ? 1 : page-1)">
 						<c:forEach begin="1" end="${list.size()%15 == 0 ? list.size()/15 : list.size()/15 + 1}" step="1" varStatus="status">
 							<input type="button" value="${status.count }" onclick="return pageLink(${status.count})">
+							<c:if test="${status.last == true }">
+								<c:set var="lastPage" value="${status.count }"></c:set>
+							</c:if>
 						</c:forEach>
+						<input type="button" value="다음" onclick="return pageLink(${lastPage} > page+1 ? page+1 : ${lastPage })">
 						
 						<!-- 공부할 양이 남아있을경우 다음페이지로, 없을경우 다음스텝으로 -->		
 						<div class="btn">
