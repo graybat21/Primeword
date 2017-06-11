@@ -104,7 +104,7 @@ public class StudyController {
 		return mav;
 	}
 
-	// 초등부는 grade 는 초등밖에없고, textbook 은 입문, 심화만 있다.
+	// 초등부는 grade 는 초등밖에없고, textbook 은 입문, 도약만 있다.
 	@RequestMapping("/Study/elementary")
 	public ModelAndView choice3e(HttpSession session) throws Exception {
 		// 초등부 교과서및 저자 목록 출력

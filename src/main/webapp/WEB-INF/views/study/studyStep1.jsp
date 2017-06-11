@@ -285,9 +285,42 @@ J(function() {
 	z-index: 999;
 }
 </style>
+<!-- <style>
+@-webkit-keyframes 'shrink' {
+	from { 
+		top: -500px;
+		height: 500px;
+	}
+	10% {top: -450px;height: 450px;}
+	20% {top: -400px;height: 400px;}
+	30% {top: -350px;height: 350px;}
+	40% {top: -300px;height: 300px;}
+	50% {top: -250px;height: 250px;}
+	60% {top: -200px;height: 200px;}
+	70% {top: -150px;height: 150px;}
+	80% {top: -100px;height: 100px;}
+	90% {top: -50px;height: 50px;}
+	to {
+		top: 0px;
+		height: 0px;
+	}
+}
+#main_bg4 .content_area .main_content .shade {
+    position: relative;
+	top:-565px;left:434px;width:318px;height:500px;
+	border: 1px solid #214296;
+	border-radius: 10px;
+	background: #214296;
+	z-index: 999;
+}
+#main_bg4 .content_area .main_content .shade:hover {
+    -webkit-animation-name: shrink;
+    -webkit-animation-duration: 3s;
+}
+</style>
 					
+				<div class="shade" id="shade"></div> -->
 				</div>
-				<div class="shade" id="shade"></div>
 				<!-- <div class="shade" id="shade" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
