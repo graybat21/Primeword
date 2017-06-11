@@ -4,7 +4,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src='https://code.responsivevoice.org/responsivevoice.js'>
 
 </script>
@@ -162,6 +164,37 @@
 		responsiveVoice.speak(sessionWords);
 	}
 </script>
+<style>
+/* 가림판 */
+#main_bg4 .content_area .main_content .box {
+  position:absolute;
+  background-color: #218D9B;
+  height: 500px;
+  width: 305px;
+  z-index:999;
+  float:right;
+  margin:73px 0px 0px 440px;
+}
+
+#main_bg4 .content_area .main_content .transform {
+   -webkit-transition-duration:2s;  
+    transition-timing-function:steps(4,end);
+}
+
+#main_bg4 .content_area .main_content .transform-active { transform: translate(0px, 400px);
+  background-color: #45CEE0;
+} 
+</style>
+
+<script>
+/* $("#box").click(function() { */
+	function aaaaa(){
+	alert ('sdfasdf')
+	J('.transform').toggleClass('transform-active');
+	
+}
+</script>
+
 <script>
 /* 사이드 lesson 선택 마우스움직이에 따라 보이는게 다름 */
 J(function() {
@@ -204,7 +237,10 @@ J(function() {
 					</div>
 				</div>
 				
+				
 				<div class="main_content">
+				<div id="box" class="box transform" onclick="aaaaa()"></div>
+				
 					<table>
 						<colgroup>
 							<col width="100">
@@ -218,6 +254,9 @@ J(function() {
 							<th>뜻</th>
 							<th class="last" onclick="stopSpeak();"></th>
 						</tr>
+						
+					
+						
 						<c:forEach var="item" items="${list }" varStatus="status" >
 							<tr id="${status.count}_tr" style="display:none;">
 								<td class="first">${status.count }</td>
@@ -227,6 +266,7 @@ J(function() {
 								<td><input type="text" id="${status.count}_meaning"
 									name="${item.no }" value="${item.meaning }" class="input_02"
 									onclick="disappealAndRestore(${status.count});" readonly></td>
+							
 								<td class="last">
 								<img src="<c:url value="/images/speaker_on.png"/>" onclick='tellWord("${item.word}");'>
 								</td>
@@ -271,23 +311,10 @@ J(function() {
 							<img src="<c:url value="/images/done_btn.png"/>"></a>
 						</div>
 					</div>
-<style>
-/* 가림판 */
-#main_bg4 .content_area .main_content .shade {
-	position: relative;
-	top: -500px;
-	left: 434px;
-	width: 318px;
-	height: 460px;
-	border: 1px solid #214296;
-	border-radius: 10px;
-	background: #214296;
-	z-index: 999;
-}
-</style>
+
 					
 				</div>
-				<div class="shade" id="shade"></div>
+				
 				<!-- <div class="shade" id="shade" style="top:-561px;"></div>
 	    		 <div class="shade" style="top:-558px;"></div>
 	    		<div class="shade" style="top:-460px;"></div>
