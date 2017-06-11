@@ -26,7 +26,7 @@ public class UserController {
 
 	@RequestMapping(value = "/login.prime", method = RequestMethod.GET)
 	public String loginForm() {
-		return "main/login/LOGIN";
+		return "user/login/LOGIN";
 	}
 
 	@RequestMapping(value = "/login.prime", method = RequestMethod.POST)
@@ -69,7 +69,7 @@ public class UserController {
 	public String joinForm(Model model) throws Exception {
 		List<String> belongList=service.belongList();
 		model.addAttribute("belongList",belongList);
-		return "main/joinForm/JOIN";
+		return "user/joinForm/JOIN";
 	}
 
 	@RequestMapping(value = "/join.prime", method = RequestMethod.POST)
