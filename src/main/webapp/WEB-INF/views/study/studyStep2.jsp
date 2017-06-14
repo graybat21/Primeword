@@ -4,10 +4,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script>
-<script src='https://code.responsivevoice.org/responsivevoice.js'>
-
-</script>
+<%-- <script src="<c:url value="/js/jquery-1.11.1.min.js"/>"></script> --%>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 <script>
 	$.noConflict();
 	
@@ -16,7 +15,9 @@
 	var repeatEveryWords = "";
 	var totalCount = ${totalCount};
 	var endCount = ${removeTotalCount};
+	var endPage = Math.ceil(endCount/15);
 	var page = 1;
+	var changeHeight = 0;
 	
 	function sessionCreate(){
 		responsiveVoice.setDefaultVoice("US English Female");		
@@ -30,7 +31,6 @@
 				/* 초기화 */
 				document.getElementById("knownWords").value = "";
 			}else{
-				
 			}
 		}
 		sessionStorage.setItem("session_words", document.getElementById("knownWords").value);
@@ -39,57 +39,36 @@
 	}
 	
 	function pageLink(p){
-		
-		/* var ar = new Array();
-	    var temp;
-	    var rnum;
-	    for(var i=1+(p-1)*15; i<=15*p; i++){
-	        ar.push(i);
-	    }
-	    for(var i=0; i< ar.length ; i++){
-	        rnum = Math.floor(Math.random() *15);
-	        temp = ar[i];
-	        ar[i] = ar[rnum];
-	        ar[rnum] = temp;
-	    } */
 		J('tr').css('display','none');
 		J('tr:eq(0)').css('display','');
 		J('tr').filter(function (index){
-			// 1~50개 중에서 15 / 15 / 15 / 5 이렇게 나눠지고
-			// 15개중 랜덤으로 10개씩 나오게 순서 섞기
-			
-			/* var ar = new array();
-			for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
-	        return arr; */
-			/* return ( index != ar[0] ) && ( index != ar[1] ) && ( index != ar[2] ) && ( index != ar[3] ) && ( index != ar[4] ) && ((index / 15) <= p) && ((index / 15) > p-1); */ 
 			return ((index / 15) <= p) && ((index / 15) > p-1) && ( index < 15 * (p-1) + 11 );
 		}).css('display','');
 		page = p;
 		makeRepeatWords(p);
 	}
+	
 	function makeRepeatWords(p){
 		repeatEveryWords = "";
 		var standardNum = 15 * (p-1);
 		var end = (standardNum+10) > endCount ? endCount : standardNum+10;
-		//alert(everyWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";"+ everyWords[i]+";"+ everyWords[i] + ";";
 			}
 		}
-		//alert("1 " + repeatEveryWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";"+ everyWords[i]+";";
 			}
 		}
-		//alert("2 " + repeatEveryWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";";
 			}
 		}
 	}
+	
 	function disappealAndRestore(s){
 		var ses = sessionStorage.getItem("session_words");
 		var sCw = s + "_word";
@@ -110,14 +89,12 @@
 			document.getElementById(sCw).value='';
 			document.getElementById(sCm).value='';
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			/* alert(ses); */
 		}else if(document.getElementById(sCw).value == ''){
 			var local_word = localStorage.getItem(sCw);
 			var l = ";" + local_word + ";";
 			var local_meaning = localStorage.getItem(sCm);
 			ses = ses.replace(l, ';');
 			everyWords[s-1] = local_word;
-			
 			sessionStorage.setItem("session_words", ses);
 			
 			graphChange();
@@ -125,7 +102,6 @@
 			document.getElementById(sCw).value=local_word;
 			document.getElementById(sCm).value=local_meaning;
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			/* alert(ses); */
 		}
 		
 		makeRepeatWords(page);
@@ -135,7 +111,7 @@
 		var ses = sessionStorage.getItem("session_words");
 		/* var regExp = /;/gi; */
 		var knownWordsArr = ses.split(';');
-		var knownWordsCount = knownWordsArr.length
+		var knownWordsCount = knownWordsArr.length;
 		var widthPercent = Math.round((knownWordsCount - 1) / ${totalCount} * 100);
 		if(widthPercent <= 0){
 			document.getElementById("graph").style.width = '0%';
@@ -149,6 +125,7 @@
 	function tellWord(word){
 		responsiveVoice.speak(word);
 	}
+	
 	function stopSpeak(){
 		responsiveVoice.cancel();
 	}
@@ -156,10 +133,9 @@
 	function knownDisappeal(){
 		sessionStorage.setItem("session_words","");
 	}
+	
 	function tellSession(){
 		var sessionWords = sessionStorage.getItem("session_words");
-		alert(sessionWords)
-		responsiveVoice.speak(sessionWords);
 	}
 </script>
 <script>
@@ -177,10 +153,8 @@ J(function() {
 </head>
 <body onload="sessionCreate();">
 	<div id="wrap">
-
 		<div id="main_bg4">
 			<div class="content_area">
-			
 				<div class="sidebar">
 					<div class="title">단어암기</div>
 					<div class="line"></div>
@@ -218,6 +192,7 @@ J(function() {
 							<th>뜻</th>
 							<th class="last" onclick="stopSpeak();"></th>
 						</tr>
+						
 						<c:forEach var="item" items="${list }" varStatus="status" >
 							<tr id="${status.count}_tr" style="display:none;">
 								<td class="first">${status.count }</td>
@@ -236,29 +211,30 @@ J(function() {
 							</tr>
 							<%-- <div class="shade" id="shade${status.index}"></div> --%>
 						</c:forEach>
+						
 					</table>
 					
 					<div class="btn_area">
 						<div class="graph">
 							<div class="graph_bg">
-								<div id="graph" class="graph_ratio" 
-								<%-- style="width: ${(1 - (list.size() / totalCount)) * 100}%" --%>
-								>
+								<div id="graph" class="graph_ratio">
 								</div>
 							</div>
 						</div>
 
 						<!-- paging -->
+						<input type="button" value="이전" onclick="return pageLink(page-1 < 1 ? 1 : page-1)">
 						<c:forEach begin="1" end="${list.size()%15 == 0 ? list.size()/15 : list.size()/15 + 1}" step="1" varStatus="status">
 							<input type="button" value="${status.count }" onclick="return pageLink(${status.count})">
+							<c:if test="${status.last == true }">
+								<c:set var="lastPage" value="${status.count }"></c:set>
+							</c:if>
 						</c:forEach>
+						<input type="button" value="다음" onclick="return pageLink(${lastPage} > page+1 ? page+1 : ${lastPage })">
 						
 						<!-- 공부할 양이 남아있을경우 다음페이지로, 없을경우 다음스텝으로 -->		
 						<div class="btn">
 							
-							<%-- <form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/step1" />" name="resetList">
-								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
-							</form> --%>
 							<form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/ready3" />" name="goStep3">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
 							</form>
@@ -269,29 +245,10 @@ J(function() {
 							<!-- 다음스텝으로 가는 버튼 done -->
 							<a href="javascript:goStep3.submit();">
 							<img src="<c:url value="/images/done_btn.png"/>"></a>
+							
 						</div>
 					</div>
-<style>
-/* 가림판 */
-#main_bg4 .content_area .main_content .shade {
-	position: relative;
-	top: -500px;
-	left: 434px;
-	width: 318px;
-	height: 460px;
-	border: 1px solid #214296;
-	border-radius: 10px;
-	background: #214296;
-	z-index: 999;
-}
-</style>
-					
 				</div>
-				<div class="shade" id="shade"></div>
-				<!-- <div class="shade" id="shade" style="top:-561px;"></div>
-	    		 <div class="shade" style="top:-558px;"></div>
-	    		<div class="shade" style="top:-460px;"></div>
-	    		<div class="shade" style="top:-457px;"></div> -->
 			</div>
 		</div>
 	</div>

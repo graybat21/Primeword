@@ -125,45 +125,6 @@ public class StudyController {
 		return mav;
 	}
 
-//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready1")
-//	public String ready1(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
-//			HttpSession session) throws Exception {
-//		// session.setAttribute("session_textbook", textbook);
-//		return "study/ready1/step1 안내문";
-//	}
-//
-//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step1")
-//	public ModelAndView studyStep1(@PathVariable String grade, @PathVariable String textbook,
-//			@PathVariable String lesson, HttpSession session) throws Exception {
-//		ModelAndView mav = new ModelAndView();
-//		Study study = new Study();
-////		Remember remember = new Remember();
-//		boolean alreadyFinishedThisLesson = false;
-//
-//		study.setGrade(grade);
-//		study.setTextbook(textbook);
-//		study.setLesson(Integer.parseInt(lesson));
-//		int howManyLesson = service.howManyLesson(study);
-//		List<Study> list = service.wordList(study);
-//		mav.addObject("totalCount", list.size());
-//
-//		User user = (User) session.getAttribute("USER");
-//		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
-//		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
-//
-//		String knownWords = "";
-//
-//		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
-//		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
-//		mav.addObject("lesson", lesson);
-//		mav.addObject("list", list);
-//		mav.addObject("knownWords", knownWords);
-//		mav.addObject("removeTotalCount", list.size());
-//		mav.setViewName("study/studyStep1/체크");
-//
-//		return mav;
-//	}
-
 	private List<Study> removeListByKnownWords(String knownWords, Remember remember, List<Study> list) {
 		String[] known = knownWords.trim().split(";");
 		// 로그인시 얻은 정보로 학습한 데이터를 불러온다. 그 데이터로 리스트를 검사해서 있으면 리스트에서 지운다.
@@ -178,22 +139,6 @@ public class StudyController {
 		return list;
 	}
 
-//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready2")
-//	public String ready2(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
-//			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
-//		Remember remember = new Remember();
-//		User user = (User) session.getAttribute("USER");
-//		remember.setWords(knownWords);
-//		remember.setUser_no(user.getNo());
-//		remember.setGrade(grade);
-//		remember.setTextbook(textbook);
-//		remember.setLesson(Integer.parseInt(lesson));
-//
-//		updateRemember(remember);
-//
-//		return "study/ready2/step2 안내문";
-//	}
-
 	private void updateRemember(Remember remember) throws Exception {
 		if (rememberService.isKnownWords(remember)) {
 			System.out.println("학습한적 있음 . update");
@@ -204,119 +149,16 @@ public class StudyController {
 		}
 	}
 
-//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step2")
-//	public ModelAndView studyStep2(@PathVariable String grade, @PathVariable String textbook,
-//			@PathVariable String lesson, HttpSession session) throws Exception {
-//		ModelAndView mav = new ModelAndView();
-//		Study study = new Study();
-//		Remember remember = new Remember();
-//		boolean alreadyFinishedThisLesson = false;
-//
-//		study.setGrade(grade);
-//		study.setTextbook(textbook);
-//		study.setLesson(Integer.parseInt(lesson));
-//		int howManyLesson = service.howManyLesson(study);
-//		List<Study> list = service.wordList(study);
-//		mav.addObject("totalCount", list.size());
-//
-//		User user = (User) session.getAttribute("USER");
-//		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
-//		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
-//
-//		String knownWords = "";
-//		remember.setUser_no(user.getNo());
-//		remember.setGrade(grade);
-//		remember.setTextbook(textbook);
-//		remember.setLesson(Integer.parseInt(lesson));
-//		knownWords = rememberService.rememberKnownWords(remember);
-//		System.out.println("knownWords : " + knownWords);
-//		if (knownWords == null) {
-//			// knownWords 받은게 없음
-//		} else if (knownWords.trim().equals("") || knownWords.trim().equals(";")) {
-//			// 학습한적있음. 초기화 또는 손만댔음
-//		} else if (knownWords.trim().equals("===")) {
-//			// 학습완료
-//			alreadyFinishedThisLesson = true;
-//		} else {
-//			// 첫스텝에서는 학습한 단어 제외하고 보여준다.
-//			list = removeListByKnownWords(knownWords, remember, list);
-//			logger.info(list.toString());
-//			if (list.size() < 1) {
-//				alreadyFinishedThisLesson = true;
-//				// "===" 로 초기화
-//				rememberService.wordsInitialize(remember);
-//			}
-//		}
-//		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
-//		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
-//		mav.addObject("lesson", lesson);
-//		mav.addObject("list", list);
-//		mav.addObject("knownWords", knownWords);
-//		mav.addObject("removeTotalCount", list.size());
-//
-//		mav.setViewName("study/studyStep2/발음");
-//
-//		return mav;
-//	}
-//
-//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/ready3")
-//	public String ready3(@PathVariable String grade, @PathVariable String textbook, @PathVariable String lesson,
-//			@ModelAttribute("knownWords") String knownWords, HttpSession session) throws Exception {
-//		Remember remember = new Remember();
-//		User user = (User) session.getAttribute("USER");
-//		remember.setWords(knownWords);
-//		remember.setUser_no(user.getNo());
-//		remember.setGrade(grade);
-//		remember.setTextbook(textbook);
-//		remember.setLesson(Integer.parseInt(lesson));
-//
-//		updateRemember(remember);
-//
-//		return "study/ready3/step3 안내문";
-//	}
-//
-//	@RequestMapping("/Study/{grade}/{textbook}/{lesson}/step3")
-//	public ModelAndView studyStep3(@PathVariable String grade, @PathVariable String textbook,
-//			@PathVariable String lesson, HttpSession session) throws Exception {
-//		ModelAndView mav = new ModelAndView();
-//		Study study = new Study();
-////		Remember remember = new Remember();
-//		boolean alreadyFinishedThisLesson = false;
-//
-//		study.setGrade(grade);
-//		study.setTextbook(textbook);
-//		study.setLesson(Integer.parseInt(lesson));
-//		int howManyLesson = service.howManyLesson(study);
-//		List<Study> list = service.wordList(study);
-//		mav.addObject("totalCount", list.size());
-//
-//		User user = (User) session.getAttribute("USER");
-//		// list 순서를 회원번호와 lesson를 이용해서 바꾸기? 아래쪽 함수 수정
-//		list = listChange(list, user.getNo(), Integer.parseInt(lesson));
-//		
-//		String knownWords = "";
-//		mav.addObject("alreadyFinishedThisLesson", alreadyFinishedThisLesson);
-//		mav.addObject("howManyLesson", howManyLesson);// 왼쪽메뉴 용도
-//		mav.addObject("lesson", lesson);
-//		mav.addObject("list", list);
-//		mav.addObject("knownWords", knownWords);
-//		mav.addObject("removeTotalCount", list.size());
-//		
-//		mav.setViewName("study/studyStep3/발음뜻");
-//
-//		return mav;
-//	}
-
 	// 리스트 순서를 user_no와 해당 lesson 을 통해서 바꾸기 , 둘을 더한것만큼 밀어내기
 	private List<Study> listChange(List<Study> list, int user_no, int lesson) {
 		List<Study> listTemp = new ArrayList<Study>();
 		int sizeOfList = list.size();
 		int userChange = user_no % 10;
 		if(userChange + lesson < sizeOfList){
-		for (int i = 0; i < lesson; i++) {
-			listTemp.addAll(list.subList(userChange + lesson, sizeOfList));
-			listTemp.addAll(list.subList(0, userChange + lesson - 1));
-		}
+			for (int i = 0; i < lesson; i++) {
+				listTemp.addAll(list.subList(userChange + lesson, sizeOfList));
+				listTemp.addAll(list.subList(0, userChange + lesson - 1));
+			}
 		}
 		// logger.info(listTemp.toString());
 		return listTemp;
@@ -338,7 +180,9 @@ public class StudyController {
 		String lastIndex = step.substring(step.length()-1);
 		System.out.println("step : " + step + ", lastIndex : "+lastIndex);
 		if(step.substring(0, 5).equals("ready")){
-			// 숫자에 따라서 remember 이용하거나 안함. 1,4 이용 안함, 2,3,5,6은 이용,
+			// 숫자에 따라서 remember 이용하거나 안함.
+			// 1,4 이용안함.
+			// 2,3,5,6 이용함.(기억한것을 업데이트하거나 추가한다.)
 			if(Integer.parseInt(lastIndex) % 3 == 1){
 				// remember 이용 안함
 			}else{
@@ -352,11 +196,14 @@ public class StudyController {
 				updateRemember(remember);
 			}
 			mav.setViewName("study/ready"+lastIndex+"/다음스텝 안내문");
+			
 			return mav;
 		}
 		
 		if(step.substring(0,4).equals("step")){
-			// 숫자에 따라서 remember 이용 하거나 안함. 1,3,4,6 이용안함. 2,5 이용함.
+			// 숫자에 따라서 remember 이용 하거나 안함. 
+			// 1,3,4,6 이용안함.(기억한것을 리스트에서 제외하지 않는다.)
+			// 2,5 이용함.(기억한것을 리스트에서 제외한다.)
 			study.setGrade(grade);
 			study.setTextbook(textbook);
 			study.setLesson(Integer.parseInt(lesson));
@@ -401,14 +248,14 @@ public class StudyController {
 			mav.addObject("knownWords", knownWords);
 			mav.addObject("removeTotalCount", list.size());
 			
-			mav.setViewName("study/studyStep"+lastIndex+"/step"+lastIndex);
+			mav.setViewName("study/studyStep"+lastIndex+"/STEP"+lastIndex);
 			
 			return mav;
 		}
-		
+		// ready, step 둘다 아니면
 		mav.setViewName("study/studyStepError/스터디스텝 에러");
+		
 		return mav;
-
 	}
 	
 }

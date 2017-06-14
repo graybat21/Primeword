@@ -15,11 +15,11 @@
 			<div class="menu_btn">
 				<ul class="top">
 					<c:forEach begin="1" end="${howManyLesson }" var="x">
-						<c:if test="${x == 6 }">
+						<c:if test="${x % 5 == 1 }">
 						</ul><ul class="bottom">
 						</c:if>
 						<li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/${x}/ready1">
-						<img src="${pageContext.request.contextPath}/images/middle_menu_${x}.png" alt=""></a></li>
+						<img src="${pageContext.request.contextPath}/images/middle_menu_${x}.png" alt="" style="width:140px;"></a></li>
 					</c:forEach>
 					<%-- <li><a href="${pageContext.request.contextPath}/Study/${grade}/${textbook}/2/start">
 					<img src="${pageContext.request.contextPath}/images/high_menu_2.png" alt=""></a></li>

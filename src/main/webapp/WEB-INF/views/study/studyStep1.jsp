@@ -5,11 +5,8 @@
 <head>
 <meta charset="UTF-8">
 
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src='https://code.responsivevoice.org/responsivevoice.js'>
-
-</script>
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 <script>
 	$.noConflict();
 	
@@ -34,7 +31,6 @@
 				/* 초기화 */
 				document.getElementById("knownWords").value = "";
 			}else{
-				
 			}
 		}
 		sessionStorage.setItem("session_words", document.getElementById("knownWords").value);
@@ -44,61 +40,49 @@
 	
 	function pageLink(p){
 		page = p;
-		/* J('.transform').addClass('transform-active'); */
 		J('.transform').removeClass('transform-active');
 		if(endPage == page){
 			changeHeight = 48 * (endCount - (page - 1) * 15);
 		 	J('.transform').css("-webkit-transition-duration","0s");
 		 	J('#box').css("height", changeHeight + "px");
-		 	var str = "translate(0px, "+(changeHeight)+"px)";
-		 	alert(str);
-		 	J('.transform-active').css("transformY","192px");
-		 	J('.transform-active').css("background-color","#fff");
+		 	/* J('.transform-active').css("transformY","192px");
+		 	J('.transform-active').css("background-color","#fff"); */
 		}else{
 		 	J('.transform').css("-webkit-transition-duration","0s");
 		 	J('#box').css("height", "480px");
-		 	J('.transform-active').css("transform","translate(0px, 480px)");
+		 	/* J('.transform-active').css("transform","translate(0px, 480px)"); */
 		}
 		
 		J('tr').css('display','none');
 		J('tr:eq(0)').css('display','');
 		J('tr').filter(function (index){
-			// 1~50개 중에서 15 / 15 / 15 / 5 이렇게 나눠지고
-			// 15개중 랜덤으로 10개씩 나오게 순서 섞기
-			
-			/* var ar = new array();
-			for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
-	        return arr; */
-			/* return ( index != ar[0] ) && ( index != ar[1] ) && ( index != ar[2] ) && ( index != ar[3] ) && ( index != ar[4] ) && ((index / 15) <= p) && ((index / 15) > p-1); */ 
 			return ((index / 15) <= p) && ((index / 15) > p-1) && ( index < 15 * (p-1) + 11 );
 		}).css('display','');
 		
 		makeRepeatWords(p);
-		// 가림판 크기조정
 	}
+	
 	function makeRepeatWords(p){
 		repeatEveryWords = "";
 		var standardNum = 15 * (p-1);
 		var end = (standardNum+10) > endCount ? endCount : standardNum+10;
-		//alert(everyWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";"+ everyWords[i]+";"+ everyWords[i] + ";";
 			}
 		}
-		//alert("1 " + repeatEveryWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";"+ everyWords[i]+";";
 			}
 		}
-		//alert("2 " + repeatEveryWords);
 		for(var i = standardNum ; i< end; i++){
 			if(everyWords[i] != ""){
 			repeatEveryWords = repeatEveryWords + everyWords[i]+";";
 			}
 		}
 	}
+	
 	function disappealAndRestore(s){
 		var ses = sessionStorage.getItem("session_words");
 		var sCw = s + "_word";
@@ -119,14 +103,12 @@
 			document.getElementById(sCw).value='';
 			document.getElementById(sCm).value='';
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			/* alert(ses); */
 		}else if(document.getElementById(sCw).value == ''){
 			var local_word = localStorage.getItem(sCw);
 			var l = ";" + local_word + ";";
 			var local_meaning = localStorage.getItem(sCm);
 			ses = ses.replace(l, ';');
 			everyWords[s-1] = local_word;
-			
 			sessionStorage.setItem("session_words", ses);
 			
 			graphChange();
@@ -134,7 +116,6 @@
 			document.getElementById(sCw).value=local_word;
 			document.getElementById(sCm).value=local_meaning;
 			document.getElementById("knownWords").value = sessionStorage.getItem("session_words");
-			/* alert(ses); */
 		}
 		
 		makeRepeatWords(page);
@@ -144,7 +125,7 @@
 		var ses = sessionStorage.getItem("session_words");
 		/* var regExp = /;/gi; */
 		var knownWordsArr = ses.split(';');
-		var knownWordsCount = knownWordsArr.length
+		var knownWordsCount = knownWordsArr.length;
 		var widthPercent = Math.round((knownWordsCount - 1) / ${totalCount} * 100);
 		if(widthPercent <= 0){
 			document.getElementById("graph").style.width = '0%';
@@ -158,6 +139,7 @@
 	function tellWord(word){
 		responsiveVoice.speak(word);
 	}
+	
 	function stopSpeak(){
 		responsiveVoice.cancel();
 	}
@@ -165,10 +147,11 @@
 	function knownDisappeal(){
 		sessionStorage.setItem("session_words","");
 	}
+	
 	function tellSession(){
 		var sessionWords = sessionStorage.getItem("session_words");
-		alert(sessionWords)
-		responsiveVoice.speak(sessionWords);
+		alert(sessionWords);
+		/* responsiveVoice.speak(sessionWords); */
 	}
 </script>
 <style>
@@ -199,7 +182,7 @@
 
 <script>
 	function changebox(){
-		J('.transform').css("-webkit-transition-duration","2s");
+		J('.transform').css("-webkit-transition-duration","5s");
 		J('.transform').addClass('transform-active');
 		J('.transform-active').css("height","0px");
 	}
@@ -220,10 +203,8 @@ J(function() {
 </head>
 <body onload="sessionCreate();">
 	<div id="wrap">
-
 		<div id="main_bg4">
 			<div class="content_area">
-			
 				<div class="sidebar">
 					<div class="title">단어암기</div>
 					<div class="line"></div>
@@ -247,7 +228,6 @@ J(function() {
 					</div>
 				</div>
 				
-				
 				<div class="main_content">
 				
 				<div id="box" class="box transform" onclick="changebox()"></div>
@@ -266,8 +246,6 @@ J(function() {
 							<th class="last" onclick="stopSpeak();"></th>
 						</tr>
 						
-					
-						
 						<c:forEach var="item" items="${list }" varStatus="status" >
 							<tr id="${status.count}_tr" style="display:none;">
 								<td class="first">${status.count }</td>
@@ -277,7 +255,6 @@ J(function() {
 								<td><input type="text" id="${status.count}_meaning"
 									name="${item.no }" value="${item.meaning }" class="input_02"
 									onclick="disappealAndRestore(${status.count});" readonly></td>
-							
 								<td class="last">
 								<img src="<c:url value="/images/speaker_on.png"/>" onclick='tellWord("${item.word}");'>
 								</td>
@@ -285,16 +262,14 @@ J(function() {
 								<input type="hidden" id="endCount" value="${status.count }">
 								</c:if>
 							</tr>
-							<%-- <div class="shade" id="shade${status.index}"></div> --%>
 						</c:forEach>
+						
 					</table>
 					
 					<div class="btn_area">
 						<div class="graph">
 							<div class="graph_bg">
-								<div id="graph" class="graph_ratio" 
-								<%-- style="width: ${(1 - (list.size() / totalCount)) * 100}%" --%>
-								>
+								<div id="graph" class="graph_ratio">
 								</div>
 							</div>
 						</div>
@@ -312,25 +287,20 @@ J(function() {
 						<!-- 공부할 양이 남아있을경우 다음페이지로, 없을경우 다음스텝으로 -->		
 						<div class="btn">
 							
-							<%-- <form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/step1" />" name="resetList">
-								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
-							</form> --%>
 							<form action="<c:url value="/Study/${grade}/${textbook}/${lesson }/ready2" />" name="goStep2">
 								<input type="hidden" name="knownWords" id="knownWords" value="${knownWords }" />
 							</form>
 							
-							<!-- 발음읽어주는 버튼 start -->
-							<a href="javascript:tellWord(repeatEveryWords);"> 
+							<!-- 가림판 줄어드는 버튼 start -->
+							<a href="javascript:changebox();"> 
 							<img src="<c:url value="/images/start_btn_02.png"/>"></a> 
 							<!-- 다음스텝으로 가는 버튼 done -->
 							<a href="javascript:goStep2.submit();">
 							<img src="<c:url value="/images/done_btn.png"/>"></a>
+							
 						</div>
 					</div>
-
-					
 				</div>
-
 			</div>
 		</div>
 	</div>

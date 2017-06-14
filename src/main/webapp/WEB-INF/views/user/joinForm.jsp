@@ -121,7 +121,7 @@ a.button:hover {
                         <div>
                            <div class="text">BIRTH</div>
                            <div class="input">
-                              <input type="text" name="birth" style="width:338px; height:46px; background:#ffffff;" placeholder="-없이 입력해 주세요.">
+                              <input type="text" name="birth" style="width:338px; height:46px; background:#ffffff;" placeholder="ex> 19850101">
                            </div>
                         </div>
                         <div>
@@ -129,7 +129,7 @@ a.button:hover {
                            <div class="input">
                               <!-- <input type="text" name="belong"> -->
                               <select id="sbelong" style="width:338px; height:46px; background:#ffffff;" onchange="javascript:selectChange();">
-                                 <option value->소속 학원을 선택하세요</option>
+                                 <option disabled="disabled">소속 학원을 선택하세요</option>
                                  <c:forEach var="item" items="${belongList }">
                                     <c:if test="${item != null}">
                                        <option value="${item }">${item }</option>
