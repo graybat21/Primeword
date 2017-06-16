@@ -123,7 +123,7 @@
 	}
 	
 	function tellWord(word){
-		responsiveVoice.speak(word);
+		responsiveVoice.speak(word, "US English Female", {rate: 0.7});
 	}
 	
 	function stopSpeak(){

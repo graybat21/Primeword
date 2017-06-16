@@ -137,7 +137,7 @@
 	}
 	
 	function tellWord(word){
-		responsiveVoice.speak(word);
+		responsiveVoice.speak(word, "US English Female", {rate: 0.7});
 	}
 	
 	function stopSpeak(){
@@ -182,7 +182,7 @@
 
 <script>
 	function changebox(){
-		J('.transform').css("-webkit-transition-duration","5s");
+		J('.transform').css("-webkit-transition-duration","13s");
 		J('.transform').addClass('transform-active');
 		J('.transform-active').css("height","0px");
 	}

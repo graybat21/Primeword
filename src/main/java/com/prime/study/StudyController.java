@@ -202,8 +202,8 @@ public class StudyController {
 		
 		if(step.substring(0,4).equals("step")){
 			// 숫자에 따라서 remember 이용 하거나 안함. 
-			// 1,3,4,6 이용안함.(기억한것을 리스트에서 제외하지 않는다.)
-			// 2,5 이용함.(기억한것을 리스트에서 제외한다.)
+			// 1,4 이용안함.(기억한것을 리스트에서 제외하지 않는다.)
+			// 2,3,5,6 이용함.(기억한것을 리스트에서 제외한다.)
 			study.setGrade(grade);
 			study.setTextbook(textbook);
 			study.setLesson(Integer.parseInt(lesson));
@@ -213,7 +213,7 @@ public class StudyController {
 			
 			list = listChange(list, user.getNo(), Integer.parseInt(lesson));
 			
-			if(Integer.parseInt(lastIndex) % 3 == 2){
+			if(Integer.parseInt(lastIndex) % 3 == 1){
 				// remember 이용함.
 				remember.setUser_no(user.getNo());
 				remember.setGrade(grade);
