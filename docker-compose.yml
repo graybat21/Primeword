@@ -49,7 +49,7 @@ services:
       - ./Primeword:/app/Primeword
       - ./static:/app/static
       - ../gunicorn:/var/log/gunicorn
-#      - ./users:/app/users
+      - ./users:/app/users
 #      - django_sample_packages:/usr/local/lib/python3.6/site-packages/
 #      - /usr/local/lib/python3.6/site-packages/rest_framework_swagger/static:/app/static
 #      - /usr/local/lib/python3.6/site-packages/rest_framework/static:/app/static
