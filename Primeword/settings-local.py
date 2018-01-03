@@ -9,35 +9,33 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
 import os
 
+print("local.py 진입")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
+# Quick-start development settings-test - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r5%vec^!oudj(1)bg%*0h2c7qm(0k)3pep&wx+38t^qvzoze0y'
+SECRET_KEY = '4r_r*$2)z-ozjh@rfbr5jpody%^bj2&co&0m-m!usdvy!8z$m%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
-
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
 ]
 
 THIRD_PARTY_APPS = [
@@ -95,13 +93,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': os.environ.get('DJANGO_DB_NAME', 'greatchoice'),
-        # 'USER': os.environ.get('DJANGO_DB_USERNAME', 'greatchoice'),
+        # 'NAME': os.environ.get('DJANGO_DB_NAME', 'Primeword'),
+        # 'USER': os.environ.get('DJANGO_DB_USERNAME', 'Primeword'),
         # 'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'chorock12#'),
         # 'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
         # 'PORT': os.environ.get('DJANGO_DB_PORT', '5432'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -121,6 +120,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# main 으로
+LOGIN_REDIRECT_URL='/swagger'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -131,10 +133,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
@@ -158,6 +158,23 @@ REST_FRAMEWORK = {
     # ),
 }
 
+# Django REST-AUTH framework
+# ------------------------------------------------------------------------------
+# https://github.com/Tivix/django-rest-auth/
+# https://github.com/GetBlimp/django-rest-framework-jwt
+
+# REST_USE_JWT = True
+
+# JWT_AUTH = {
+#     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+#     'JWT_ALLOW_REFRESH': True,
+#     'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+#     'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
+#     'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
+#     'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+#     'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
+# }
+
 SWAGGER_SETTINGS = {
     'JSON_EDITOR': True,
     # 'SECURITY_DEFINITIONS': {
@@ -168,12 +185,26 @@ SWAGGER_SETTINGS = {
     #     }
     # },
 }
+#     "exclude_namespaces": [], # List URL namespaces to ignore
+#     "api_version": '0.1',  # Specify your API's version
+#     "api_path": "/",  # Specify the path to your API not a root level
+#     "enabled_methods": [  # Specify which methods to enable in Swagger UI
+#         'get',
+#         'post',
+#         'put',
+#         'patch',
+#         'delete'
+#     ],
+#     "api_key": '', # An API key
+#     "is_authenticated": False,  # Set to True to enforce user authentication,
+#     "is_superuser": False,  # Set to True to enforce admin only access
+# }
 
 APPEND_SLASH = False
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
-# from corsheaders.defaults import default_headers
-# CORS_ALLOW_HEADERS = default_headers + (
-#     'X-Auth-Token',
-#     'HTTP_X_AUTH_TOKEN',
-# )
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = default_headers + (
+    'X-Auth-Token',
+    'HTTP_X_AUTH_TOKEN',
+)

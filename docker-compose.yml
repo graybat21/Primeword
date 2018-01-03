@@ -46,10 +46,10 @@ services:
     volumes:
       - ./manage.py:/app/manage.py
       - ./requirements.txt:/app/requirements.txt
-      - ./primeword:/app/primeword
-#      - ./users:/app/users
+      - ./Primeword:/app/Primeword
       - ./static:/app/static
       - ../gunicorn:/var/log/gunicorn
+#      - ./users:/app/users
 #      - django_sample_packages:/usr/local/lib/python3.6/site-packages/
 #      - /usr/local/lib/python3.6/site-packages/rest_framework_swagger/static:/app/static
 #      - /usr/local/lib/python3.6/site-packages/rest_framework/static:/app/static

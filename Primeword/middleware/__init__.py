@@ -1,0 +1,1 @@
+from Primeword.middleware.corsMiddleware import corsMiddleware
