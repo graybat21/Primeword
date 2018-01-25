@@ -203,8 +203,4 @@ SWAGGER_SETTINGS = {
 APPEND_SLASH = False
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
-from corsheaders.defaults import default_headers
-CORS_ALLOW_HEADERS = default_headers + (
-    'X-Auth-Token',
-    'HTTP_X_AUTH_TOKEN',
-)
+AUTH_USER_MODEL = 'users.UserVO'

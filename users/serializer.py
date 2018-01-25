@@ -1,13 +1,13 @@
 from rest_framework import serializers
-from users.models import UserVO, AuthVO
+from users.models import UserVO
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserVO
         # fields = '__all__'
-        fields = ('id', 'sid', 'social', 'regdate',)
+        fields = ('username', 'password', 'name', 'academy', 'school', 'grade')
 
-class AuthsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AuthVO
-        fields = ('access_token','social',)
+# class AuthsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = AuthVO
+#         fields = ('access_token','social',)

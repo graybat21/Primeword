@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework_swagger.views import get_swagger_view
 
-swagger_view = get_swagger_view('GreatChoice API')
+swagger_view = get_swagger_view('Primeword API')
 admin.autodiscover()
 
 urlpatterns = [

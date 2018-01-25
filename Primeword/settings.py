@@ -178,3 +178,4 @@ CORS_ALLOW_CREDENTIALS = False
 #     'X-Auth-Token',
 #     'HTTP_X_AUTH_TOKEN',
 # )
+AUTH_USER_MODEL = 'users.UserVO'

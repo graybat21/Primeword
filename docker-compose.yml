@@ -47,7 +47,7 @@ services:
       - ./manage.py:/app/manage.py
       - ./requirements.txt:/app/requirements.txt
       - ./Primeword:/app/Primeword
-      - ./static:/app/static
+      - /static:/app/static
       - ../gunicorn:/var/log/gunicorn
       - ./users:/app/users
 #      - django_sample_packages:/usr/local/lib/python3.6/site-packages/

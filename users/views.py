@@ -8,14 +8,14 @@ from rest_framework.response import Response
 from Primeword.decorator import jwt_security
 from Primeword.settings import SECRET_KEY
 from users.models import UserVO
-from users.serializer import UsersSerializer, AuthsSerializer
+from users.serializer import UsersSerializer
 # Create your views here.
 
 # @method_decorator(jwt_security, name='get')
 class UsersList(ListCreateAPIView):
     """
     get: 전체 회원정보 요청
-    post: 소셜로그인정보 저장(회원가입 X)
+    post: 회원가입
     """
     queryset = UserVO.objects.all()
     serializer_class = UsersSerializer
