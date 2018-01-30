@@ -1,4 +1,4 @@
-"""Primeword URL Configuration
+"""greatchoice URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -13,18 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from rest_framework_swagger.views import get_swagger_view
+from django.conf.urls import url
 
-swagger_view = get_swagger_view('Primeword API')
-admin.autodiscover()
+from words.views import WordsList, WordsDetail, NotesList, NotesDetail, TextbooksList, TextbooksDetail
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^swagger/', swagger_view),
-    url(r'^users/', include('users.urls')),
-    url(r'^words/', include('words.urls')),
+    url(r'^$', WordsList.as_view()),   
+    url(r'^(?P<pk>[0-9]+)/$', WordsDetail.as_view()),
+    url(r'^notes/$', NotesList.as_view()),
+    url(r'^notes/(?P<pk>[0-9]+)/$', NotesDetail.as_view()),
+    url(r'^textbooks/$', TextbooksList.as_view()),
+    url(r'^textbooks/(?P<pk>[0-9]+)/$', TextbooksDetail.as_view()),
 ]
-urlpatterns += staticfiles_urlpatterns()
